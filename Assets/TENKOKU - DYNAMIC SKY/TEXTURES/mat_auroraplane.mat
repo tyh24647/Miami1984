@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: mat_auroraplane
+  m_Shader: {fileID: 4800000, guid: c6918cf8652c43e47a7258b3d12edff4, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BlendTex:
+        m_Texture: {fileID: 2800000, guid: b7e3028a3c0a8d24d9707bc1c71f2519, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudTexB:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortTex:
+        m_Texture: {fileID: 2800000, guid: 5a6b418ea0e065549978f750abf5531e, type: 3}
+        m_Scale: {x: 0.34, y: 0.81}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 9e51a16c221c36b49abfbb3a66787a56, type: 3}
+        m_Scale: {x: 0.74, y: 0.2}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EmissionScaleUI: 0
+    - _Glossiness: 0.5
+    - _Height: 0.4
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    - _amtCloudC: 1
+    - _amtCloudM: 1
+    - _amtCloudO: 1
+    - _amtCloudS: 1
+    - _aurDir: -1
+    - _aurLatSpeed: 0.01
+    - _aurSpeed: 0.06
+    - _cloudHeight: 1
+    - _clpCloud: 1
+    - _distAmt: 0.3
+    - _overallAlpha: 1
+    - _sizeCloud: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
+    - _aurTint1: {r: 0.9706654, g: 1, b: 0.69853747, a: 0.5176471}
+    - _aurTint1a: {r: 1, g: 0.9900599, b: 0.6397152, a: 0.627451}
+    - _aurTint1b: {r: 0.8840924, g: 1, b: 0.14705884, a: 1}
+    - _aurTint2: {r: 0.1586433, g: 1, b: 0, a: 0.5176471}
+    - _aurTint2a: {r: 1, g: 0.9516831, b: 0, a: 0.4}
+    - _aurTint2b: {r: 0.57241297, g: 1, b: 0, a: 1}
+    - _aurTint3: {r: 0.24267107, g: 0.4353363, b: 1, a: 1}
+    - _aurTint3a: {r: 0, g: 0.83089954, b: 0.21202603, a: 0.6509804}
+    - _aurTint3b: {r: 0.8088319, g: 0.518768, b: 0, a: 1}
+    - _colCloud: {r: 1, g: 1, b: 1, a: 1}
+    - _colCloudC: {r: 1, g: 1, b: 1, a: 1}
+    - _colCloudO: {r: 1, g: 1, b: 1, a: 1}
+    - _colCloudS: {r: 1, g: 1, b: 1, a: 1}
+    - _colTint: {r: 1, g: 1, b: 1, a: 1}
