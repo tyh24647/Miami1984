@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-
 /// <summary>
 /// This class is a music and background audo player to be attached to
 /// specific <code>GameObject</code> instances. 
@@ -33,6 +32,7 @@ public class TyMusicPlayer : MonoBehaviour {
     const ulong DefaultSongPreBufferTime = 44100;
     #endregion
 
+
     #region Boolean options (not visible to users)
     bool hasRoot;
     bool hasAudioSource;
@@ -43,10 +43,14 @@ public class TyMusicPlayer : MonoBehaviour {
     bool canPlayMusic;
     #endregion
 
+
+    #region Editor-modifiable primitives
     public bool RandomizeMusic = true;
     public bool Play;
-
     public int CurrentSongIndex;
+    #endregion
+
+
     int currentSongIndex {
         get { return CurrentSongIndex; }
         set {
@@ -55,7 +59,8 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
-    #region Properties
+
+    #region Property Accessors
     bool CanPlayMusic {
         get { return canPlayMusic; }
         set { canPlayMusic = value; }
@@ -97,7 +102,7 @@ public class TyMusicPlayer : MonoBehaviour {
     [Space(2)]
     [Header("Audio Files")]
     public AudioClip[] Songs;
-    public AudioClip[] BackgroundAudio;
+    public AudioClip[] BackgroundAudioEffectsClips;
     #endregion
 
 
@@ -111,7 +116,7 @@ public class TyMusicPlayer : MonoBehaviour {
         this.hasAudioListener = VerifyAudioListener();
         this.hasPlayerCamera = PlayerCamera;
         this.hasSongs = Songs.Length > 0;
-        this.hasBackgroundAudio = BackgroundAudio.Length > 0;
+        this.hasBackgroundAudio = BackgroundAudioEffectsClips.Length > 0;
 
         if (this.hasRoot) {
             Log.d("Root object found");
@@ -133,6 +138,9 @@ public class TyMusicPlayer : MonoBehaviour {
         var numSongs = Songs.Length;
         if (canPlayMusic) {
             StartMusic();
+        } else {
+            this.rootObject = GetComponent<GameObject>();
+            Awake();
         }
     }
 
@@ -142,10 +150,8 @@ public class TyMusicPlayer : MonoBehaviour {
             if (Songs.Length > 0) {
                 if (!audioSource) {
                     audioSource = AudioSource;
-                }
-
-                if (!audioSource.isPlaying) {
-                    var newSong = Songs[this.currentSongIndex];
+                } else if (!audioSource.isPlaying) {
+                    var newSong = Songs[CurrentSongIndex];
                     if (newSong != null && newSong.loadState == AudioDataLoadState.Loaded) {
                         PlaySong(newSong ?? Songs[0]);
                     }
@@ -156,6 +162,7 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
+    // Initialize audio clip
     void StartMusic() {
         if (Play) {
             var song = Songs[this.currentSongIndex];
@@ -171,13 +178,16 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Plays the specified audio clip, as long as it is in the valid .wav
+    /// format.
+    /// </summary>
+    /// <param name="song">The song in which to play</param>
     void PlaySong(AudioClip song) {
         if (Play) {
             if (!song) {
                 PlaySong(Songs[0]);     // if null, recurse with the default song at index zero
-            }
-
-            if (song.loadState == AudioDataLoadState.Loaded) {
+            } else if (song.loadState == AudioDataLoadState.Loaded) {
                 if (audioSource.isActiveAndEnabled) {
                     AudioSource.clip = song;
                     if (audioSource.clip != null) {
@@ -202,6 +212,11 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Changes the song by either going forward or backwards in the queue,
+    /// depending on the boolean value of the input parameter
+    /// </summary>
+    /// <param name="isNext">If set to <c>true</c> is next.</param>
     void ChangeSong(bool isNext) {
         if (Play) {
             if (!isNext && CurrentSongIndex <= 0) {
@@ -210,14 +225,18 @@ public class TyMusicPlayer : MonoBehaviour {
                 CurrentSongIndex = 0;
             }
 
-            PlaySong(
-                Songs[isNext ? CurrentSongIndex + 1 : CurrentSongIndex - 1]
-            );
+            PlaySong(Songs[isNext ? CurrentSongIndex + 1 : CurrentSongIndex - 1]);
         } else {
             audioSource.Stop();
         }
     }
 
+    /// <summary>
+    /// Changes the song based on the known index of a specified song
+    /// within the queue, as long as the index is valid, and the sound clip
+    /// at that index is not null.
+    /// </summary>
+    /// <param name="songIndex">The index of the desired clip.</param>
     void ChangeSong(int songIndex) {
         if (Play) {
             PlaySong(Songs[songIndex >= 0 && songIndex < Songs.Length ? songIndex : 0]);
@@ -226,16 +245,25 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Changes the song based on the title of a specified song within
+    /// the queue, as long as there is a song that matches this name
+    /// </summary>
+    /// <param name="songTitle">The title of the desired audio clip.</param>
     void ChangeSong(string songTitle) {
         if (Play) {
             int index = 0;
             foreach (var song in Songs) {
-                if (song.name.Equals(songTitle)) {
+                if (song.name.ToUpper().Equals(songTitle.ToUpper())) {
                     PlaySong(Songs[index] ?? Songs[0]);
+                } else {
+                    index++;
                 }
 
-                index++;
+                if (index == Songs.Length) { break; }
             }
+
+            return;
         } else {
             audioSource.Stop();
         }
@@ -251,6 +279,7 @@ public class TyMusicPlayer : MonoBehaviour {
                 RootObject = this.rootObject;
                 isValid = true;
                 Log.d("Root object loaded successfully");
+                Debug.ClearDeveloperConsole();
             }
         }
 
@@ -267,6 +296,7 @@ public class TyMusicPlayer : MonoBehaviour {
                 AudioSource = this.audioSource;
                 isValid = true;
                 Log.d("Audio source loaded successfully");
+                Debug.ClearDeveloperConsole();
             }
         }
 
@@ -283,11 +313,11 @@ public class TyMusicPlayer : MonoBehaviour {
                 AudioListener = this.audioListener;
                 isValid = true;
                 Log.d("\'AudioListener\' loaded successfully.");
+                Debug.ClearDeveloperConsole();
             }
         }
 
         return isValid;
     }
-
     #endregion
 }
