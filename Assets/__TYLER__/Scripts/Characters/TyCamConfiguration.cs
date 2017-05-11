@@ -23,7 +23,7 @@ public class TyCamConfiguration : MonoBehaviour {
         get { return PlayerCamera ?? gameObject.GetComponent<Camera>(); }
     }
 
-    public bool LockToCenter;
+    public bool LockToCenter = false;
 
     bool isStart = true;
 
@@ -49,5 +49,9 @@ public class TyCamConfiguration : MonoBehaviour {
         var changed = currentLockMode = LockToCenter ? CursorLockMode.Locked : CursorLockMode.Confined;
         LockToCenter = !LockToCenter;
         if (!isStart) { Debug.Log("Camera cursor lock mode changed: \'" + original + "\' --> \'" + changed + "\'"); }
+    }
+
+    private void OnDisable() {
+        Debug.ClearDeveloperConsole();
     }
 }
