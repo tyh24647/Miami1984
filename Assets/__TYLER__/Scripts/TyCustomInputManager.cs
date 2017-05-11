@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Allows for the mouse to stay within the desired bounds, as well as process
@@ -23,12 +21,12 @@ public class TyCustomInputManager : MonoBehaviour {
 
     public int ScreenBoundsWidth {
         get { return screenBoundsWidth; }
-        set { screenBoundsWidth = value < 0 ? screenBoundsWidth < 0 ? DefaultScreenWidth : screenBoundsWidth : value; }
+        set { screenBoundsWidth = value <= 0 ? screenBoundsWidth <= 0 ? DefaultScreenWidth : screenBoundsWidth : value; }
     }
 
     public int ScreenBoundsHeight {
         get { return screenBoundsHeight; }
-        set { screenBoundsHeight = value < 0 ? screenBoundsHeight < 0 ? DefaultScreenHeight : screenBoundsHeight : value; }
+        set { screenBoundsHeight = value <= 0 ? screenBoundsHeight <= 0 ? DefaultScreenHeight : screenBoundsHeight : value; }
     }
 
     public int Boundary {
@@ -36,10 +34,7 @@ public class TyCustomInputManager : MonoBehaviour {
         set { boundary = value < 0 ? DefaultBoundary : boundary; }
     }
 
-    public int Speed {
-        get { return speed; }
-        set { speed = value; }
-    }
+    public int Speed { get; set; }
 
     // Use this for initialization
     void Start() {
