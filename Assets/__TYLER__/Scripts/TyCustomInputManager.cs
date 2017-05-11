@@ -8,25 +8,27 @@ using UnityEngine;
 /// </summary>
 public class TyCustomInputManager : MonoBehaviour {
 
-    private static readonly Vector3 DefaultPosition = new Vector3(0, 0, -10);
-    private Vector3 position;
+    static readonly Vector3 DefaultPosition = new Vector3(0, 0, -10);
+    Vector3 position;
 
-    private const int DefaultBoundary = 50;
-    private const int DefaultSpeed = 4;
+    const int DefaultScreenWidth = 800;
+    const int DefaultScreenHeight = 600;
+    const int DefaultBoundary = 50;
+    const int DefaultSpeed = 4;
 
-    private int screenBoundsWidth;
-    private int screenBoundsHeight;
-    private int boundary;
-    private int speed;
+    int screenBoundsWidth;
+    int screenBoundsHeight;
+    int boundary;
+    int speed;
 
     public int ScreenBoundsWidth {
         get { return screenBoundsWidth; }
-        set { screenBoundsWidth = value < 0 ? screenBoundsWidth < 0 ? 800 : screenBoundsWidth : value; }
+        set { screenBoundsWidth = value < 0 ? screenBoundsWidth < 0 ? DefaultScreenWidth : screenBoundsWidth : value; }
     }
 
     public int ScreenBoundsHeight {
         get { return screenBoundsHeight; }
-        set { screenBoundsHeight = value < 0 ? screenBoundsHeight < 0 ? 600 : screenBoundsHeight : value; }
+        set { screenBoundsHeight = value < 0 ? screenBoundsHeight < 0 ? DefaultScreenHeight : screenBoundsHeight : value; }
     }
 
     public int Boundary {
@@ -75,7 +77,6 @@ public class TyCustomInputManager : MonoBehaviour {
             }
         }
 
-        //Camera.main.transform.position = this.position;
         GetComponent<Camera>().transform.position = position;
     }
 }
