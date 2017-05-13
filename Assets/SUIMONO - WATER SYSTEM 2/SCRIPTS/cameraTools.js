@@ -335,7 +335,7 @@ function UpdateRenderTex(){
 	#if UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
 		renderTexDiff.dimension = Rendering.TextureDimension.Tex2D;
 	#else
-		renderTexDiff.isCubemap = false;
+		renderTexDiff.isCubemap = false;      
 	#endif
 
 	renderTexDiff.autoGenerateMips = false;

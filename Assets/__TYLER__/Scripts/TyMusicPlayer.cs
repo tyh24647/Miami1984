@@ -15,7 +15,6 @@
 /// Author:     Tyler Hostager
 /// Version:    05/10/17
 /// </summary>
-[ExecuteInEditMode]
 [RequireComponent(typeof(AudioClip))]
 [RequireComponent(typeof(AudioListener))]
 [RequireComponent(typeof(AudioSource))]
@@ -129,14 +128,25 @@ public class TyMusicPlayer : MonoBehaviour {
         audioSource.volume = 1.0f;
     }
 
+    private void OnDestroy() {
+        if (this.audioSource) {
+            this.audioSource.Stop();
+            this.audioSource.clip = null;
+        }
+    }
+
     // Use this for initialization
     void Start() {
         var numSongs = Songs.Length;
+
+        if (GetComponent<GameObject>()) {
+            this.rootObject = GetComponent<GameObject>();
+            this.hasRoot = true;
+            this.VerifyRootObject();
+        }
+
         if (canPlayMusic) {
             StartMusic();
-        } else {
-            this.rootObject = GetComponent<GameObject>();
-            Awake();
         }
     }
 
@@ -188,6 +198,7 @@ public class TyMusicPlayer : MonoBehaviour {
                     AudioSource.clip = song;
                     if (audioSource.clip != null) {
                         audioSource.Play(DefaultSongPreBufferTime);
+                        //audioSource.PlayDelayed(DefaultSongPreBufferTime);
                     }
                 } else {
                     audioSource.enabled = true;
@@ -275,8 +286,11 @@ public class TyMusicPlayer : MonoBehaviour {
                 RootObject = this.rootObject;
                 isValid = true;
                 Log.d("Root object loaded successfully");
-                Debug.ClearDeveloperConsole();
             }
+        } else {
+            this.hasRoot = true;
+            isValid = true;
+            Log.d("Root object loaded successfully");
         }
 
         return isValid;
@@ -292,8 +306,11 @@ public class TyMusicPlayer : MonoBehaviour {
                 AudioSource = this.audioSource;
                 isValid = true;
                 Log.d("Audio source loaded successfully");
-                Debug.ClearDeveloperConsole();
             }
+        } else {
+            this.hasAudioSource = true;
+            isValid = true;
+            Log.d("Audio source loaded successfully");
         }
 
         return isValid;
@@ -309,8 +326,11 @@ public class TyMusicPlayer : MonoBehaviour {
                 AudioListener = this.audioListener;
                 isValid = true;
                 Log.d("\'AudioListener\' loaded successfully.");
-                Debug.ClearDeveloperConsole();
             }
+        } else {
+            this.hasAudioListener = true;
+            isValid = true;
+            Log.d("\'AudioListener\' loaded successfully");
         }
 
         return isValid;
