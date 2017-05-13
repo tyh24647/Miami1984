@@ -24,18 +24,18 @@
 public class TyMusicPlayer : MonoBehaviour {
 
     #region Constants
-    const ulong DefaultSongPreBufferTime = 44100;
+    private const ulong DefaultSongPreBufferTime = 44100;
     #endregion
 
 
     #region Boolean options (not visible to users)
-    bool hasRoot;
-    bool hasAudioSource;
-    bool hasAudioListener;
-    bool hasPlayerCamera;
-    bool hasSongs;
-    bool hasBackgroundAudio;
-    bool canPlayMusic;
+    private bool hasRoot;
+    private bool hasAudioSource;
+    private bool hasAudioListener;
+    private bool hasPlayerCamera;
+    private bool hasSongs;
+    private bool hasBackgroundAudio;
+    private bool canPlayMusic;
     #endregion
 
 
