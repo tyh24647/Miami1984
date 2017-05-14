@@ -53,14 +53,20 @@
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\TonemappingEditor.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\SunShaftsEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_WeaponEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\GenericMenu.cs" />
      <Compile Include="Assets\__TYLER__\Scripts\Editor\OffscreenMouseDisable.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemePalette.cs" />
      <Compile Include="Assets\SabreCSG\Scripts\Editor\Inspectors\CSGModelInspector.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FPWeaponShooterEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeSystem.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FPControllerEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_InputWindow.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\RelativeColor.cs" />
      <Compile Include="Assets\Movinarc\PackageUninstaller\Editor\PUManager.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_EventDumpWindow.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\TextureImporter.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeIconset.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_EditorApplicationQuit.cs" />
      <Compile Include="Assets\SabreCSG\Scripts\Editor\Inspectors\PrimitiveBrushInspector.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\DepthOfFieldDeprecatedEditor.cs" />
@@ -70,6 +76,7 @@
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FileDialog.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Effects\SurfaceSystem\Editor\vp_SurfaceManagerEditor.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\DepthOfFieldEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeFontset.cs" />
      <Compile Include="Assets\VolumetricLines\Scripts\Editor\ExposeProperties.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\AntialiasingEditor.cs" />
      <Compile Include="Assets\Movinarc\PackageUninstaller\Editor\TreeNode.cs" />
@@ -77,20 +84,25 @@
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_UFPSInfo.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FPWeaponMeleeAttackEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Effects\SurfaceSystem\Editor\vp_DecalManagerEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeWindow.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_EditorUtility.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FPInputEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Undo\Editor\Undo.cs" />
      <Compile Include="Assets\SabreCSG\Scripts\Editor\ExpandPropertiesDrawer.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\Menu\vp_AboutBox.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\ColorCorrectionLookupEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_ComponentPersister.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_FPCameraEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\Theme.cs" />
      <Compile Include="Assets\SabreCSG\Scripts\Editor\Inspectors\CSGBuildContextInspector.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeSkinset.cs" />
      <Compile Include="Assets\__TYLER__\Scripts\Editor\FreezeMouseOnEscape.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\Menu\vp_UFPSMenu.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\CameraMotionBlurEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_MessageBox.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\BloomEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\EditorWindow.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\NoiseAndGrainEditor.cs" />
      <Compile Include="Assets\Movinarc\PackageUninstaller\Editor\PUSelection.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\Menu\vp_UpdateDialog.cs" />
@@ -106,22 +118,45 @@
      <Compile Include="Assets\Extensions\unitycoder_com\NormalMapMaker\Editor\NormalMapMaker.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Gameplay\Editor\vp_SpawnPointEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_ShooterEditor.cs" />
+     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeUtility.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\Menu\vp_AddonBrowser.cs" />
      <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\ColorCorrectionCurvesEditor.cs" />
      <Compile Include="Assets\UFPS\Base\Scripts\Core\Editor\vp_WeaponShooterEditor.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\TextureImporter.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeSystem.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeIconset.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\RelativeColor.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeUtility.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\EditorWindow.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\Theme.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeSkinset.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeFontset.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemeWindow.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Editor\GenericMenu.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Undo\Editor\Undo.cs" />
-     <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Themes\Editor\ThemePalette.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_ScenePostProcessor.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_Preferences.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RepairColors.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\CustomAction.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Selection\pb_InvertSelection.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\ClearUnusedAttributes.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_UpgradeBasicToAdvanced.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_VersionInfo.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RepairUV.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\CreateShadowObject.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Geometry\pb_FlipEdge.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\EditorCallbackViewer.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Geometry\pb_DetachDeleteFace.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Actions\pb_GenerateUV2.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Geometry\pb_SetPivot.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_UpdateCheck.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_CleanLeakedMeshes.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_ResetEntityMaterials.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Selection\pb_MaterialSelection.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_UpdateAvailable.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_MenuItems.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RemoveDegenerateTris.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_ForceSceneRefresh.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Selection\pb_ExpandSelection.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Geometry\pb_ExtrudeElement.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RepairMeshReferences.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Selection\pb_EdgeSelection.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_VersionUtil.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RebuildMeshes.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\RenameNewObjects.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_MissingScriptEditor.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Geometry\pb_FlipNormals.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Repair\pb_RebuildSharedIndices.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Editor\SetCustomUnwrapParams.cs" />
+     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_AboutWindow.cs" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterPistolOutOfControl.txt" />
      <None Include="Assets\ats V2 package\readme_treeBarkShader.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_FX_ShorelineObject.shader" />
@@ -136,10 +171,12 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterMachinegunZoom.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlphaOverlay.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_TransparentOverlay.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFShooter.txt" />
      <None Include="Assets\VolumetricLines\Shaders\_StripShader.cginc" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\SuimonoDepth.shader" />
+     <None Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\README.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDead.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerCrouch.txt" />
@@ -160,7 +197,9 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldWeapon.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_surface.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_SelectionPicker.shader" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+     <None Include="Assets\ProCore\ProBuilder\About\changelog.txt" />
      <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\DiffuseVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Rewield.txt" />
      <None Include="Assets\ats V2 package\readme_grassShader.txt" />
@@ -210,6 +249,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\WallFacingWeapon.txt" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_FaceHighlight.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\Persp1999Weapon.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeController.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\LightCone.shader" />
@@ -260,6 +300,7 @@
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Mud Thick Brown.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\MaterialPlatform.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\UnlitSolidColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Run.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DefaultWeapon.txt" />
@@ -274,10 +315,12 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerZoom.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\Vegetation.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_ReferenceUnlit.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Calm Clear.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistol.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullUp.txt" />
      <None Include="Assets\UFPS\Base\Content\Art\Weapons\Source\BasicArms\_README_BasicArms.txt" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldInput.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Input\InputZoom.txt" />
@@ -297,6 +340,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolver.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Buoyancy Scene Preset.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileCamera.txt" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\DiffuseTextureBlend.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\ShooterShotgun01Default.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MaceCamera.txt" />
      <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_suneclipse.shader" />
@@ -314,12 +358,14 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryCamera.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Crouch.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\Refraction.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexPicker.shader" />
      <None Include="Assets\SaveGameFree\Readme.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolCrouch.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechWeapon.txt" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_surface_under.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_HideVertices.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Knife01\KnifeAttackToDownRight.txt" />
      <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
@@ -348,8 +394,10 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\StompingInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaWeaponZoom.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFController.txt" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_UnlitVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullDown.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CrouchInput.txt" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_FacePicker.shader" />
      <None Include="Assets\ats V2 package\atsV2 UnityTerrainBump Package\TerrainReplacementAtsV2.shader" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\LightWrapping.shader" />
      <None Include="Assets\SabreCSG\Shaders\LineDashed.shader" />
@@ -387,6 +435,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterRevolver.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01OutOfControl.txt" />
      <None Include="Assets\SabreCSG\Shaders\Diffuse-VertexColored.shader" />
+     <None Include="Assets\ProCore\ProBuilder\About\Font\SIL Open Font License.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingDownRight.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
@@ -416,6 +465,7 @@
      <None Include="Assets\SabreCSG\Shaders\Handle.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeInput.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
+     <None Include="Assets\ProCore\ProBuilder\About\pc_AboutEntry_ProBuilder.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\TessellationDisplacement.shader" />
@@ -429,6 +479,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponGenericSlide.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_cloud_plane.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Calm Refraction Only.txt" />
@@ -494,9 +545,11 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernShooterZoom.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_New Preset 13.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
+     <None Include="Assets\ProCore\ProBuilder\Shader\pb_ScrollHighlight.shader" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+     <None Include="Assets\ProCore\ProBuilder\readme.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraSlide.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechCamera.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyShooterZoom.txt" />
@@ -545,6 +598,7 @@
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Blue Ocean with Waves.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToDownRight.txt" />
+     <None Include="Assets\ProCore\ProBuilder\About\Credits.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDefault.txt" />
      <None Include="Assets\UFPS\Base\Content\Art\Body\Materials\InvisibleShadowCaster.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
@@ -631,6 +685,24 @@
  </Reference>
  <Reference Include="ShaderForge">
  <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ShaderForge/Editor/ShaderForge.dll</HintPath>
+ </Reference>
+ <Reference Include="ProBuilderCore-Unity5">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ProBuilderCore-Unity5.dll</HintPath>
+ </Reference>
+ <Reference Include="pb_Stl">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/pb_Stl.dll</HintPath>
+ </Reference>
+ <Reference Include="KDTree">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/KDTree.dll</HintPath>
+ </Reference>
+ <Reference Include="ProBuilderEditor-Unity5">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll</HintPath>
+ </Reference>
+ <Reference Include="ProBuilderMeshOps-Unity5">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ProBuilderMeshOps-Unity5.dll</HintPath>
+ </Reference>
+ <Reference Include="Triangle">
+ <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/Triangle.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
