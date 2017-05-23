@@ -688,7 +688,8 @@ public class TyFPSControls : vp_CharacterController {
             m_SlopeFactor = 1.0f;       // standing still or moving on flat ground, or moving perpendicular to a slope
         else if (m_SlopeFactor > 1.0f) {
             // moving downhill
-            if (MotorSlopeSpeedDown == 1.0f) {
+            //if (MotorSlopeSpeedDown == 1.0f) {
+            if (Mathf.Approximately(MotorSlopeSpeedDown, 1.0f)) {
                 // 1.0 means 'no change' so we'll alter the value to get
                 // roughly the same velocity as if ground was flat
                 m_SlopeFactor = 1.0f / m_SlopeFactor;
@@ -697,7 +698,8 @@ public class TyFPSControls : vp_CharacterController {
                 m_SlopeFactor *= MotorSlopeSpeedDown;   // apply user defined multiplier
         } else {
             // moving uphill
-            if (MotorSlopeSpeedUp == 1.0f) {
+            if (Mathf.Approximately(MotorSlopeSpeedUp, 1.0f)) {
+                //if (MotorSlopeSpeedUp == 1.0f) {
                 // 1.0 means 'no change' so we'll alter the value to get
                 // roughly the same velocity as if ground was flat
                 m_SlopeFactor *= 1.2f;

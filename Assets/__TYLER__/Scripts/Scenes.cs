@@ -46,6 +46,7 @@ public class Scenes : MonoBehaviour {
                 }
 
                 if (SceneManager.GetSceneAt(i).isLoaded) {
+
                     //SceneManager.UnloadSceneAsync(i);
                     StartCoroutine(AsyncUnloadSceneWithIndex(i));
                 }
@@ -79,7 +80,7 @@ public class Scenes : MonoBehaviour {
         while (!asyncLoad.isDone) {
             yield return null;
 
-            // TODO
+            // TODO add loading screen
         }
     }
 

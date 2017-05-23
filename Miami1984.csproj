@@ -37,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;PLATFORM_ARCH_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_MODULAR_UNITYENGINE_ASSEMBLIES;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;PLATFORM_ARCH_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_MODULAR_UNITYENGINE_ASSEMBLIES;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -47,7 +47,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;PLATFORM_ARCH_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_MODULAR_UNITYENGINE_ASSEMBLIES;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;PLATFORM_ARCH_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_MODULAR_UNITYENGINE_ASSEMBLIES;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -155,6 +155,8 @@
     <Compile Include="Assets\__TYLER__\Scripts\Objects\Delorean.cs" />
     <Compile Include="Assets\__TYLER__\Scripts\ObjUtils.cs" />
     <Compile Include="Assets\__TYLER__\Scripts\PersistentGameDataManager.cs" />
+    <Compile Include="Assets\__TYLER__\Scripts\Player Data\PLGameData.cs" />
+    <Compile Include="Assets\__TYLER__\Scripts\Player Data\PLPrefs.cs" />
     <Compile Include="Assets\__TYLER__\Scripts\PlayerCamController.cs" />
     <Compile Include="Assets\__TYLER__\Scripts\PlayerDefaults.cs" />
     <Compile Include="Assets\__TYLER__\Scripts\PlayerGraphicsConfiguration.cs" />
@@ -334,68 +336,6 @@
     <Compile Include="Assets\TENKOKU - DYNAMIC SKY\SCRIPTS\TenkokuGaia.cs" />
     <Compile Include="Assets\TENKOKU - DYNAMIC SKY\SCRIPTS\TenkokuSkyFog.cs" />
     <Compile Include="Assets\TENKOKU - DYNAMIC SKY\SCRIPTS\TenkokuSunShafts.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Containers\Container.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Containers\Singleton.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Containers\Store.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\Color.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\ComponentExtensions.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\EventExtensions.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\GameObject.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\GUIContent.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\GUISkin.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\GUIStyle.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\GUIStyleState.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\Rect.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\RectOffset.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\Texture.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\UnityObject.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\Vector3.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\@Unity\Vector4.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Array.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\BitArray.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\BitStream.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Bool.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Byte.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\ByteArray.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\DateTime.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Decimal.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Delegate.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Dictionary.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Double.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Enum.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Float.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\IEnumerable.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Int.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\List.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Object\Object.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Object\ObjectReflection.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Serializable.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Short.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\SortedList.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\String\String.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\StringBuilder.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Extensions\Type.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Button.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Colors.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Locate.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Pack.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Utility\Utility.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Utility\UtilityEditor.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Utility\UtilityPref.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Supports\Utility\UtilityProxy.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\System Attributes\EnumMask.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\System Attributes\Internal.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\System Attributes\NotSerialized.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\System Attributes\Unity\InitializeOnLoad.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Event\EventDetector.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Event\EventListener.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Event\Events.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Event\EventStepper.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\File\FileManager.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorGUI.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorGUILayout.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorUI.cs" />
-    <Compile Include="Assets\tmp\unity-themes-master\Codebase\Systems\Interface\Style\Style.cs" />
     <Compile Include="Assets\UFPS\Base\Scripts\Core\Attributes\vp_FloatFieldAttribute.cs" />
     <Compile Include="Assets\UFPS\Base\Scripts\Core\Attributes\vp_HelpBoxAttribute.cs" />
     <Compile Include="Assets\UFPS\Base\Scripts\Core\Attributes\vp_ItemAmountAttribute.cs" />
@@ -586,6 +526,68 @@
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\TestRunner.cs" />
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\TestRunnerCallbackList.cs" />
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\TestRunnerConfigurator.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Containers\Container.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Containers\Singleton.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Containers\Store.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Color.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\ComponentExtensions.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\EventExtensions.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\GameObject.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\GUIContent.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\GUISkin.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\GUIStyle.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\GUIStyleState.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Rect.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\RectOffset.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Texture.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\UnityObject.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Vector3.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\@Unity\Vector4.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Array.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\BitArray.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\BitStream.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Bool.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Byte.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\ByteArray.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\DateTime.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Decimal.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Delegate.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Dictionary.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Double.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Enum.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Float.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\IEnumerable.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Int.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\List.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Object\Object.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Object\ObjectReflection.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Serializable.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Short.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\SortedList.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\String\String.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\StringBuilder.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Extensions\Type.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Button.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Colors.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Locate.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Pack.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Utility\Utility.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Utility\UtilityEditor.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Utility\UtilityPref.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Supports\Utility\UtilityProxy.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\System Attributes\EnumMask.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\System Attributes\Internal.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\System Attributes\NotSerialized.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\System Attributes\Unity\InitializeOnLoad.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Event\EventDetector.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Event\EventListener.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Event\Events.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Event\EventStepper.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\File\FileManager.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorGUI.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorGUILayout.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\EditorUI\EditorUI.cs" />
+    <Compile Include="Assets\unity-themes-master\Codebase\Systems\Interface\Style\Style.cs" />
     <Compile Include="Assets\VHS\original\VHSPostProcessEffect.cs" />
     <Compile Include="Assets\VHS\Scripts\VHSPostProcessEffect.cs" />
     <Compile Include="Assets\VolumetricLines\ExampleScenes\ExampleScripts\CannonBehavior.cs" />
@@ -597,6 +599,7 @@
     <Compile Include="Assets\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
     <Compile Include="Assets\VolumetricLines\Scripts\VolumetricLineStripBehavior.cs" />
     <Compile Include="Assets\VolumetricLines\Scripts\VolumetricMultiLineBehavior.cs" />
+    <Compile Include="Assets\__TYLER__\Scripts\Player Data\PLDataModifierGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Extensions\unitycoder_com\Demo_NormalMapMaker\Shaders\BumpedDiffuseFixNormal.shader" />
@@ -1078,7 +1081,7 @@
     <None Include="Assets\ats V2 package\readme_treeBarkShader.txt" />
     <None Include="Assets\ats V2 package\readme_vertexLitShader.txt" />
     <None Include="Assets\prototype_textures\readme.txt" />
-    <None Include="Assets\tmp\unity-themes-master\License.txt" />
+    <None Include="Assets\unity-themes-master\License.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

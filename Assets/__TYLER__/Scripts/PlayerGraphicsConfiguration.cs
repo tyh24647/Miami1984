@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System.Linq;
 
 public class PlayerGraphicsConfiguration : MonoBehaviour {
 
@@ -80,11 +80,21 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
             var evSystem = EventSystem.current;
             evSystem.SetSelectedGameObject(null);
 
-            ApplyButton.OnSelect(
-                eventData: new BaseEventData(
-                    eventSystem: evSystem
-                )
-            );
+            ApplyButton.onClick.AddListener(() => {
+                Log.d("Applying user-specified preferences");
+
+                //
+                // TODO add prefs saving with persistence
+                //
+            });
+
+            var tmp = new UnityAction(() => {
+                Log.d("teset testeastsfsf");
+            });
+
+            tmp.Invoke();
+
+
         } else {
             Log.w("Unable to locate \'ApplyButton\'");
         }

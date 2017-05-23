@@ -1,7 +1,13 @@
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
+ #include "Lighting.cginc"
+ #include "UnityPBSLighting.cginc" 
 
+#if defined(UNITY_LIGHT_PROBE_PROXY_VOLUME) 
+#undef UNITY_LIGHT_PROBE_PROXY_VOLUME 
+#endif 
+#define UNITY_LIGHT_PROBE_PROXY_VOLUME 0
 
     struct appdata{
         float4 vertex : POSITION;
@@ -20,8 +26,8 @@
     sampler2D _suimono_shorelineTex;
     sampler2D _ReflectionTex;
 
-    //sampler2D_float _CameraDepthTexture;      // ORIGINAL
-    sampler2D _CameraDepthTexture;              // TY - CUSTOM
+    sampler2D_float _CameraDepthTexture;
+    //sampler2D _CameraDepthTexture;
 
     sampler2D _HeightTex;
     sampler2D _NormalTex;
