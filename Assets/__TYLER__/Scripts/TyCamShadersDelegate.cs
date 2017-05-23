@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [RequireComponent(typeof(Camera))]
 public class TyCamShadersDelegate : MonoBehaviour {
@@ -18,11 +16,6 @@ public class TyCamShadersDelegate : MonoBehaviour {
     private void Awake() {
         if (this.gameObject.GetComponent<Camera>() != null) {
             playerCam = gameObject.GetComponent<Camera>();
-
-            if (AssetDatabase.FindAssets("shaders", AssetDatabase.GetSubFolders("__TYLER__")).Length > 0) {
-                //for (var shader in Ass)
-
-            }
         }
     }
 

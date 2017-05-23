@@ -49,16 +49,68 @@ public static class ObjUtils {
 
         return objArr;
     }
+
+    public static bool IsNullOrEmpty(List<Object> list) {
+        return List.IsNullOrEmpty(list);
+    }
+
+    public static bool IsNullOrEmpty<T>(List<T> list) {
+        return List.IsNullOrEmpty<T>(list);
+    }
+
+    public static bool IsNullOrEmpty(List<GameObject> list) {
+        return List.IsNullOrEmpty(list);
+    }
+
+    public static bool IsNullOrEmpty(Object[] list) {
+        return List.IsNullOrEmpty(list);
+    }
+
+    public static bool IsNullOrEmpty(GameObject[] list) {
+        return List.IsNullOrEmpty(list);
+    }
+
+    public static bool IsNullOrEmpty<T>(T[] list) {
+        return List.IsNullOrEmpty<T>(list);
+    }
+
+    public static bool IsNullOrEmpty(string str) {
+        return String.IsNullOrEmpty(str);
+    }
+    #endregion
+
+    #region STRING UTILITIES
+    public struct String {
+        public static bool IsNullOrEmpty(string str) {
+            return str == null || str.Equals("");
+        }
+    }
     #endregion
 
     #region LIST UTILITIES
     public struct List {
-        public static bool IsNullOrEmpty(List<GameObject> list) {
-            return list == null || list.Count == 0;
+        public static bool IsNullOrEmpty(List<Object> list) {
+            return List.IsNullOrEmpty(list.ToArray());
         }
 
-        public static bool IsNullOrEmpty(GameObject[] list) {
+        public static bool IsNullOrEmpty<T>(List<Object> list) {
+            return List.IsNullOrEmpty<T>(list);
+        }
+
+        public static bool IsNullOrEmpty(List<GameObject> list) {
+            return List.IsNullOrEmpty<GameObject>(list);
+        }
+
+        public static bool IsNullOrEmpty<T>(List<T> list) {
+            return List.IsNullOrEmpty<T>(list.ToArray());
+        }
+
+        public static bool IsNullOrEmpty<T>(T[] list) {
             return list == null || list.Length == 0;
+        }
+
+        public static bool IsNullOrEmpty(Object[] list = default(GameObject[])) {
+            return IsNullOrEmpty<Object>(list);
         }
 
         public static bool ContainsObject(List<GameObject> list, GameObject obj) {
@@ -203,7 +255,6 @@ public static class ObjUtils {
 
     }
     #endregion
-
 
 
 }

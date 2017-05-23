@@ -5,6 +5,26 @@ TagManager:
   serializedVersion: 2
   tags:
   - Vehicle
+  - IntroMusic
+  - DebugTxt
+  - UIPanel
+  - GameMusic
+  - ScriptObject
+  - Music
+  - SFX
+  - UISlider
+  - UIButton
+  - UIText
+  - UILabel
+  - VolumeSlider
+  - SettingsButton
+  - AdvancedSettingsButton
+  - Viewport
+  - UIScrollView
+  - Canvas
+  - InputField
+  - MainMenuPanel
+  - SpecialButton
   layers:
   - Default
   - TransparentFX
@@ -41,4 +61,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2529463875
     locked: 0

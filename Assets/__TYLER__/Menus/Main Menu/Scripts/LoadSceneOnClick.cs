@@ -120,7 +120,7 @@ public class LoadSceneOnClick : MonoBehaviour {
 
     private void CheckMusicInstance() {
         //var c = gameObject;
-        if (name.Equals("NewGameButton")) {
+        if (name.Equals("CreateGameButton")) {
             //if (canvas.GetComponent<Button>().name.Equals("NewGameButton")) {
             if (GameObject.FindWithTag("IntroMusic")) {
                 Log.d("Destroying music instance...");

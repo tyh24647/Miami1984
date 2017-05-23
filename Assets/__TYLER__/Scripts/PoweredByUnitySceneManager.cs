@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 /// <summary>
 /// This class provides the loading functionality of the main menu
@@ -15,80 +16,226 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Camera))]
 [RequireComponent(typeof(GameObject))]
 public class PoweredByUnitySceneManager : MonoBehaviour {
+
+    #region CONSTANTS
     private const int DefaultDisplayTime_Seconds = 15;
+    #endregion
 
-    private Camera DuplicateMainCam;
-    private bool IsPaused = true;
-    private float Alpha = 1.0f;
-    private int FadeDir = -1;
-    private float alphaFadeValue = 1;
-
+    #region PUBLIC ATTRIBUTES
     [Space(1)]
+    [Header("General Settings")]
     public int DisplayTime = 0;
+    public int MaxAutoDetectionAttempts = 3;
 
     [Space(1)]
     public GameObject BackgroundObject;
-
     public Camera MainCam;
 
     [Space(1)]
-    [Header("Fade Options")]
-    public Texture2D FadeTexture;
-    public float FadeSpeed = 0.2f;
-    public float DrawDepth = -1000f;
+    [Header("Main Background Options")]
+    public GameObject MainBackgroundPanel;
+    public float BackgroundFadeTime = 3.0f;
+    public float MinBackgroundAlpha = 0.0f;
+    public float MaxBackgroundAlpha = 1.0f;
 
+    [Space(1)]
+    [Header("Fade out options")]
+    public float FadeStartTime = 12.0f;
+    //public float FadeOutDuration = 3.0f;
+    public float FadeOutDuration = 15f;
+    public float SceneStartAlpha = 1.0f;
+    public float SceneEndAlpha = 0.0f;
+
+    [Space(1)]
+    [Header("Video Settings")]
+    public VideoPlayer VidPlayer;
+    public VideoClip VidClip;
+    public GameObject EightiesBackgroundObj;
+    public float VidFadeTime = 15.0f;
+    public float VidMinAlpha = 0.0f;
+    public float VidMaxAlpha = 1.0f;
+    #endregion
+
+    #region PRIVATE ATTRIBUTES
+    private SpriteRenderer SpRenderer;
+    private SpriteRenderer BackgroundRenderer;
+    private float StartTime;
+    #endregion
+
+    #region INHERITED METHODS
     private void Awake() {
-
-        //if (BackgroundObject == null) {
-        //    BackgroundObject = gameObject;
-        //}
-
-        //if (MainCam) {
-        //    DuplicateMainCam = MainCam;
-        //    DuplicateMainCam.enabled = false;
-        //}
-
-        //if (DisplayTime == 0 && Application.isPlaying) {
-        //    DisplayTime = DefaultDisplayTime_Seconds;
-        //}
-
-        //if (FadeTexture == null) {
-        //    FadeTexture = new Texture2D(Screen.width, Screen.height);
-        //    FadeTexture.SetPixels(0, 0, Screen.width, Screen.height, new Color[] {
-        //        Color.black
-        //    });
-        //}
-
-        //DuplicateMainCam.enabled = true;
-        //this.MainCam = DuplicateMainCam;
-        //this.MainCam = BackgroundObject.GetComponent<Camera>();
-
-
+        VidMinAlpha = 0.0f;
     }
 
     // Use this for initialization
     void Start() {
-        // start with black screen as you load gradually
-        //MainCam.enabled = true;
-        //Camera originalCam = MainCam;
-        //Invoke("PauseOnBlackScreen", 4);
-        //IsPaused = false;
-        //MainCam.enabled = true;
-        //FadeInScene(originalCam);
-        //Invoke("PauseOnLogo", DefaultDisplayTime_Seconds);
-        //FadeOutScene();
-        //Invoke("LoadMainMenuAfterPause", DisplayTime == 0 ? DefaultDisplayTime_Seconds : DisplayTime);
-
+        StartTime = Time.time;
         Invoke("LoadMainMenuAfterPause", DisplayTime == 0 ? DefaultDisplayTime_Seconds : DisplayTime);
+        ConfigureMainBackground();
+        ConfigureVideo();
+        PlayBackgroundVideo();
     }
 
     // Update is called once per frame
     void Update() {
-
+        FadeInMainBackgroundObj();
+        FadeInVideoObj();
+        //FadeOutSceneObjs();
     }
 
     private void OnGUI() {
         InitSceneQuickExplorer();
+    }
+    #endregion
+
+    #region FUNCTIONS
+    private void ConfigureMainBackground() {
+        var numMainBackgroundChecks = 0;
+
+    FindMainBackgroundObj:
+        if (MainBackgroundPanel != null && numMainBackgroundChecks < MaxAutoDetectionAttempts) {
+            if (MainBackgroundPanel.GetComponent<SpriteRenderer>() != null) {
+                BackgroundRenderer = MainBackgroundPanel.GetComponent<SpriteRenderer>();
+            }
+        } else if (numMainBackgroundChecks == 1) {
+            var tmp = GameObject.Find("Background").gameObject;
+            if (tmp) {
+                this.MainBackgroundPanel = tmp;
+            } else {
+                var objArr = this.MainBackgroundPanel.gameObject.GetComponents<GameObject>();
+                if (objArr != null && objArr.Length > 0) {
+                    foreach (var obj in objArr) {
+                        if (obj.name.ToLower().Equals("Background".ToLower())) {
+                            this.MainBackgroundPanel = obj;
+                        }
+                    }
+                }
+            }
+
+            numMainBackgroundChecks++;
+            goto FindMainBackgroundObj;
+        }
+    }
+
+    private void ConfigureVideo() {
+        var numBackgroundChecks = 0;
+
+    FindEightiesBackgroundObj:
+        if (EightiesBackgroundObj != null && numBackgroundChecks < MaxAutoDetectionAttempts) {
+            if (EightiesBackgroundObj.GetComponent<SpriteRenderer>() != null) {
+                SpRenderer = EightiesBackgroundObj.GetComponent<SpriteRenderer>();
+            }
+        } else if (numBackgroundChecks == 1) {
+            var tmp = GameObject.Find("EightiesBackgroundObj").gameObject;
+            if (tmp) {
+                this.EightiesBackgroundObj = tmp;
+            } else {
+                var objArr = this.BackgroundObject.gameObject.GetComponents<GameObject>();
+                if (objArr != null && objArr.Length > 0) {
+                    foreach (var obj in objArr) {
+                        if (obj.name.ToLower().Contains("EightiesBackgroundObj".ToLower())) {
+                            this.EightiesBackgroundObj = obj;
+                        }
+                    }
+                }
+            }
+
+            numBackgroundChecks++;
+            goto FindEightiesBackgroundObj;
+        }
+    }
+
+    private void PlayBackgroundVideo() {
+        if (VidClip != null && EightiesBackgroundObj != null) {
+            VidPlayer.clip = VidClip;
+            VidPlayer.targetMaterialRenderer = SpRenderer;
+            VidPlayer.Play();
+        }
+
+        if (VidClip == null) {
+            Log.w("Video not found. Please assign one in the inspector and re-run");
+        }
+
+        if (EightiesBackgroundObj == null) {
+            Log.w("Eighties background object not found. Please assign one in the inspector and re-run");
+        }
+    }
+
+    // not currently working
+    private void FadeOutSceneObjs() {
+
+
+        // TODO fix fade-out
+
+
+        //float deltaT = (Time.time - StartTime);
+        float time = (Time.time - FadeStartTime) / FadeOutDuration;
+
+        if (BackgroundRenderer && SpRenderer) {
+            try {
+                //if (deltaT.CompareTo(FadeStartTime) == 0) {
+                BackgroundRenderer.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    Mathf.SmoothStep(
+                        this.SceneStartAlpha,
+                        this.SceneEndAlpha,
+                        FadeOutDuration
+                    )
+                );
+
+                SpRenderer.color = BackgroundRenderer.color;
+                //}
+            } catch (Exception e) {
+                Log.w("Unable to fade out scene objects");
+                Log.e(e.Message, e);
+            }
+        }
+    }
+
+    private void FadeInMainBackgroundObj() {
+        float time = (Time.time - StartTime) / BackgroundFadeTime;
+
+        if (BackgroundRenderer) {
+            try {
+                BackgroundRenderer.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    Mathf.SmoothStep(
+                        MinBackgroundAlpha,
+                        MaxBackgroundAlpha,
+                        time
+                    )
+                );
+            } catch (Exception e) {
+                Log.w("Unable to fade in main background object");
+                Log.e(e.Message, e);
+            }
+        }
+    }
+
+    private void FadeInVideoObj() {
+        float time = (Time.time - StartTime) / VidFadeTime;
+
+        if (SpRenderer) {
+            try {
+                SpRenderer.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    Mathf.SmoothStep(
+                        VidMinAlpha,
+                        VidMaxAlpha,
+                        time
+                    )
+                );
+            } catch (NullReferenceException e) {
+                Log.w("Unable to fade in video object");
+                Log.e(e.Message, e);
+            }
+        }
     }
 
     private void InitSceneQuickExplorer() {
@@ -104,8 +251,7 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
 
     private void PauseOnBlackScreen() {
-        this.IsPaused = true;
-
+        //this.IsPaused = true;
 
         Camera dummyCam = new Camera() {
             aspect = (16 / 9),
@@ -132,14 +278,17 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
     }
 
     private void PauseOnLogo() {
-        this.IsPaused = true;
+        //this.IsPaused = true;
 
         // TODO: add zoom-in
     }
 
     private void FadeOutScene() {
-        //SceneManager.LoadSceneAsync(2, LoadSceneMode.Single);
         SceneManager.LoadScene(2, LoadSceneMode.Single);
+
+        // TODO Consider changing this to an async task
+
+        //SceneManager.LoadSceneAsync(2, LoadSceneMode.Single);
         //StartCoroutine(AsyncLoadSceneWithIndex(2, LoadSceneMode.Single));
     }
 
@@ -228,9 +377,9 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
 
     void LoadMainMenuAfterPause() {
-        this.IsPaused = false;
+        //this.IsPaused = false;
         FadeOutScene();
     }
 
-
+    #endregion
 }

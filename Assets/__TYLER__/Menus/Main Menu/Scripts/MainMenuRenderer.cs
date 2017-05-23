@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -10,107 +11,108 @@ using UnityEngine.SceneManagement;
 /// Version: 5/19/17
 /// </summary>
 public class MainMenuRenderer : MonoBehaviour {
-
-    public Canvas MainMenuCanvas;
-    private Canvas _MainMenuCanvas {
-        get {
-            return MainMenuCanvas ?? new Canvas();
-        }
-        set {
-            MainMenuCanvas = value ?? MainMenuCanvas ?? new Canvas();
-        }
-    }
-
-    [Space(1)]
-#if DEBUG
-    [Header("Auto-Generated Debug Information")]
-#endif
+    private Canvas MainMenuCanvas = null;
+    private GameObject MainMenuPanel = null;
     public Button[] Buttons = null;
 
     public readonly int SceneToLoad;
 
     #region INHERITED METHODS
-
-    // OnGui is called for rendering and handling GUI events
     private void OnGUI() {
         InitSceneQuickExplorer();
     }
 
-    private void Awake() {
-        PopulateUIButtonArray();
-
-    }
-
     // Use this for initialization
     void Start() {
-        if (!MainMenuCanvas) {
-            AutoDetectCanvas();
-        }
-
-        PopulateUIButtonArray();
-
-        if (_MainMenuCanvas) {
-            //InitSceneQuickExplorer();
-
-            //var textItems = _MainMenuCanvas.GetComponentsInChildren<Text>();
-            //if (textItems != null && textItems.Length > 0) {
-            //    int index = 0;
-            //    foreach (var item in textItems) {
-            //        if (item.text.ToLower().Contains("debug")) {
-            //            var debugItem = item;
-            //
-            //            if (SavedApplicationState.Debug) {
-            //                //item.text += "Enabled";
-            //                gameObject.GetComponentsInChildren<Text>()[index].text = "Enabled";
-            //            } else {
-            //                //item.text += "Disabled";
-            //                gameObject.GetComponentsInChildren<Text>()[index].text = "Disabled";
-            //            }
-            //
-            //            index++;
-            //        }
-            //    }
-            //}
-
-            //var debugText = GameObject.FindWithTag("DebugTxt");
-            //if (debugText) {
-            //    var txtObjs = _MainMenuCanvas.GetComponents<Text>();
-            //    foreach (var txtObj in txtObjs) {
-            //        //if (txtObj.text.ToLower().Contains("debug")) {
-            //        if (txtObj.tag.ToLower().Contains("debug")) {
-            //            txtObj.text += "ENABLED";
-            //        }
-            //    }
-            //}
-        }
+        AutoDetectAttributes();
+        ConfigureContinueButton();
     }
 
     // Update is called once per frame
     void Update() {
-        //PopulateUIButtonArray();
+        // do nothing for now
     }
     #endregion
 
     #region FUNCTIONS
-    private void AutoDetectCanvas() {
-        Log.w("No \'Canvas\' attribute found. Attempting to auto-detect canvas...");
-        try {
-            var parentCanvas = FindObjectOfType(typeof(Canvas));
-            if (parentCanvas) {
-                Log.d("Canvas successfully identified");
-                MainMenuCanvas = parentCanvas as Canvas;
-                Log.d("Canvas initialized successfully");
-            }
-        } catch (UnassignedReferenceException e) {
-            Log.w("Exception thrown in canvas configuration");
-            Log.d("Please add a canvas object manually in the inspector and re");
-            Log.d("Exception details: " + e);
-        }
+    private void AutoDetectAttributes() {
+        this.MainMenuCanvas = AutoDetectCanvas();
+        this.MainMenuPanel = AutoDetectMainMenuPanel();
+        this.Buttons = AutoDetectButtons();
     }
 
-    /// <summary>
-    /// Allows for quick switching between scenes
-    /// </summary>
+    private GameObject AutoDetectMainMenuPanel() {
+        GameObject menuPanel = null;
+
+        if (MainMenuPanel == null && MainMenuCanvas) {
+            Log.w("No Main Menu object found. Attempting to auto-detect menu...");
+
+            try {
+                menuPanel = GameObject.Find("MainMenuPanel");
+                if (menuPanel == null) {
+                    Log.w("Main menu object not assigned. Please assign in the inspector panel and re-run");
+                }
+            } catch (UnassignedReferenceException e) {
+                Log.w("Exception thrown in main menu configuration");
+                Log.d("Exception details: " + e);
+            }
+        }
+
+        return menuPanel;
+    }
+
+    private Button[] AutoDetectButtons() {
+        Button[] buttons = null;
+
+        if (ObjUtils.IsNullOrEmpty(Buttons) && MainMenuPanel) {
+            Log.w("No button objects found. Attempting to auto-detect buttons...");
+
+            try {
+                buttons = MainMenuPanel.GetComponents<Button>();
+                if (ObjUtils.IsNullOrEmpty(buttons)) {
+                    buttons = MainMenuPanel.GetComponentsInChildren<Button>();
+                    if (ObjUtils.IsNullOrEmpty(buttons)) {
+                        buttons = MainMenuPanel.GetComponentsInParent<Button>();
+                        if (ObjUtils.IsNullOrEmpty(buttons)) {
+                            throw new UnassignedReferenceException("Button objects not assigned. Please assign them in the inspector panel and re-run");
+                        }
+                    }
+                }
+
+            } catch (UnassignedReferenceException e) {
+                Log.w("Exception thrown in buttons configuration");
+                Log.d("Exception details: " + e);
+            }
+        }
+
+        return buttons;
+    }
+
+    private Canvas AutoDetectCanvas() {
+        Canvas canvas = null;
+
+        if (MainMenuCanvas == null) {
+            Log.w("No \'Canvas\' attribute found. Attempting to auto-detect canvas...");
+
+            try {
+                canvas = FindObjectOfType(typeof(Canvas)) as Canvas;
+                if (canvas) {
+                    Log.d("Canvas successfully identified");
+                } else {
+                    canvas = GetComponent<Canvas>();
+                    if (canvas == null) {
+                        throw new UnassignedReferenceException("Canvas object value not assigned. Please assign in the inspector panel and re-run");
+                    }
+                }
+            } catch (UnassignedReferenceException e) {
+                Log.w("Exception thrown in canvas configuration");
+                Log.d("Exception details: " + e);
+            }
+        }
+
+        return canvas;
+    }
+
     private void InitSceneQuickExplorer() {
         GUI.Label(
             new Rect(
@@ -119,7 +121,6 @@ public class MainMenuRenderer : MonoBehaviour {
                 100,
                 30
             ),
-            //("Current Scene: " + SceneManager. + 1)
             ("Current Scene: " + Application.loadedLevel + 1)
         );
 
@@ -133,36 +134,20 @@ public class MainMenuRenderer : MonoBehaviour {
         }
     }
 
-    private void PopulateUIButtonArray() {
-        if (_MainMenuCanvas) {
-            var mainMenuUIButtons = _MainMenuCanvas.GetComponentsInChildren<Button>();// ?? new List<Button>();
-            Buttons = new Button[mainMenuUIButtons.Length];
-
-            for (var i = 0; i < mainMenuUIButtons.Length; i++) {
-                Buttons[i] = mainMenuUIButtons[i];
-            }
-
-            // disables options such as 'continue game' when not applicable
-            ConfigureContinueButton();
-        }
-
-    }
-
     private void ConfigureContinueButton() {
-        if (_MainMenuCanvas && Buttons.Length > 0) {
+        if (MainMenuCanvas != null && Buttons != null && Buttons.Length > 0) {
             var shouldEnable = SavedApplicationState.HasSavedGame;
             foreach (var button in Buttons) {
                 var childTextAttr = button.GetComponentInChildren<Text>();
                 if (childTextAttr && childTextAttr.text.ToLower().Contains("continue")) {
                     button.interactable = shouldEnable;
-                    button.GetComponentInChildren<Text>().color = shouldEnable ? Color.white : Color.grey;
+
+                    if (button.GetComponentInChildren<Text>() != null) {
+                        button.GetComponentInChildren<Text>().color = shouldEnable ? Color.white : Color.grey;
+                    }
                 }
             }
         }
-    }
-
-    private void EnableContinueButton(bool shouldEnable) {
-
     }
 
     #endregion

@@ -26,4 +26,4 @@ Material:
     - _LightFac: 0.9
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TintColor: {r: 0.9248001, g: 0.9248001, b: 0.9248001, a: 0.45}
+    - _TintColor: {r: 0.6172457, g: 0.6172457, b: 0.6172457, a: 0.45}

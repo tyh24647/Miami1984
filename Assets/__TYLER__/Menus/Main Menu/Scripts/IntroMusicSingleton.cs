@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor;
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -42,11 +41,7 @@ public class IntroMusicSingleton : MonoBehaviour {
                 if (Instance != null && IntroSong) {
                     isFirstRun = false;
                     _AudioSource = Instance.AudioSource;
-                    //_AudioSource =  Instance.AudioSource;
-                    //_AudioSource.clip = Instance.AudioSource.clip;
-                    //IntroSong = _AudioSource.clip;
                 } else {
-                    //_AudioSource = AudioSource;
                     if (Instance || !IntroSong) {
                         isFirstRun = false;
                     }
@@ -55,28 +50,18 @@ public class IntroMusicSingleton : MonoBehaviour {
                         _AudioSource.clip = IntroSong;
                     }
 
-                    //_AudioSource = AudioSource;
-
                     if (IntroSong) {
                         DontDestroyOnLoad(this.gameObject);
                     }
-
                 }
             }
         }
-
-
-        //if (_AudioSource.clip && isFirstRun) {
-        //    DontDestroyOnLoad(this.gameObject);
-        //}
     }
 
     private void Start() {
         if (IntroSong) {
-            if (_AudioSource.clip && !_AudioSource.isPlaying) {
-                _AudioSource.clip = IntroSong;
-                _AudioSource.Play();
-            }
+            _AudioSource.clip = IntroSong;
+            StartAudio();
         }
     }
 

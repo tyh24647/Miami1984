@@ -68,7 +68,7 @@ namespace UnityStandardAssets.ImageEffects {
         }
 
 
-        protected void Start() {
+        public virtual void Start() {
             CheckResources();
         }
 

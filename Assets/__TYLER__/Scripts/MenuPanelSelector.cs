@@ -12,12 +12,11 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(GameObject))]
 public class MenuPanelSelector : MonoBehaviour {
+    private Canvas canvas;
 
-    [Header("Canvas")]
-    public Canvas canvas;
-
+    [Space(1)]
     [Header("Panels")]
-    public GameObject DefaultPanel;
+    public GameObject PanelToEnable;
     public List<GameObject> PanelsToDisable;
 
     #region INHERITED METHODS
@@ -60,11 +59,11 @@ public class MenuPanelSelector : MonoBehaviour {
 
     private void ConfigurePanels() {
         AddMissingChildPanels();
-        EnableDefaultPanel();
+        EnablePanelToEnable();
     }
 
     private void AddMissingChildPanels() {
-        if (DefaultPanel != null) {
+        if (PanelToEnable != null) {
             var childCount = canvas.transform.childCount;
             var children = new List<GameObject>(childCount);
             for (int i = 0; i < childCount; i++) {
@@ -80,15 +79,13 @@ public class MenuPanelSelector : MonoBehaviour {
                 for (var i = 0; i < numChildPanels; i++) {
                     if (!children[i].tag.ToLower().Contains("UIPanel".ToLower())
                         || children[i] == null
-                        || children[i].name.Equals(DefaultPanel.name)) {
+                        || children[i].name.Equals(PanelToEnable.name)) {
                         numChildPanels--;
                     }
                 }
 
                 // fixes accidents when adding more panels without also adding them to this script
                 if (PanelsToDisable.Count != numChildPanels) {
-                    //PanelsToDisable = new List<GameObject>(numChildPanels);
-
                     for (var childIndex = 0; childIndex < numChildPanels; childIndex++) {
                         var child = children[childIndex];
 
@@ -97,9 +94,7 @@ public class MenuPanelSelector : MonoBehaviour {
                         }
 
                         if (childIndex < numChildPanels) {
-                            if (!child.name.Equals(DefaultPanel.name)) {
-
-                                //PanelsToDisable.Insert(childIndex, child);
+                            if (!child.name.Equals(PanelToEnable.name)) {
                                 if (!PanelsToDisable.Contains(child)) {
                                     Log.d("Adding panel to array...");
                                     PanelsToDisable.Add(child);
@@ -117,31 +112,28 @@ public class MenuPanelSelector : MonoBehaviour {
     }
 
     // catch mistakes in default panel assignment
-    private void ConfigureDefaultPanel() {
-        if (!DefaultPanel) {
+    private void ConfigurePanelToEnable() {
+        if (!PanelToEnable) {
             var childCount = canvas.transform.childCount;
             Log.d("Auto-detecting root panel...");
             for (int i = 0; i < childCount; i++) {
                 var child = canvas.transform.GetChild(i).gameObject;
                 if (child.name.ToLower().Contains("main") || child.name.ToLower().Contains("default")) {
                     Log.d("Primary panel found. Assigning object...");
-                    DefaultPanel = child;
+                    PanelToEnable = child;
                     Log.d("Main panel successfully configured");
                 }
             }
         }
 
         Log.d("Enabling default panel, Disabling other panels");
-        EnableDefaultPanel();
+        EnablePanelToEnable();
     }
 
-    private void EnableDefaultPanel() {
-        if (this.DefaultPanel) {
+    private void EnablePanelToEnable() {
+        if (this.PanelToEnable) {
+            this.PanelToEnable.SetActive(true);
 
-            // enable primary panel
-            this.DefaultPanel.SetActive(true);
-
-            // disable other panels
             if (PanelsToDisable.Count > 0) {
                 foreach (var panel in PanelsToDisable) {
                     if (panel) {
@@ -157,11 +149,11 @@ public class MenuPanelSelector : MonoBehaviour {
             return;
         }
 
-        if (this.DefaultPanel.name.ToLower().Equals(panelName.ToLower())) {
-            EnableDefaultPanel();
+        if (this.PanelToEnable.name.ToLower().Equals(panelName.ToLower())) {
+            EnablePanelToEnable();
         } else {
             foreach (var panel in PanelsToDisable) {
-                DefaultPanel.SetActive(false);
+                PanelToEnable.SetActive(false);
                 panel.SetActive(panel.name.ToLower().Equals(panelName));
             }
         }
@@ -172,11 +164,11 @@ public class MenuPanelSelector : MonoBehaviour {
             return;
         }
 
-        if (this.DefaultPanel.tag.ToLower().Equals(tagName.ToLower())) {
-            EnableDefaultPanel();
+        if (this.PanelToEnable.tag.ToLower().Equals(tagName.ToLower())) {
+            EnablePanelToEnable();
         } else {
             foreach (var panel in PanelsToDisable) {
-                DefaultPanel.SetActive(false);
+                PanelToEnable.SetActive(false);
                 panel.SetActive(panel.tag.ToLower().Equals(tagName.ToLower()));
             }
         }

@@ -5,6 +5,30 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/or1.unity
     guid: 8ac49f466ef3f463f988d0789e630e6f
+  - enabled: 0
+    path: Assets/ProBuilder2.unity
+    guid: 13f97ab21893d46ada6f5433251b5784
+  - enabled: 0
+    path: Assets/TrackingScreen.unity
+    guid: c2adb8432085c4e0ab9e10a0ddca51e8
+  - enabled: 0
+    path: 
+    guid: b7c278d14f3f94c90ac037592cef5940
+  - enabled: 1
+    path: Assets/DefaultSceneLoader.unity
+    guid: 5e794605c53bf46358f191b00c910b16
+  - enabled: 1
+    path: Assets/PoweredByUnityScene.unity
+    guid: 79c828e984f3b494181c593578c5e67f
+  - enabled: 1
+    path: Assets/PressAnyKeyToPlay.unity
+    guid: abd80e10b3a054803aeb08cbf1dcbab0
+  - enabled: 1
+    path: Assets/MainMenuWorking1.unity
+    guid: f2a75366cbe884de3b579480b4c74f67
+  - enabled: 1
+    path: Assets/LaserGrid.unity
+    guid: eae15c3455f3046749fc3621dba8e52f

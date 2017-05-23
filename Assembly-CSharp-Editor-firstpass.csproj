@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
@@ -23,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,11 +52,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
      <Compile Include="Assets\Standard Assets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
+     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
+     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
      <Compile Include="Assets\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
+     <Compile Include="Assets\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterPistolOutOfControl.txt" />
      <None Include="Assets\ats V2 package\readme_treeBarkShader.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_FX_ShorelineObject.shader" />
@@ -64,14 +69,13 @@
      <None Include="Assets\SabreCSG\Shaders\UINoAlpha.shader" />
      <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\ReflectiveCubeMapped_Glass.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterMachinegunZoom.txt" />
+     <None Include="Assets\ProCore\ProGrids\Shader\pg_GridShader.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlphaOverlay.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_TransparentOverlay.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFShooter.txt" />
      <None Include="Assets\VolumetricLines\Shaders\_StripShader.cginc" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\SuimonoDepth.shader" />
-     <None Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\README.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDead.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerCrouch.txt" />
@@ -92,9 +96,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldWeapon.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_surface.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_SelectionPicker.shader" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
-     <None Include="Assets\ProCore\ProBuilder\About\changelog.txt" />
      <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\DiffuseVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Rewield.txt" />
      <None Include="Assets\ats V2 package\readme_grassShader.txt" />
@@ -103,6 +105,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\StompingCamera.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\TurretInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernWeaponCrouch.txt" />
+     <None Include="Assets\ProCore\ProGroups\About\changelog.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Reload.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Gameplay\Player\Local\OldInventory\_OLD_INVENTORY_README_.txt" />
@@ -129,6 +132,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverZoom.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaShooter.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolReload2.txt" />
+     <None Include="Assets\Wood texture floor_01\readme.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraReload.txt" />
      <None Include="Assets\ats V2 package\atsV2 billboardShader package\TreeCreatorLeavesRendertex.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SmackController.txt" />
@@ -144,7 +148,6 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\WallFacingWeapon.txt" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_FaceHighlight.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\Persp1999Weapon.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeController.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\LightCone.shader" />
@@ -195,7 +198,6 @@
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Mud Thick Brown.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\MaterialPlatform.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\UnlitSolidColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Run.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DefaultWeapon.txt" />
@@ -210,12 +212,11 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerZoom.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\Vegetation.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_ReferenceUnlit.shader" />
+     <None Include="Assets\ProCore\ProGrids\About\pc_AboutEntry_ProGrids.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Calm Clear.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistol.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullUp.txt" />
      <None Include="Assets\UFPS\Base\Content\Art\Weapons\Source\BasicArms\_README_BasicArms.txt" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldInput.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Input\InputZoom.txt" />
@@ -235,7 +236,6 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolver.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Buoyancy Scene Preset.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileCamera.txt" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\DiffuseTextureBlend.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\ShooterShotgun01Default.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MaceCamera.txt" />
      <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_suneclipse.shader" />
@@ -253,17 +253,16 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryCamera.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Crouch.txt" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\Refraction.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexPicker.shader" />
      <None Include="Assets\SaveGameFree\Readme.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolCrouch.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechWeapon.txt" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_surface_under.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_HideVertices.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Knife01\KnifeAttackToDownRight.txt" />
      <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
+     <None Include="Assets\ProCore\ProGroups\About\pc_AboutEntry_ProGroups.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Zoom.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernCameraCrouch.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SniperInput.txt" />
@@ -277,6 +276,7 @@
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\ats V2 package\readme_terrainBumpShader.txt" />
+     <None Include="Assets\ProCore\QuickBrush\Docs\ChangeLog.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\TenkokuBlur.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyShooter.txt" />
@@ -289,10 +289,8 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\StompingInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaWeaponZoom.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFController.txt" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_UnlitVertexColor.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullDown.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CrouchInput.txt" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_FacePicker.shader" />
      <None Include="Assets\ats V2 package\atsV2 UnityTerrainBump Package\TerrainReplacementAtsV2.shader" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\LightWrapping.shader" />
      <None Include="Assets\SabreCSG\Shaders\LineDashed.shader" />
@@ -330,7 +328,6 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterRevolver.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01OutOfControl.txt" />
      <None Include="Assets\SabreCSG\Shaders\Diffuse-VertexColored.shader" />
-     <None Include="Assets\ProCore\ProBuilder\About\Font\SIL Open Font License.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingDownRight.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
@@ -360,7 +357,6 @@
      <None Include="Assets\SabreCSG\Shaders\Handle.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeInput.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
-     <None Include="Assets\ProCore\ProBuilder\About\pc_AboutEntry_ProBuilder.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
      <None Include="Assets\ShaderForge\Example Assets\Shaders\TessellationDisplacement.shader" />
@@ -374,7 +370,6 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponGenericSlide.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_cloud_plane.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Calm Refraction Only.txt" />
@@ -393,6 +388,7 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolShooter.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\SuimonoUnderwaterFog.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechShooter.txt" />
+     <None Include="Assets\ProCore\ProGrids\About\changelog.txt" />
      <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\Scroll_Emissive.shader" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechInput.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToLeft.txt" />
@@ -440,11 +436,9 @@
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernShooterZoom.txt" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_New Preset 13.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
-     <None Include="Assets\ProCore\ProBuilder\Shader\pb_ScrollHighlight.shader" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
-     <None Include="Assets\ProCore\ProBuilder\readme.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraSlide.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechCamera.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyShooterZoom.txt" />
@@ -493,13 +487,9 @@
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESETS_Built-In Presets\SUIMONO_PRESET_Blue Ocean with Waves.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToDownRight.txt" />
-     <None Include="Assets\ProCore\ProBuilder\About\Credits.txt" />
      <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDefault.txt" />
      <None Include="Assets\UFPS\Base\Content\Art\Body\Materials\InvisibleShadowCaster.shader" />
      <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
- <Reference Include="Assembly-CSharp-firstpass">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -514,6 +504,15 @@
  </Reference>
  <Reference Include="UnityEditor.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Timeline">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
@@ -542,20 +541,8 @@
  <Reference Include="UnityEditor.VR">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="nunit.framework">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/nunit.framework.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.WebGL.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
@@ -572,24 +559,10 @@
  <Reference Include="ShaderForge">
  <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ShaderForge/Editor/ShaderForge.dll</HintPath>
  </Reference>
- <Reference Include="ProBuilderCore-Unity5">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ProBuilderCore-Unity5.dll</HintPath>
- </Reference>
- <Reference Include="pb_Stl">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/pb_Stl.dll</HintPath>
- </Reference>
- <Reference Include="KDTree">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/KDTree.dll</HintPath>
- </Reference>
- <Reference Include="ProBuilderEditor-Unity5">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll</HintPath>
- </Reference>
- <Reference Include="ProBuilderMeshOps-Unity5">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ProBuilderMeshOps-Unity5.dll</HintPath>
- </Reference>
- <Reference Include="Triangle">
- <HintPath>/Users/tyhostager/Documents/Unity Projects/Miami1984/Assets/ProCore/ProBuilder/Classes/ClassesLib/Triangle.dll</HintPath>
- </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{13498E62-BC66-C691-A5AD-54FCF8CB2579}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

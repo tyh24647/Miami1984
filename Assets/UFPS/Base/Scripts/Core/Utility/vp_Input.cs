@@ -548,8 +548,12 @@ public class vp_Input : MonoBehaviour {
             return;
         }
 
-        if (save)
-            Instance.AxisValues[vp_Input.Instance.AxisKeys.IndexOf(n)] = new vp_InputAxis { Positive = pk, Negative = nk };
+        if (save) {
+            Instance.AxisValues[vp_Input.Instance.AxisKeys.IndexOf(n)] = new vp_InputAxis {
+                Positive = pk,
+                Negative = nk
+            };
+        }
 
         Instance.Axis[n] = new vp_InputAxis { Positive = pk, Negative = nk };
 

@@ -1,4 +1,3 @@
-#define PROTOTYPE
 #if UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_5_3 || UNITY_5_4
 #define UNITY_5_4_OR_LOWER
 #else
@@ -279,7 +278,7 @@ public class pb_Preferences
 	static int shortcutIndex = 0;
 
 #if UNITY_5_6_OR_HIGHER
-	static Rect selectBox = new Rect(0, 234, 183, 156);
+	static Rect selectBox = new Rect(0, 212, 183, 156);
 #else
 	static Rect selectBox = new Rect(130, 253, 183, 142);
 #endif
@@ -291,6 +290,9 @@ public class pb_Preferences
 
 	static void ShortcutSelectPanel()
 	{
+		Rect r = GUILayoutUtility.GetLastRect();
+		selectBox.y = r.y + r.height + 8;
+
 		GUILayout.Space(4);
 		GUI.contentColor = Color.white;
 		GUI.Box(selectBox, "");
@@ -329,7 +331,6 @@ public class pb_Preferences
 		}
 
 		EditorGUILayout.EndScrollView();
-
 	}
 
 #if UNITY_5_6_OR_HIGHER
@@ -351,6 +352,7 @@ public class pb_Preferences
 	static void ShortcutEditPanel()
 	{
 		// descriptionTitleRect = EditorGUI.RectField(new Rect(240,150,200,50), descriptionTitleRect);
+
 		GUI.Label(keyRect, "Key");
 		KeyCode key = defaultShortcuts[shortcutIndex].key;
 		key = (KeyCode) EditorGUI.EnumPopup(keyInputRect, key);
