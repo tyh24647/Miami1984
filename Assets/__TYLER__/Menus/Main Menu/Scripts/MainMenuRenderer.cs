@@ -114,25 +114,34 @@ public class MainMenuRenderer : MonoBehaviour {
     }
 
     private void InitSceneQuickExplorer() {
+
         GUI.Label(
-            new Rect(
-                ((Screen.width / 2) - 50),
-                (Screen.height - 80),
-                100,
-                30
-            ),
-            ("Current Scene: " + Application.loadedLevel + 1)
+            position: new Rect {
+                x = ((Screen.width / 2) - 50),
+                y = (Screen.height - 80),
+                width = 100,
+                height = 30
+            },
+
+            text: "Current Scene: "
+#pragma warning disable CS0618 // Type or member is obsolete
+            + Application.loadedLevel
+#pragma warning restore CS0618 // Type or member is obsolete
         );
 
         if (GUI.Button(
-            new Rect(
-                ((Screen.width / 2) - 50),
-                (Screen.height - 50),
-                100,
-                40), "Load Scene: " + (SceneToLoad + 1))) {
+            position: new Rect {
+                x = ((Screen.width / 2) - 50),
+                y = (Screen.height - 50),
+                width = 100,
+                height = 40
+            },
+
+            text: "Load Scene: " + (SceneToLoad + 1))) {
             SceneManager.LoadScene(SceneToLoad + 1);
         }
     }
+
 
     private void ConfigureContinueButton() {
         if (MainMenuCanvas != null && Buttons != null && Buttons.Length > 0) {

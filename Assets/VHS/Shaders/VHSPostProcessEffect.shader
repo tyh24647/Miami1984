@@ -25,7 +25,7 @@
                  return frac(sin( dot(co.xyz ,float3(12.9898,78.233,45.5432) )) * 43758.5453);
             }
  
-            fixed4 frag (v2f_img i) : COLOR{
+            fixed4 frag (v2f_img i) : COLOR {
                 fixed4 vhs = tex2D (_VHSTex, i.uv);
                 
                 float dx = 1-abs(distance(i.uv.y, _xScanline));

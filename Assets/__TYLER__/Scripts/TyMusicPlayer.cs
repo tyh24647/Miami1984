@@ -26,14 +26,13 @@ using UnityEngine;
 [AddComponentMenu("Audio/TyMusicPlayer")]
 public class TyMusicPlayer : MonoBehaviour {
 
-    #region Constants
+    #region CONSTANTS
     private const ulong DefaultSongPreBufferTime = 44100;
     private const int DefaultNumNullChecks = 5;
     private const int DefaultAsyncTaskMinutes = 2;
     #endregion
 
-
-    #region Boolean options (not visible to users)
+    #region PRIVATE VARS
     private bool hasRoot;
     private bool hasAudioSource;
     private bool hasAudioListener;
@@ -45,8 +44,7 @@ public class TyMusicPlayer : MonoBehaviour {
     private bool hasErrors = false;
     #endregion
 
-
-    #region Editor-modifiable primitives
+    #region EDITOR-MODIFIABLE PRIMITIVES
     public bool RandomizeMusic = true;
     public bool Play;
     public int CurrentSongIndex;
@@ -60,7 +58,7 @@ public class TyMusicPlayer : MonoBehaviour {
         }
     }
 
-    #region Property Accessors
+    #region PROPERTY ACCESSORS
     bool CanPlayMusic {
         get { return canPlayMusic; }
         set { canPlayMusic = value; }
@@ -88,7 +86,7 @@ public class TyMusicPlayer : MonoBehaviour {
     #endregion
 
 
-    #region Public Vars (Editable in Editor GUI)
+    #region PUBLIC VARS
     [Space(2)]
     [Header("Audio Object Settings")]
     public AudioSource AudioSource;
@@ -106,7 +104,7 @@ public class TyMusicPlayer : MonoBehaviour {
     #endregion
 
 
-    #region Methods
+    #region INHERITED METHODS
     void Awake() {
         Log.d("Initializing \'TyMusicPlayer\'...");
         Log.d("Attempting to locate root object...");
@@ -181,7 +179,9 @@ public class TyMusicPlayer : MonoBehaviour {
             AudioSource.Stop();
         }
     }
+    #endregion
 
+    #region FUNCTIONS
     void HandleKeyPressed(bool playMusic) {
         bool playNext = false;
         bool playPrevious = false;

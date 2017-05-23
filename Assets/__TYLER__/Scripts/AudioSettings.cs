@@ -72,9 +72,9 @@ public class AudioSettings : MonoBehaviour {
             var sfxObj = GetAudioSourceForGameObject("SFX");
             if (sfxObj) {
                 _SFXVolume = sfxObj.volume = value < 0.0f || value > 1.0f ? AudioSettings.DefaultVolume : value;
+            } else {
+                _SFXVolume = value >= 0.0f && value <= 1.0f ? value : AudioSettings.DefaultVolume;
             }
-
-            _SFXVolume = value >= 0.0f && value <= 1.0f ? value : AudioSettings.DefaultVolume;
         }
     }
 
@@ -143,7 +143,7 @@ public class AudioSettings : MonoBehaviour {
     private void ApplyVolumeToAudioSourceObj(GameObject musicObj, float volumeLevel) {
         if (musicObj) {
             var audioSources = musicObj.GetComponents<AudioSource>();
-            if (audioSources.Length > 0) {
+            if (!ObjUtils.IsNullOrEmpty(audioSources)) {
                 foreach (var audioSource in audioSources) {
                     audioSource.volume = volumeLevel;
                 }

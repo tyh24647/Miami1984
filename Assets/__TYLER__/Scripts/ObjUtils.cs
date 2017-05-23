@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,40 +19,22 @@ public static class ObjUtils {
     //}
 
     public static List<GameObject> GetAllComponentsInChild<T>(GameObject obj) {
-        var children = obj.GetComponentsInChildren<GameObject>();
-        List<GameObject> objArr = null;
-
-        if (children != null) {
-            objArr = new List<GameObject>(List.SizeOf(children));
-
-            foreach (var child in children) {
-                if (child) {
-                    objArr.Add(child);
-                }
-            }
-        }
-
-        return objArr;
+        return new List<GameObject>(obj.GetComponentsInChildren<GameObject>());
     }
 
     public static List<GameObject> GetAllComponentsInParent<T>(GameObject obj) {
-        var parents = obj.GetComponentsInParent<GameObject>();
-        List<GameObject> objArr = null;
-
-        if (parents != null) {
-            objArr = new List<GameObject>(List.SizeOf(parents));
-
-            foreach (var parent in parents) {
-                if (parent) {
-                    objArr.Add(parent);
-                }
-            }
-        }
-
-        return objArr;
+        return new List<GameObject>(obj.GetComponentsInParent<GameObject>());
     }
 
-    public static bool IsNullOrEmpty(List<Object> list) {
+    public static bool IsNullOrEmpty(UnityEngine.Object obj = default(GameObject)) {
+        return obj == null;
+    }
+
+    public static bool IsNullOrEmpty(GameObject obj) {
+        return obj == null;
+    }
+
+    public static bool IsNullOrEmpty(List<UnityEngine.Object> list) {
         return List.IsNullOrEmpty(list);
     }
 
@@ -62,7 +46,7 @@ public static class ObjUtils {
         return List.IsNullOrEmpty(list);
     }
 
-    public static bool IsNullOrEmpty(Object[] list) {
+    public static bool IsNullOrEmpty(UnityEngine.Object[] list) {
         return List.IsNullOrEmpty(list);
     }
 
@@ -89,11 +73,11 @@ public static class ObjUtils {
 
     #region LIST UTILITIES
     public struct List {
-        public static bool IsNullOrEmpty(List<Object> list) {
+        public static bool IsNullOrEmpty(List<UnityEngine.Object> list) {
             return List.IsNullOrEmpty(list.ToArray());
         }
 
-        public static bool IsNullOrEmpty<T>(List<Object> list) {
+        public static bool IsNullOrEmpty<T>(List<UnityEngine.Object> list) {
             return List.IsNullOrEmpty<T>(list);
         }
 
@@ -109,8 +93,8 @@ public static class ObjUtils {
             return list == null || list.Length == 0;
         }
 
-        public static bool IsNullOrEmpty(Object[] list = default(GameObject[])) {
-            return IsNullOrEmpty<Object>(list);
+        public static bool IsNullOrEmpty(UnityEngine.Object[] list = default(GameObject[])) {
+            return IsNullOrEmpty<UnityEngine.Object>(list);
         }
 
         public static bool ContainsObject(List<GameObject> list, GameObject obj) {
@@ -123,11 +107,7 @@ public static class ObjUtils {
 
         public static bool ContainsObject(GameObject[] list, GameObject obj) {
             if (obj && !IsNullOrEmpty(list)) {
-                foreach (var gameObject in list) {
-                    if (gameObject.Equals(obj)) {
-                        return true;
-                    }
-                }
+                return list.Contains(obj);
             }
 
             return false;
@@ -158,18 +138,9 @@ public static class ObjUtils {
         }
 
         public static bool ContainsObject(GameObject[] list, string objectName, bool isTag) {
-            if (!IsNullOrEmpty(list) && objectName != null && objectName.Equals("")) {
-                foreach (var gameObject in list) {
-                    if (isTag) {
-                        if (gameObject.tag.ToLower().Contains(objectName.ToLower())) {
-                            return true;
-                        }
-                    } else {
-                        if (gameObject.name.ToLower().Contains(objectName.ToLower())) {
-                            return true;
-                        }
-                    }
-                }
+            if (!IsNullOrEmpty(list) && !String.IsNullOrEmpty(objectName)) {
+                return list.FirstOrDefault(
+                    (obj) => (isTag ? obj.tag : obj.name).ToLower().Contains(objectName));
             }
 
             return false;
@@ -200,57 +171,24 @@ public static class ObjUtils {
         }
 
         public static List<GameObject> AddAll(List<GameObject> rootList, List<GameObject> listToAdd) {
-            if (listToAdd != null && listToAdd.Count > 0) {
-                rootList = new List<GameObject>(listToAdd.Count);
-                foreach (var listItem in listToAdd) {
-                    if (listItem != null) {
-                        rootList.Add(listItem);
-                    }
-                }
-            }
-
+            rootList.AddRange(listToAdd);
             return rootList;
         }
 
         public static List<GameObject> AddAll(List<GameObject> rootList, GameObject[] listToAdd) {
-            if (listToAdd != null && listToAdd.Length > 0) {
-                rootList = new List<GameObject>(listToAdd.Length);
-                foreach (var listItem in listToAdd) {
-                    if (listItem != null) {
-                        rootList.Add(listItem);
-                    }
-                }
-            }
-
+            rootList.AddRange(listToAdd.ToList());
             return rootList;
         }
 
         public static List<GameObject> AddAll(GameObject[] rootList, List<GameObject> listToAdd) {
-            List<GameObject> tmpList = null; ;
-            if (listToAdd != null && listToAdd.Count > 0) {
-                tmpList = new List<GameObject>(listToAdd.Count);
-                foreach (var listItem in listToAdd) {
-                    if (listItem != null) {
-                        tmpList.Add(listItem);
-                    }
-                }
-            }
-
-            return tmpList;
+            return AddAll(
+                rootList: rootList,
+                listToAdd: listToAdd
+            );
         }
 
         public static List<GameObject> AddAll(GameObject[] rootList, GameObject[] listToAdd) {
-            List<GameObject> tmpList = null; ;
-            if (listToAdd != null && listToAdd.Length > 0) {
-                tmpList = new List<GameObject>(listToAdd.Length);
-                foreach (var listItem in listToAdd) {
-                    if (listItem != null) {
-                        tmpList.Add(listItem);
-                    }
-                }
-            }
-
-            return tmpList;
+            return AddAll(rootList, listToAdd.ToList());
         }
 
     }
