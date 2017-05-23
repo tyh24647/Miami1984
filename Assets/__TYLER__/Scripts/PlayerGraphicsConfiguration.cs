@@ -184,10 +184,10 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
                 if (SelectedResolution.height != InitialResolution.height
                     && SelectedResolution.width != InitialResolution.width
                     && SelectedResolution.refreshRate != InitialResolution.refreshRate) {
-                    ToggleSettingsChanged();
+                    FireSettingsValueChanged();
                 }
             } else {
-                ToggleSettingsChanged();
+                FireSettingsValueChanged();
             }
         }
     }
@@ -208,10 +208,10 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
         }
 
         IsFirstChange = false;
-        ToggleSettingsChanged();
+        FireSettingsValueChanged();
     }
 
-    public void ToggleSettingsChanged() {
+    public void FireSettingsValueChanged() {
         ApplyButton.enabled = !ApplyButton.isActiveAndEnabled;
         var txt = ApplyButton.GetComponentInChildren<Text>();
         if (txt) {
@@ -238,19 +238,19 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
             }
         }
 
-        ToggleSettingsChanged();
+        FireSettingsValueChanged();
     }
 
     public void FireShowAdvancedSettingsButtonPressed() {
         var scrollView = GameObject.FindWithTag("UIScrollView").GetComponent<RectTransform>();
         if (scrollView) {
-            scrollView.sizeDelta = new Vector2(
-                x: scrollView.sizeDelta.x,
-                y: (ShowAdvancedSettings ?
+            scrollView.sizeDelta = new Vector2 {
+                x = scrollView.sizeDelta.x,
+                y = (ShowAdvancedSettings ?
                     PlayerGraphicsConfiguration.DefaultCollapsedScrollViewHeight :
                     PlayerGraphicsConfiguration.DefaultExpandedScrollViewHeight
                 )
-            );
+            };
 
             // recalculate vertical input height--updates GUI for new buttons
             var verticalLayout = GameObject.FindWithTag("UIScrollView").GetComponent<VerticalLayoutGroup>();
