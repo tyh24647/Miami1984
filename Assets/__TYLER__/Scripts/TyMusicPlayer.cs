@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// This class is a music and background audo player to be attached to
@@ -15,7 +18,6 @@
 /// Author:     Tyler Hostager
 /// Version:    05/10/17
 /// </summary>
-[ExecuteInEditMode]
 [RequireComponent(typeof(AudioClip))]
 [RequireComponent(typeof(AudioListener))]
 [RequireComponent(typeof(AudioSource))]
@@ -25,18 +27,22 @@
 public class TyMusicPlayer : MonoBehaviour {
 
     #region Constants
-    const ulong DefaultSongPreBufferTime = 44100;
+    private const ulong DefaultSongPreBufferTime = 44100;
+    private const int DefaultNumNullChecks = 5;
+    private const int DefaultAsyncTaskMinutes = 2;
     #endregion
 
 
     #region Boolean options (not visible to users)
-    bool hasRoot;
-    bool hasAudioSource;
-    bool hasAudioListener;
-    bool hasPlayerCamera;
-    bool hasSongs;
-    bool hasBackgroundAudio;
-    bool canPlayMusic;
+    private bool hasRoot;
+    private bool hasAudioSource;
+    private bool hasAudioListener;
+    private bool hasPlayerCamera;
+    private bool hasSongs;
+    private bool hasBackgroundAudio;
+    private bool canPlayMusic;
+    private bool hasWarnings = false;
+    private bool hasErrors = false;
     #endregion
 
 
@@ -46,7 +52,6 @@ public class TyMusicPlayer : MonoBehaviour {
     public int CurrentSongIndex;
     #endregion
 
-
     int currentSongIndex {
         get { return CurrentSongIndex; }
         set {
@@ -54,7 +59,6 @@ public class TyMusicPlayer : MonoBehaviour {
             CurrentSongIndex = value < 0 ? RandomizeMusic ? rand.Next(0, Songs.Length) : 0 : value;
         }
     }
-
 
     #region Property Accessors
     bool CanPlayMusic {
@@ -119,6 +123,7 @@ public class TyMusicPlayer : MonoBehaviour {
             Debug.ClearDeveloperConsole();
         } else {
             Log.w("Unable to locate root object");
+            this.hasWarnings = true;
         }
 
         canPlayMusic = (
@@ -129,19 +134,38 @@ public class TyMusicPlayer : MonoBehaviour {
         audioSource.volume = 1.0f;
     }
 
+    private void OnDestroy() {
+        StopCurrentSong();
+
+        if (!this.hasWarnings && !this.hasErrors) {
+            Debug.ClearDeveloperConsole();
+        }
+    }
+
     // Use this for initialization
     void Start() {
         var numSongs = Songs.Length;
+        if (numSongs == 0) {
+            Log.w("No songs or audio clips loaded");
+        }
+
+        if (GetComponent<GameObject>()) {
+            this.rootObject = GetComponent<GameObject>();
+            this.hasRoot = true;
+            this.VerifyRootObject();
+        }
+
         if (canPlayMusic) {
             StartMusic();
-        } else {
-            this.rootObject = GetComponent<GameObject>();
-            Awake();
         }
     }
 
     // Update is called once per frame
     void Update() {
+        if (Input.anyKeyDown) {
+            HandleKeyPressed(Play);
+        }
+
         if (Play) {
             if (Songs.Length > 0) {
                 if (!audioSource) {
@@ -157,6 +181,57 @@ public class TyMusicPlayer : MonoBehaviour {
             AudioSource.Stop();
         }
     }
+
+    void HandleKeyPressed(bool playMusic) {
+        bool playNext = false;
+        bool playPrevious = false;
+        bool isImportantKey = false;
+
+        if (Input.GetKeyDown(KeyCode.F9)) {
+            playNext = true;
+            playPrevious = false;
+            isImportantKey = true;
+        } else if (Input.GetKeyDown(KeyCode.F7)) {
+            playNext = false;
+            playPrevious = true;
+            isImportantKey = true;
+        } else if (Input.GetKeyDown(KeyCode.F10)) {
+            playMusic = !playMusic;
+            playNext = false;
+            playPrevious = false;
+            isImportantKey = true;
+
+            if (!playMusic) {
+                this.audioSource.Stop();
+            } else {
+                this.audioSource.Play();
+            }
+        }
+
+        if (isImportantKey) {
+            ChangeSong(playNext && !playPrevious);
+        }
+    }
+
+
+    /*
+    void HandleNoMusicInScene() {
+
+        AudioClip song = this.audioSource.clip;
+        bool firstCheck = true;
+    NoSongs:
+        if (!song) {
+            song = Songs[0] ?? null;
+            AsyncOperation waitForUserSongAdditions = new AsyncOperation(() => Log.d(""));
+            if (!song && firstCheck) {
+                firstCheck = false;
+                goto NoSongs;
+            }
+
+            audioSource.Stop();
+        }
+    }
+    */
 
     // Initialize audio clip
     void StartMusic() {
@@ -187,7 +262,9 @@ public class TyMusicPlayer : MonoBehaviour {
                 if (audioSource.isActiveAndEnabled) {
                     AudioSource.clip = song;
                     if (audioSource.clip != null) {
+                        Log.d("Now playing: \'" + audioSource.clip.name + "\'.");
                         audioSource.Play(DefaultSongPreBufferTime);
+                        //audioSource.PlayDelayed(DefaultSongPreBufferTime);
                     }
                 } else {
                     audioSource.enabled = true;
@@ -196,6 +273,13 @@ public class TyMusicPlayer : MonoBehaviour {
             }
         } else {
             audioSource.Stop();
+        }
+    }
+
+    void StopCurrentSong() {
+        if (this.audioSource) {
+            this.audioSource.Stop();
+            this.audioSource.clip = null;
         }
     }
 
@@ -221,7 +305,12 @@ public class TyMusicPlayer : MonoBehaviour {
                 CurrentSongIndex = 0;
             }
 
-            PlaySong(Songs[isNext ? CurrentSongIndex + 1 : CurrentSongIndex - 1]);
+            if (Songs != null && Songs.Length > 0) {
+                var songIndex = isNext ? CurrentSongIndex++ : CurrentSongIndex--;
+                PlaySong(Songs[songIndex]);
+            } else {
+                Log.d("Unable to skip song--no songs loaded into the scene");
+            }
         } else {
             audioSource.Stop();
         }
@@ -267,7 +356,7 @@ public class TyMusicPlayer : MonoBehaviour {
 
     bool VerifyRootObject() {
         var isValid = false;
-        if (rootObject == null) {
+        if (!rootObject) {
             Log.w("Null root instance -- please specify a valid \'GameObject\' as a root for \'TyMusicPlayer\'");
             this.hasRoot = false;
             Log.d("Auto-detecting root...");
@@ -275,8 +364,14 @@ public class TyMusicPlayer : MonoBehaviour {
                 RootObject = this.rootObject;
                 isValid = true;
                 Log.d("Root object loaded successfully");
-                Debug.ClearDeveloperConsole();
+            } else {
+                this.hasWarnings = true;
+                Log.w("Unable to locate root object");
             }
+        } else {
+            this.hasRoot = true;
+            isValid = true;
+            Log.d("Root object loaded successfully");
         }
 
         return isValid;
@@ -284,16 +379,22 @@ public class TyMusicPlayer : MonoBehaviour {
 
     bool VerifyAudioSource() {
         var isValid = false;
-        if (audioSource == null) {
+        if (!audioSource) {
             Log.w("Null audiosource instance - please specify a valid \'AudioSource\' object");
             this.hasAudioSource = false;
             Log.d("Auto-detecting audio source...");
-            if (audioSource != null) {
+            if (audioSource) {
                 AudioSource = this.audioSource;
                 isValid = true;
                 Log.d("Audio source loaded successfully");
-                Debug.ClearDeveloperConsole();
+            } else {
+                this.hasWarnings = true;
+                Log.w("Unable to locate audio source");
             }
+        } else {
+            this.hasAudioSource = true;
+            isValid = true;
+            Log.d("Audio source loaded successfully");
         }
 
         return isValid;
@@ -301,7 +402,7 @@ public class TyMusicPlayer : MonoBehaviour {
 
     bool VerifyAudioListener() {
         var isValid = false;
-        if (audioListener == null) {
+        if (!audioListener) {
             Log.w("Null audio listener - please specify an \'AudioListener\' object");
             this.hasAudioListener = false;
             Log.d("Searching for an audio listener...");
@@ -309,8 +410,14 @@ public class TyMusicPlayer : MonoBehaviour {
                 AudioListener = this.audioListener;
                 isValid = true;
                 Log.d("\'AudioListener\' loaded successfully.");
-                Debug.ClearDeveloperConsole();
+            } else {
+                this.hasWarnings = true;
+                Log.w("Unable to locate \'AudioListener\'");
             }
+        } else {
+            this.hasAudioListener = true;
+            isValid = true;
+            Log.d("\'AudioListener\' loaded successfully");
         }
 
         return isValid;

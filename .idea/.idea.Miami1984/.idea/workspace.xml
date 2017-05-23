@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e49c460b-2005-4a5e-a6c0-d0a8b28110db" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Miami1984/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Miami1984/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore.meta" afterPath="$PROJECT_DIR$/Assets/ProCore.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/API Examples/Editor/EditorCallbackViewer.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/API Examples/Editor/EditorCallbackViewer.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_AboutWindow.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_AboutWindow.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_UpdateCheck.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_UpdateCheck.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_VersionInfo.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/Editor/pb_VersionInfo.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/pc_AboutEntry_ProBuilder.txt" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/About/pc_AboutEntry_ProBuilder.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Actions/pb_GenerateUV2.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Actions/pb_GenerateUV2.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_CleanLeakedMeshes.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_CleanLeakedMeshes.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_ForceSceneRefresh.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_ForceSceneRefresh.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RebuildMeshes.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RebuildMeshes.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RebuildSharedIndices.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RebuildSharedIndices.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RemoveDegenerateTris.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RemoveDegenerateTris.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairColors.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairColors.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairMeshReferences.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairMeshReferences.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairUV.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_RepairUV.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_ResetEntityMaterials.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_ResetEntityMaterials.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_UpgradeBasicToAdvanced.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/MenuItems/Repair/pb_UpgradeBasicToAdvanced.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_MenuItems.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_MenuItems.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_MissingScriptEditor.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_MissingScriptEditor.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_Preferences.cs" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Editor/pb_Preferences.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Resources/Materials/VertexPicker.mat" afterPath="$PROJECT_DIR$/Assets/ProCore/ProBuilder/Resources/Materials/VertexPicker.mat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/SabreCSG/Example Materials/Floor_Planks.mat" afterPath="$PROJECT_DIR$/Assets/SabreCSG/Example Materials/Floor_Planks.mat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/UFPS/Base/Content/Prefabs/Players/HeroHDWeapons.prefab" afterPath="$PROJECT_DIR$/Assets/UFPS/Base/Content/Prefabs/Players/HeroHDWeapons.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/UFPS/Base/Scripts/Core/Utility/vp_Input.cs" afterPath="$PROJECT_DIR$/Assets/UFPS/Base/Scripts/Core/Utility/vp_Input.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs" afterPath="$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/or1.unity" afterPath="$PROJECT_DIR$/Assets/or1.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="TyMusicPlayer.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="337" column="4" lean-forward="true" selection-start-line="337" selection-start-column="4" selection-end-line="337" selection-end-column="4" />
+              <folding>
+                <marker date="1494807200000" expanded="true" signature="20:575" ph="/// This class is a music and background audo player to be attached to ... " />
+                <marker date="1494807200000" expanded="true" signature="855:11493" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="862:952" ph="Constants" />
+                <marker date="1494807200000" expanded="true" signature="959:1317" ph="Boolean options (not visible to users)" />
+                <marker date="1494807200000" expanded="true" signature="1324:1469" ph="Editor-modifiable primitives" />
+                <marker date="1494807200000" expanded="true" signature="1496:1712" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="1551:1706" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="1718:2822" ph="Property Accessors" />
+                <marker date="1494807200000" expanded="true" signature="1767:1849" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="1877:2011" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="2041:2277" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="2311:2563" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="2589:2807" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="2829:3255" ph="Public Vars (Editable in Editor GUI)" />
+                <marker date="1494807200000" expanded="true" signature="3262:11491" ph="Methods" />
+                <marker date="1494807200000" expanded="true" signature="3295:4176" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="3775:3869" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4207:4328" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4268:4322" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4382:4764" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4448:4512" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4554:4693" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4721:4758" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4823:5342" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4843:5287" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4879:5277" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="4915:4981" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5015:5263" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5167:5245" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5395:5813" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5415:5758" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5526:5573" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="5597:5698" ph="/* if no songs are playing and the song ... */" />
+                <marker date="1494807200000" expanded="true" signature="5819:6003" ph="/// Plays the specified audio clip, as long as it is in the valid .wav ... " />
+                <marker date="1494807200000" expanded="true" signature="6038:6842" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6058:6787" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6083:6194" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6249:6777" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6303:6587" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6400:6569" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6871:6999" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="6903:6993" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7023:7240" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7043:7185" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7246:7484" ph="/// Changes the song by either going forward or backwards in the queue, ... " />
+                <marker date="1494807200000" expanded="true" signature="7518:7922" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7538:7867" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7590:7658" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7720:7773" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="7928:8212" ph="/// Changes the song based on the known index of a specified song ... " />
+                <marker date="1494807200000" expanded="true" signature="8248:8423" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="8268:8368" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="8429:8678" ph="/// Changes the song based on the title of a specified song within ... " />
+                <marker date="1494807200000" expanded="true" signature="8717:9161" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="8737:9106" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="8806:9075" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="8877:8952" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="9191:9919" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="9247:9756" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="9478:9629" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="9950:10681" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="10007:10510" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="10228:10382" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="10714:11476" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="10773:11298" ph="{...}" />
+                <marker date="1494807200000" expanded="true" signature="11001:11165" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Miami1984 (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.mono" />
+    <property name="FullScreen" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected=".NET Project.Default">
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
+    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e49c460b-2005-4a5e-a6c0-d0a8b28110db" name="Default" comment="" />
+      <created>1494568407731</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1494568407731</updated>
+      <workItem from="1494568411058" duration="129000" />
+      <workItem from="1494822531211" duration="280000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="409000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2532189" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1494807200000" expanded="true" signature="20:575" ph="/// This class is a music and background audo player to be attached to ... " />
+            <marker date="1494807200000" expanded="true" signature="855:11493" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="862:952" ph="Constants" />
+            <marker date="1494807200000" expanded="true" signature="959:1317" ph="Boolean options (not visible to users)" />
+            <marker date="1494807200000" expanded="true" signature="1324:1469" ph="Editor-modifiable primitives" />
+            <marker date="1494807200000" expanded="true" signature="1496:1712" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1551:1706" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1718:2822" ph="Property Accessors" />
+            <marker date="1494807200000" expanded="true" signature="1767:1849" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1877:2011" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2041:2277" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2311:2563" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2589:2807" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2829:3255" ph="Public Vars (Editable in Editor GUI)" />
+            <marker date="1494807200000" expanded="true" signature="3262:11491" ph="Methods" />
+            <marker date="1494807200000" expanded="true" signature="3295:4176" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="3775:3869" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4207:4328" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4268:4322" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4382:4764" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4448:4512" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4554:4693" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4721:4758" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4823:5342" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4843:5287" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4879:5277" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4915:4981" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5015:5263" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5167:5245" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5395:5813" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5415:5758" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5526:5573" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5597:5698" ph="/* if no songs are playing and the song ... */" />
+            <marker date="1494807200000" expanded="true" signature="5819:6003" ph="/// Plays the specified audio clip, as long as it is in the valid .wav ... " />
+            <marker date="1494807200000" expanded="true" signature="6038:6842" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6058:6787" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6083:6194" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6249:6777" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6303:6587" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6400:6569" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6871:6999" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6903:6993" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7023:7240" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7043:7185" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7246:7484" ph="/// Changes the song by either going forward or backwards in the queue, ... " />
+            <marker date="1494807200000" expanded="true" signature="7518:7922" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7538:7867" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7590:7658" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7720:7773" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7928:8212" ph="/// Changes the song based on the known index of a specified song ... " />
+            <marker date="1494807200000" expanded="true" signature="8248:8423" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8268:8368" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8429:8678" ph="/// Changes the song based on the title of a specified song within ... " />
+            <marker date="1494807200000" expanded="true" signature="8717:9161" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8737:9106" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8806:9075" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8877:8952" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9191:9919" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9247:9756" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9478:9629" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9950:10681" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10007:10510" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10228:10382" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10714:11476" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10773:11298" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="11001:11165" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/__TYLER__/Scripts/TyMusicPlayer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="337" column="4" lean-forward="true" selection-start-line="337" selection-start-column="4" selection-end-line="337" selection-end-column="4" />
+          <folding>
+            <marker date="1494807200000" expanded="true" signature="20:575" ph="/// This class is a music and background audo player to be attached to ... " />
+            <marker date="1494807200000" expanded="true" signature="855:11493" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="862:952" ph="Constants" />
+            <marker date="1494807200000" expanded="true" signature="959:1317" ph="Boolean options (not visible to users)" />
+            <marker date="1494807200000" expanded="true" signature="1324:1469" ph="Editor-modifiable primitives" />
+            <marker date="1494807200000" expanded="true" signature="1496:1712" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1551:1706" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1718:2822" ph="Property Accessors" />
+            <marker date="1494807200000" expanded="true" signature="1767:1849" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="1877:2011" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2041:2277" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2311:2563" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2589:2807" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="2829:3255" ph="Public Vars (Editable in Editor GUI)" />
+            <marker date="1494807200000" expanded="true" signature="3262:11491" ph="Methods" />
+            <marker date="1494807200000" expanded="true" signature="3295:4176" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="3775:3869" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4207:4328" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4268:4322" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4382:4764" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4448:4512" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4554:4693" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4721:4758" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4823:5342" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4843:5287" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4879:5277" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="4915:4981" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5015:5263" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5167:5245" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5395:5813" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5415:5758" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5526:5573" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="5597:5698" ph="/* if no songs are playing and the song ... */" />
+            <marker date="1494807200000" expanded="true" signature="5819:6003" ph="/// Plays the specified audio clip, as long as it is in the valid .wav ... " />
+            <marker date="1494807200000" expanded="true" signature="6038:6842" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6058:6787" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6083:6194" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6249:6777" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6303:6587" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6400:6569" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6871:6999" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="6903:6993" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7023:7240" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7043:7185" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7246:7484" ph="/// Changes the song by either going forward or backwards in the queue, ... " />
+            <marker date="1494807200000" expanded="true" signature="7518:7922" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7538:7867" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7590:7658" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7720:7773" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="7928:8212" ph="/// Changes the song based on the known index of a specified song ... " />
+            <marker date="1494807200000" expanded="true" signature="8248:8423" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8268:8368" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8429:8678" ph="/// Changes the song based on the title of a specified song within ... " />
+            <marker date="1494807200000" expanded="true" signature="8717:9161" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8737:9106" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8806:9075" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="8877:8952" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9191:9919" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9247:9756" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9478:9629" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="9950:10681" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10007:10510" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10228:10382" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10714:11476" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="10773:11298" ph="{...}" />
+            <marker date="1494807200000" expanded="true" signature="11001:11165" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
