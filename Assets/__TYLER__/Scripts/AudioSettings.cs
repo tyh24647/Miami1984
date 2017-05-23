@@ -48,11 +48,7 @@ public class AudioSettings : MonoBehaviour {
                     if (!audioSource) {
                         audioSource = null;
                     }
-
-                    audioSource = null;
                 }
-
-                audioSource = null;
             }
 
             if (audioSource) {
