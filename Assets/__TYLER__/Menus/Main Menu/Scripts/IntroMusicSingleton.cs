@@ -1,7 +1,4 @@
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
 /// <summary>
 /// Singleton audio class instance to retain the song throughout 
@@ -29,8 +26,6 @@ public class IntroMusicSingleton : MonoBehaviour {
         get { return AudioSource ?? gameObject.GetComponent<AudioSource>() ?? new AudioSource(); }
         set { AudioSource = value as AudioSource ?? AudioSource ?? gameObject.GetComponent<AudioSource>() ?? new AudioSource(); }
     }
-
-
 
     private void Awake() {
         if (Instance != null && Instance != this) {

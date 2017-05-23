@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -103,12 +104,10 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
                 this.MainBackgroundPanel = tmp;
             } else {
                 var objArr = this.MainBackgroundPanel.gameObject.GetComponents<GameObject>();
-                if (objArr != null && objArr.Length > 0) {
-                    foreach (var obj in objArr) {
-                        if (obj.name.ToLower().Equals("Background".ToLower())) {
-                            this.MainBackgroundPanel = obj;
-                        }
-                    }
+                if (!ObjUtils.IsNullOrEmpty(objArr)) {
+                    this.MainBackgroundPanel = objArr.FirstOrDefault(
+                        (panel) => panel.name.ToLower().Equals("background")
+                    );
                 }
             }
 
@@ -131,12 +130,11 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
                 this.EightiesBackgroundObj = tmp;
             } else {
                 var objArr = this.BackgroundObject.gameObject.GetComponents<GameObject>();
-                if (objArr != null && objArr.Length > 0) {
-                    foreach (var obj in objArr) {
-                        if (obj.name.ToLower().Contains("EightiesBackgroundObj".ToLower())) {
-                            this.EightiesBackgroundObj = obj;
-                        }
-                    }
+
+                if (!ObjUtils.IsNullOrEmpty(objArr)) {
+                    this.EightiesBackgroundObj = objArr.FirstOrDefault(
+                        (panel) => panel.name.ToLower().Equals("EightiesBackgroundObj".ToLower())
+                    );
                 }
             }
 
@@ -174,16 +172,16 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
         if (BackgroundRenderer && SpRenderer) {
             try {
                 //if (deltaT.CompareTo(FadeStartTime) == 0) {
-                BackgroundRenderer.color = new Color(
-                    1.0f,
-                    1.0f,
-                    1.0f,
-                    Mathf.SmoothStep(
-                        this.SceneStartAlpha,
-                        this.SceneEndAlpha,
-                        FadeOutDuration
+                BackgroundRenderer.color = new Color {
+                    r = 1.0f,
+                    g = 1.0f,
+                    b = 1.0f,
+                    a = Mathf.SmoothStep(
+                        from: this.SceneStartAlpha,
+                        to: this.SceneEndAlpha,
+                        t: FadeOutDuration
                     )
-                );
+                };
 
                 SpRenderer.color = BackgroundRenderer.color;
                 //}
@@ -199,16 +197,16 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
         if (BackgroundRenderer) {
             try {
-                BackgroundRenderer.color = new Color(
-                    1.0f,
-                    1.0f,
-                    1.0f,
-                    Mathf.SmoothStep(
-                        MinBackgroundAlpha,
-                        MaxBackgroundAlpha,
-                        time
+                BackgroundRenderer.color = new Color {
+                    r = 1.0f,
+                    g = 1.0f,
+                    b = 1.0f,
+                    a = Mathf.SmoothStep(
+                        from: MinBackgroundAlpha,
+                        to: MaxBackgroundAlpha,
+                        t: time
                     )
-                );
+                };
             } catch (Exception e) {
                 Log.w("Unable to fade in main background object");
                 Log.e(e.Message, e);
@@ -221,16 +219,16 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
         if (SpRenderer) {
             try {
-                SpRenderer.color = new Color(
-                    1.0f,
-                    1.0f,
-                    1.0f,
-                    Mathf.SmoothStep(
-                        VidMinAlpha,
-                        VidMaxAlpha,
-                        time
+                SpRenderer.color = new Color {
+                    r = 1.0f,
+                    g = 1.0f,
+                    b = 1.0f,
+                    a = Mathf.SmoothStep(
+                        from: VidMinAlpha,
+                        to: VidMaxAlpha,
+                        t: time
                     )
-                );
+                };
             } catch (NullReferenceException e) {
                 Log.w("Unable to fade in video object");
                 Log.e(e.Message, e);
@@ -240,11 +238,14 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
     private void InitSceneQuickExplorer() {
         if (GUI.Button(
-            new Rect(
-                ((Screen.width / 2) - 50),
-                (Screen.height - 50),
-                100,
-                40), "Jump to main menu")) {
+            position: new Rect {
+                x = ((Screen.width / 2) - 50),
+                y = (Screen.height - 50),
+                width = 100,
+                height = 40
+            },
+
+            text: "Jump to main menu")) {
             SceneManager.LoadScene(3);
         }
     }
@@ -253,11 +254,11 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
     private void PauseOnBlackScreen() {
         //this.IsPaused = true;
 
-        Camera dummyCam = new Camera() {
+        Camera dummyCam = new Camera {
             aspect = (16 / 9),
             allowHDR = false,
             allowMSAA = false,
-            rect = new Rect() {
+            rect = new Rect {
                 height = 0,
                 width = 0
             }
@@ -274,7 +275,17 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
         GUIStyle tmp_genericStyle = new GUIStyle();
         GUI.skin.box = tmp_genericStyle;
-        GUI.Box(new Rect(0, 0, Screen.width, Screen.height), tex);
+
+        GUI.Box(
+            position: new Rect {
+                x = 0,
+                y = 0,
+                width = Screen.width,
+                height = Screen.height
+            },
+
+            image: tex
+        );
     }
 
     private void PauseOnLogo() {

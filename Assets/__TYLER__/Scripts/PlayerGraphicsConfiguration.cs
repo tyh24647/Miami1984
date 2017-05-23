@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class PlayerGraphicsConfiguration : MonoBehaviour {
 
@@ -78,7 +79,12 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
 
             var evSystem = EventSystem.current;
             evSystem.SetSelectedGameObject(null);
-            ApplyButton.OnSelect(new BaseEventData(evSystem));
+
+            ApplyButton.OnSelect(
+                eventData: new BaseEventData(
+                    eventSystem: evSystem
+                )
+            );
         } else {
             Log.w("Unable to locate \'ApplyButton\'");
         }
@@ -94,12 +100,13 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
     #endregion
 
     #region PRIVATE FUNCTIONS
+
     private void ConfigureResolutionDropdown() {
         this.ResolutionChanged = false;
 
         var rList = Screen.resolutions;
         if (rList.Length > 0) {
-            this.SupportedResolutions = new List<string>(rList.Length);
+            SupportedResolutions = new List<string>(rList.Length);
             foreach (var res in rList) {
                 SupportedResolutions.Add(res.ToString());
             }
@@ -140,71 +147,28 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
     }
 
     private void AutoDetectAdvancedSettingsObjects() {
+
+        // get applicable buttons from parent
         if (ObjUtils.List.IsNullOrEmpty(Buttons)) {
-            var parentButtons = GetComponentsInParent<Button>();
-            if (parentButtons != null && parentButtons.Length > 0) {
-                var buttonObjs = new List<GameObject>();
-                foreach (var button in parentButtons) {
-                    if (button.tag.ToLower().Contains("advanced")) {
-                        buttonObjs.Add(button.gameObject);  // add the gameobject instead of the button
-                    }
-                }
-
-                if (buttonObjs != null && buttonObjs.Count > 0) {
-                    Buttons = ObjUtils.List.AddAll(Buttons, buttonObjs);
-                }
-            }
-
-            var parentTextObjs = GetComponentsInParent<Text>();
-            if (parentTextObjs != null && parentTextObjs.Length > 0) {
-                var textObjs = new List<GameObject>();
-                foreach (var obj in parentTextObjs) {
-                    if (obj.tag.ToLower().Contains("advanced")) {
-                        textObjs.Add(obj.gameObject);
-                    }
-                }
-
-                if (textObjs != null && textObjs.Count > 0) {
-                    TextObjects = ObjUtils.List.AddAll(TextObjects, textObjs);
-                }
-            }
+            Buttons = GetComponentsInParent<Button>().Where(
+                (b) => b.tag.ToLower().Contains("advanced")).Cast<GameObject>().ToList();
+            TextObjects = GetComponentsInParent<Text>().Where(
+                (t) => t.tag.ToLower().Contains("advanced")).Cast<GameObject>().ToList();
         }
 
         if (Buttons != null && TextObjects != null) {
-            AdvancedSettingsObjects = new List<GameObject>(
-                Buttons.Count + TextObjects.Count
-            );
-
-            foreach (var button in Buttons) {
-                if (button != null) {
-                    AdvancedSettingsObjects.Add(button);
-                }
-            }
-
-            foreach (var txtObj in TextObjects) {
-                if (txtObj != null) {
-                    AdvancedSettingsObjects.Add(txtObj);
-                }
-            }
+            AdvancedSettingsObjects = new List<GameObject>(Buttons.Count + TextObjects.Count);
+            AdvancedSettingsObjects.AddRange(Buttons);
+            AdvancedSettingsObjects.AddRange(TextObjects);
         }
     }
 
     private void AutoDetectInputFields() {
         var inputFieldGameObjs = GameObject.FindGameObjectsWithTag("InputField");
-        List<InputField> inputFields = null;
 
-        if (!ObjUtils.List.IsNullOrEmpty(inputFieldGameObjs)) {
-            inputFields = new List<InputField>(inputFieldGameObjs.Length);
-
-            if (inputFields != null && inputFields.Count > 0) {
-                foreach (var inputField in inputFields) {
-                    if (!ShadowDistanceField) {
-                        if (inputField.name.ToLower().Equals("ShadowDistanceInput".ToLower())) {
-                            ShadowDistanceField = inputField;
-                        }
-                    }
-                }
-            }
+        if (!ObjUtils.IsNullOrEmpty(inputFieldGameObjs)) {
+            ShadowDistanceField = inputFieldGameObjs.FirstOrDefault(
+                (inputObj) => inputObj.name.ToLower().Contains("ShadowDistanceInput".ToLower())).GetComponent<InputField>();
         }
     }
     #endregion
@@ -232,16 +196,13 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
         if (ResolutionChanged) {
             Log.d("Changing resolution to \"" + Screen.resolutions[SelectedResolutionIndex] + "\"...");
 
-            // sets the resolution to the changed value
             Screen.SetResolution(
-                SelectedResolution.width,
-                SelectedResolution.height,
-                true,
-                SelectedResolution.refreshRate
+                width: SelectedResolution.width,
+                height: SelectedResolution.height,
+                fullscreen: true,
+                preferredRefreshRate: SelectedResolution.refreshRate
             );
 
-            // resets 'initial resolution' in order for the new value 
-            // to be the default in which the others are compared
             this.InitialResolution = Screen.currentResolution;
             Log.d("Resolution changed successfully");
         }
@@ -264,7 +225,7 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
             var parsed = float.TryParse(sender.text, out result);
             if (parsed) {
                 if (result.CompareTo(DefaultShadowDistanceBeforeChanged) != 0) {
-                    if (sender.name.ToLower().Contains("shadowdistance")) {
+                    if (sender.name.ToLower().Contains("ShadowDistance".ToLower())) {
                         Log.d("Attempting to change settings for \'"
                               + QualitySettings.shadowDistance.GetType().Name
                               + "To value " + result.ToString());
@@ -291,6 +252,7 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
                 )
             );
 
+            // recalculate vertical input height--updates GUI for new buttons
             var verticalLayout = GameObject.FindWithTag("UIScrollView").GetComponent<VerticalLayoutGroup>();
             verticalLayout.CalculateLayoutInputVertical();
         } else {
@@ -298,8 +260,11 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
         }
 
         this.ShowAdvancedSettings = !ShowAdvancedSettings;  // toggle view mode
-        foreach (var obj in AdvancedSettingsObjects) {
-            obj.SetActive(ShowAdvancedSettings);
+
+        if (!ObjUtils.IsNullOrEmpty(AdvancedSettingsObjects)) {
+            foreach (var obj in AdvancedSettingsObjects) {
+                obj.SetActive(ShowAdvancedSettings);
+            }
         }
 
         if (!ShowAdvancedButton) {
