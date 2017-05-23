@@ -182,7 +182,7 @@ public static class ObjUtils {
 
         public static List<GameObject> AddAll(GameObject[] rootList, List<GameObject> listToAdd) {
             return AddAll(
-                rootList: rootList,
+                rootList: rootList.ToList(),
                 listToAdd: listToAdd
             );
         }
