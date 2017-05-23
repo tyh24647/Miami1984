@@ -224,7 +224,7 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
             var result = DefaultShadowDistanceBeforeChanged;
             var parsed = float.TryParse(sender.text, out result);
             if (parsed) {
-                if (result.CompareTo(DefaultShadowDistanceBeforeChanged) != 0) {
+                if (!Mathf.Approximately(result, DefaultShadowDistanceBeforeChanged)) {
                     if (sender.name.ToLower().Contains("ShadowDistance".ToLower())) {
                         Log.d("Attempting to change settings for \'"
                               + QualitySettings.shadowDistance.GetType().Name
