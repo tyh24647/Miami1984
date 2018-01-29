@@ -50,31 +50,31 @@ namespace __TYLER__.Scripts {
 
         // Update is called once per frame
         void Update() {
-            if (Input.mousePosition.x < screenBoundsWidth && Input.mousePosition.y < screenBoundsHeight) {
-                if (Input.mousePosition.x > (screenBoundsWidth - boundary)) {
-                    position.x += speed * Time.deltaTime;
-                }
-            }
+            //if (Input.mousePosition.x < screenBoundsWidth && Input.mousePosition.y < screenBoundsHeight) {
+            //    if (Input.mousePosition.x > (screenBoundsWidth - boundary)) {
+            //        position.x += speed * Time.deltaTime;
+            //    }
+            //}
 
-            if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
-                if (Input.mousePosition.x < 0 + boundary) {
-                    position.x -= speed * Time.deltaTime;
-                }
-            }
+            //if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
+            //    if (Input.mousePosition.x < 0 + boundary) {
+            //        position.x -= speed * Time.deltaTime;
+            //    }
+            //}
 
-            if (Input.mousePosition.y < screenBoundsHeight && Input.mousePosition.x < screenBoundsWidth) {
-                if (Input.mousePosition.y > screenBoundsHeight - 10) {
-                    position.y += speed * Time.deltaTime;
-                }
-            }
+            //if (Input.mousePosition.y < screenBoundsHeight && Input.mousePosition.x < screenBoundsWidth) {
+            //    if (Input.mousePosition.y > screenBoundsHeight - 10) {
+            //        position.y += speed * Time.deltaTime;
+            //    }
+            //}
 
-            if (Input.mousePosition.y > 0 && Input.mousePosition.x > 0) {
-                if (Input.mousePosition.y < 0 + boundary) {
-                    position.y -= speed * Time.deltaTime;
-                }
-            }
+            //if (Input.mousePosition.y > 0 && Input.mousePosition.x > 0) {
+            //    if (Input.mousePosition.y < 0 + boundary) {
+            //        position.y -= speed * Time.deltaTime;
+            //    }
+            //}
 
-            GetComponent<Camera>().transform.position = position;
+            //GetComponent<Camera>().transform.position = position;
         }
     }
 }

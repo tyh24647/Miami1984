@@ -14,13 +14,12 @@ class suimono_module_editor extends Editor {
 	var showUnderwater : boolean = false;
 	var colorEnabled : Color = Color(1.0,1.0,1.0,1.0);
 	var colorDisabled : Color = Color(1.0,1.0,1.0,0.25);
-	var colorWarning : Color = Color(0.9,0.5,0.1,1.0);
-
-	var logoTexb : Texture;// = Resources.Load("textures/gui_tex_suimonologob");
-	var divTex : Texture;// = Resources.Load("textures/gui_tex_suimonodiv");
-	var divRevTex : Texture;// = Resources.Load("textures/gui_tex_suimonodivrev");
-	var divVertTex : Texture;// = Resources.Load("textures/gui_tex_suimono_divvert");
-	var divHorizTex : Texture;// = Resources.Load("textures/gui_tex_suimono_divhorz");
+	
+	var logoTexb : Texture = Resources.Load("textures/gui_tex_suimonologob");
+	var divTex : Texture = Resources.Load("textures/gui_tex_suimonodiv");
+	var divRevTex : Texture = Resources.Load("textures/gui_tex_suimonodivrev");
+	var divVertTex : Texture = Resources.Load("textures/gui_tex_suimono_divvert");
+	var divHorizTex : Texture = Resources.Load("textures/gui_tex_suimono_divhorz");
 	
  	var showCaustic : boolean = false;
  	//var showSplash : boolean = false;
@@ -35,21 +34,17 @@ class suimono_module_editor extends Editor {
     function OnInspectorGUI () {
     		
     		
-        //load textures
-		logoTexb = Resources.Load("textures/gui_tex_suimonologob");
-		divTex = Resources.Load("textures/gui_tex_suimonodiv");
-		divRevTex = Resources.Load("textures/gui_tex_suimonodivrev");
-		divVertTex = Resources.Load("textures/gui_tex_suimono_divvert");
-		divHorizTex = Resources.Load("textures/gui_tex_suimono_divhorz");
-
-		#if UNITY_PRO_LICENSE
-			divTex = Resources.Load("textures/gui_tex_suimonodiv");
-			logoTexb = Resources.Load("textures/gui_tex_suimonologob");
-		#else
+        //check for unity vs unity pro & load textures
+        //#if !UNITY_4_3
+		//if (!PlayerSettings.advancedLicense){
+		if (!target.useDarkUI){
 			divTex = Resources.Load("textures/gui_tex_suimonodiv_i");
-			logoTexb = Resources.Load("textures/gui_tex_suimonologob_i");	
-		#endif
-
+			logoTexb = Resources.Load("textures/gui_tex_suimonologob_i");
+		} else {
+			divTex = Resources.Load("textures/gui_tex_suimonodiv");
+			logoTexb = Resources.Load("textures/gui_tex_suimonologob");	
+		}
+		//#endif
 
 		var setWidth = Screen.width-220;
 		if (setWidth < 120) setWidth = 120;
@@ -66,7 +61,7 @@ class suimono_module_editor extends Editor {
 		EditorGUI.LabelField(Rect(rt.x+margin+2, rt.y+37, 50, 18),"Version");
 		GUI.contentColor = Color(1.0,1.0,1.0,0.6);
 		
-		var linkVerRect : Rect = Rect(rt.x+margin+51, rt.y+37, 90, 18);
+		var linkVerRect : Rect = Rect(rt.x+margin+51, rt.y+37, 40, 18);
 		EditorGUI.LabelField(linkVerRect,target.suimonoVersionNumber);
 		//if (Event.current.type == EventType.MouseUp && linkVerRect.Contains(Event.current.mousePosition)) Application.OpenURL("http://www.tanukidigital.com/suimono/");
 		
@@ -112,270 +107,101 @@ class suimono_module_editor extends Editor {
         //GUILayout.Space(10.0);
         verAdd = 0;
         GUI.contentColor = colorEnabled;
-		GUI.Label (Rect (rt.x+margin+10, rt.y+5, 300, 20), GUIContent ("CONFIGURATION"));
-
-
-		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+25, 180, 18),"Camera Mode");
-		target.cameraTypeIndex = EditorGUI.Popup(Rect(rt.x+margin+165, rt.y+25, 150, 18),"", target.cameraTypeIndex, target.cameraTypeOptions);
-		if (target.cameraTypeIndex == 0){
-        	GUI.contentColor = colorDisabled;
-        	GUI.backgroundColor = colorDisabled;
-		}
-
+		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+25, 130, 18),"Unity Version Target");
+		target.unityVersionIndex = EditorGUI.Popup(Rect(rt.x+margin+165, rt.y+25, setWidth, 18),"",target.unityVersionIndex, target.unityVersionOptions);
+       	if (target.unityVersionIndex != 2 && target.unityVersionIndex != 3){
+       		GUI.contentColor  = Color(1,1,1,0.4);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+40, 360, 18),"Note: Features marked in grey are only available in Unity Pro");
+       		verAdd = 20;
+       		GUI.contentColor  = colorEnabled;
+       	}
+       		
 		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+verAdd+45, 140, 18),"Scene Camera Object");
-		target.manualCamera = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+45, setWidth, 18),"",target.manualCamera, Transform, true);
-
-        GUI.contentColor = colorEnabled;
-        GUI.backgroundColor = colorEnabled;
-		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+verAdd+75, 140, 18),"Scene Track Object");
-		target.setTrack = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+75, setWidth, 18),"",target.setTrack, Transform, true);
-		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+verAdd+95, 140, 18),"Scene Light Object");
-		target.setLight = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+95, setWidth, 18),"",target.setLight, Light, true);
+		target.setCamera = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+45, setWidth, 18),"",target.setCamera, Transform, true);
+		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+verAdd+65, 140, 18),"Scene Track Object");
+		target.setTrack = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+65, setWidth, 18),"",target.setTrack, Transform, true);
+		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+verAdd+85, 140, 18),"Suimono Sound Object");
+		target.soundObject = EditorGUI.ObjectField(Rect(rt.x+margin+165, rt.y+verAdd+85, setWidth, 18),"",target.soundObject, Transform, true);
 			
-		GUILayout.Space(110.0+verAdd);
+		GUILayout.Space(100.0+verAdd);
 		
-
-
-
-
-
-
 		rt = GUILayoutUtility.GetRect(buttonText, buttonStyle);
         EditorGUI.DrawPreviewTexture(Rect(rt.x+margin,rt.y,387,24),divTex);
 		target.showGeneral = EditorGUI.Foldout(Rect (rt.x+margin+3, rt.y+5, 20, 20), target.showGeneral, "");
-       	GUI.Label (Rect (rt.x+margin+10, rt.y+5, 300, 20), GUIContent ("GENERAL SETTINGS"));
-       	
-       	GUI.color.a = 0.0;
-		if (GUI.Button(Rect(rt.x+margin+10, rt.y+5, 370, 20),"")) target.showGeneral = !target.showGeneral;
-		GUI.color.a = 1.0;
-
+       	GUI.Label (Rect (rt.x+margin+20, rt.y+5, 300, 20), GUIContent ("GENERAL SETTINGS"));
+       	 	
        	if (target.showGeneral){
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+30, 140, 18),"Enable Sounds");
-			target.playSounds = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+30, setWidth, 18),"", target.playSounds);
-			if (!target.playSounds){
-				GUI.contentColor = colorDisabled;
-				GUI.backgroundColor = colorDisabled;
-			}
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+30, 140, 18),"Enable Sounds");
+			target.playSounds = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+30, setWidth, 18),"", target.playSounds);
 			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+50, 140, 18),"Max Sound Volume");
 			target.maxVolume = EditorGUI.Slider(Rect(rt.x+margin+165, rt.y+50, setWidth, 18),"",target.maxVolume,0.0,1.0);
-			GUI.contentColor = colorEnabled;
-			GUI.backgroundColor = colorEnabled;
+			
+			
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+70, 140, 18),"Enable Underwater FX");
+			target.enableUnderwaterFX = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+70, setWidth, 18),"", target.enableUnderwaterFX);
+			//target.enableUnderwaterDeferred = EditorGUI.Toggle(Rect(rt.x+margin+210, rt.y+80, 200, 18),"Use Deferred Renderer", target.enableUnderwaterDeferred);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+90, 140, 18),"Enable Transition FX");		
+			target.enableTransition = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+90, setWidth, 18),"", target.enableTransition);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+110, 140, 18),"Underwater Offset");
+			target.transition_offset = EditorGUI.Slider(Rect(rt.x+margin+165, rt.y+110, setWidth, 18),"",target.transition_offset,0.0,1.0);		
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+130, 140, 18),"FX Offset");
+			target.cameraPlane_offset = EditorGUI.Slider(Rect(rt.x+margin+165, rt.y+130, setWidth, 18),"",target.cameraPlane_offset,0.1,5.0);
+			//target.manageShaders = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+130, 170, 18),"Manage Shaders", target.manageShaders);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+150, 140, 18),"Enable Interaction");
+			target.enableInteraction = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+150, setWidth, 18),"", target.enableInteraction);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+170, 140, 18),"Show Debug");
+			target.showDebug = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+170, setWidth, 18),"", target.showDebug);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+190, 140, 18),"Use Dark Skin");
+			target.useDarkUI = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+190, setWidth, 18),"",target.useDarkUI);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+210, 140, 18),"Use UV Reversal");
+			target.useUVReversal = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+210, setWidth, 18),"",target.useUVReversal);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+230, 140, 18),"Include Presets in Build");
+			target.includePresetsInBuild = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+230, setWidth, 18),"",target.includePresetsInBuild);
+			if (target.includePresetsInBuild){
+			EditorGUI.HelpBox(Rect(rt.x+margin+10, rt.y+250, setWidth+165, 55),"Note: This option enables accessing preset data in game builds.  You must manually move the _PRESETS.txt files that are located under /RESOURCES into the '/Resources' folder in your build; otherwise, errors in the generation of your water surfaces may occur.",MessageType.None);
+			GUILayout.Space(50.0);
+			}
 
-				EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+70, 160, 18),"Enable Underwater Sound");
-				target.playSoundBelow = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+70, 20, 18),"", target.playSoundBelow);
-				EditorGUI.LabelField(Rect(rt.x+margin+220, rt.y+70, 160, 18),"Enable Above-Water Sound");
-				target.playSoundAbove = EditorGUI.Toggle(Rect(rt.x+margin+200, rt.y+70, 20, 18),"", target.playSoundAbove);
-
-			EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+95,372,1),divHorizTex);
-
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+100, 140, 18),"Enable Underwater FX");
-			target.enableUnderwaterFX = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+100, 130, 18),"", target.enableUnderwaterFX);
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+120, 140, 18),"Enable Transition FX");		
-			target.enableTransition = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+120, 130, 18),"", target.enableTransition);
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+140, 110, 18),"Enable Interaction");
-			target.enableInteraction = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+140, 130, 18),"", target.enableInteraction);
-
-
-
-			//EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+122,372,1),divHorizTex);
-
-			//EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+130, 140, 18),"FX Offset");
-			//target.cameraPlane_offset = EditorGUI.Slider(Rect(rt.x+margin+165, rt.y+130, setWidth, 18),"",target.cameraPlane_offset,0.001,5.0);
-
-
-			GUILayout.Space(120.0);
+			GUILayout.Space(240.0);
 		}
 		GUILayout.Space(10.0);
 		
 		
-
-
-
 		rt = GUILayoutUtility.GetRect(buttonText, buttonStyle);
         EditorGUI.DrawPreviewTexture(Rect(rt.x+margin,rt.y,387,24),divTex);
        	target.showPerformance = EditorGUI.Foldout(Rect (rt.x+margin+3, rt.y+5, 20, 20), target.showPerformance, "");
-       	GUI.Label (Rect (rt.x+margin+10, rt.y+5, 300, 20), GUIContent ("ADVANCED WATER SETTINGS"));
-       	
-       	GUI.color.a = 0.0;
-		if (GUI.Button(Rect(rt.x+margin+10, rt.y+5, 370, 20),"")) target.showPerformance = !target.showPerformance;
-		GUI.color.a = 1.0;
-
-
+       	GUI.Label (Rect (rt.x+margin+20, rt.y+5, 300, 20), GUIContent ("PERFORMANCE SETTINGS"));
+       	 	
        	if (target.showPerformance){
 
-
-
-
-        	GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-        	//EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+26,372,1),divHorizTex);
-			target.enableTransparency = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+30, 20, 18),"", target.enableTransparency);
-			if (!target.enableTransparency){
-				GUI.contentColor = colorDisabled;
-				GUI.backgroundColor = colorDisabled;
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+30, 160, 18),"WATER TRANSPARENCY");
-
-			if (!target.enableTransparency){
-				GUI.contentColor = colorDisabled;
-				GUI.backgroundColor = colorDisabled;
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+230, rt.y+47, 180, 18),"Render Layers");
-			if (target.gameObject.activeInHierarchy){
-				target.transLayer = EditorGUI.MaskField(Rect(rt.x+margin+230, rt.y+67, 150, 18),"", target.transLayer, target.suiLayerMasks);
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+110, rt.y+47, 180, 18),"Use Resolution");
-			if (target.gameObject.activeInHierarchy){
-				target.transResolution = EditorGUI.Popup(Rect(rt.x+margin+110, rt.y+67, 100, 18),"", target.transResolution, target.resOptions);
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+47, 100, 18),"Distance");
-	        target.transRenderDistance = EditorGUI.FloatField(Rect(rt.x+margin+30, rt.y+67, 60, 18),"",target.transRenderDistance);
-
-
-
-			GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-        	EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+95,372,1),divHorizTex);
-			target.enableReflections = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+103, 20, 18),"", target.enableReflections);
-			if (!target.enableReflections){
-				GUI.contentColor = colorDisabled;
-				GUI.backgroundColor = colorDisabled;
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+103, 160, 18),"WATER REFLECTIONS");
-			EditorGUI.LabelField(Rect(rt.x+margin+50, rt.y+123, 170, 18),"Enable Dynamic Reflections");
-			target.enableDynamicReflections = EditorGUI.Toggle(Rect(rt.x+margin+30, rt.y+123, setWidth, 18),"", target.enableDynamicReflections);
-        	GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-
-
-
-
-        	EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+145,372,1),divHorizTex);
-			target.enableCaustics = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+150, 20, 18),"", target.enableCaustics);
-
-			if (!target.enableCaustics){
-				GUI.contentColor = colorDisabled;
-        		GUI.backgroundColor = colorDisabled;
-			}
-
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+150, 160, 18),"CAUSTIC FX");
-
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+170, 140, 18),"FPS");
-			target.causticObject.causticFPS = EditorGUI.IntField(Rect(rt.x+margin+30, rt.y+185, 30, 18),"",target.causticObject.causticFPS);
-
-			EditorGUI.LabelField(Rect(rt.x+margin+90, rt.y+170, 140, 18),"Caustic Tint");
-			target.causticObject.causticTint = EditorGUI.ColorField(Rect(rt.x+margin+90, rt.y+187, 120, 14),"",target.causticObject.causticTint);
+       		//target.enableRefraction = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+30, 170, 18),"Use Refraction & Blur FX", target.enableRefraction);
+       		if (target.unityVersionIndex==2 || target.unityVersionIndex==3){
+       			GUI.contentColor  = colorEnabled;
+       		} else {
+       			GUI.contentColor  = colorDisabled;
+       		}
+       		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+30, 140, 18),"Use Dynamic Reflections");
+       		target.enableDynamicReflections = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+30, setWidth, 18),"", target.enableDynamicReflections);
+			GUI.contentColor  = colorEnabled;
 			
-			EditorGUI.LabelField(Rect(rt.x+margin+230, rt.y+170, 100, 18),"Render Layers");
-			if (target.gameObject.activeInHierarchy){
-				target.causticLayer = EditorGUI.MaskField(Rect(rt.x+margin+230, rt.y+187, 155, 18),"", target.causticLayer, target.suiLayerMasks);
-			}
-
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+210, 100, 18),"Bright");
-			target.causticObject.causticIntensity = EditorGUI.Slider(Rect(rt.x+margin+90, rt.y+210, 120, 18),"",target.causticObject.causticIntensity,0.0,3.0);
-
-			EditorGUI.LabelField(Rect(rt.x+margin+230, rt.y+210, 80, 18),"Scale");
-			target.causticObject.causticScale = EditorGUI.Slider(Rect(rt.x+margin+275, rt.y+210, 115, 18),"",target.causticObject.causticScale,0.5,15.0);
-
-
-			//EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+235, 100, 18),"Scene Light");
-			//target.causticObject.sceneLightObject = EditorGUI.ObjectField(Rect(rt.x+margin+110, rt.y+235, 110, 18),"",target.causticObject.sceneLightObject, Light, true);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+50, 140, 18),"Number of Caustics");
+			target.causticObjectNum = EditorGUI.IntSlider(Rect(rt.x+margin+165, rt.y+50, setWidth, 18),"",target.causticObjectNum,0,45);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+70, 140, 18),"Enable Mobile Caustics");
+			target.causticsOnMobile = EditorGUI.Toggle(Rect(rt.x+margin+165, rt.y+70, setWidth, 18),"", target.causticsOnMobile);
+			EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+90, 140, 18),"Blur Quality Samples");
+			target.blurSamples = EditorGUI.IntSlider(Rect(rt.x+margin+165, rt.y+90, setWidth, 18),"",target.blurSamples,2,45);
 			
-			if (target.setLight == null){
-				GUI.contentColor = colorDisabled;
-        		GUI.backgroundColor = colorDisabled;
-			}
-			target.causticObject.inheritLightColor = EditorGUI.Toggle(Rect(rt.x+margin+30, rt.y+235, 120, 18),"", target.causticObject.inheritLightColor);
-			EditorGUI.LabelField(Rect(rt.x+margin+50, rt.y+235, 140, 18),"Inherit Light Color");
-			target.causticObject.inheritLightDirection = EditorGUI.Toggle(Rect(rt.x+margin+200, rt.y+235, 120, 18),"", target.causticObject.inheritLightDirection);
-			EditorGUI.LabelField(Rect(rt.x+margin+220, rt.y+235, 140, 18),"Inherit Light Direction");
-        	
-        	if (target.enableCaustics){
-	        	GUI.contentColor = colorEnabled;
-	        	GUI.backgroundColor = colorEnabled;
-	        }
-			target.enableCausticsBlending = EditorGUI.Toggle(Rect(rt.x+margin+30, rt.y+255, 120, 18),"", target.enableCausticsBlending);
-			EditorGUI.LabelField(Rect(rt.x+margin+50, rt.y+255, 320, 18),"Enable Advanced Caustic FX (effects performance)");
-
-        	GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-
-
-
-
-
-
-        	EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+285,372,1),divHorizTex);
-			target.enableAdvancedDistort = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+290, 20, 18),"", target.enableAdvancedDistort);
-			if (!target.enableAdvancedDistort){
-				GUI.contentColor = colorDisabled;
-        		GUI.backgroundColor = colorDisabled;
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+290, 340, 18),"ADVANCED WAKE AND DISTORTION EFFECTS");
-        	GUI.contentColor = colorDisabled;
-        	GUI.backgroundColor = colorDisabled;
-        	EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+305, 340, 18),"Enables rendering of advanced scene effects such as wake");
-        	EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+317, 340, 18),"and boat trail generation and water ripple distortion fx.");
-			GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-
-
-
-        	EditorGUI.DrawPreviewTexture(Rect(rt.x+margin+10,rt.y+340,372,1),divHorizTex);
-			target.enableAutoAdvance = EditorGUI.Toggle(Rect(rt.x+margin+10, rt.y+345, 20, 18),"", target.enableAutoAdvance);
-			if (!target.enableAutoAdvance){
-				GUI.contentColor = colorDisabled;
-        		GUI.backgroundColor = colorDisabled;
-			}
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+345, 340, 18),"AUTO-ADVANCE SYSTEM TIMER");
-	        target.systemTime = EditorGUI.FloatField(Rect(rt.x+margin+260, rt.y+345, 120, 18),"",target.systemTime);
-			
-
-        	GUI.contentColor = colorDisabled;
-        	GUI.backgroundColor = colorDisabled;
-        	EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+360, 340, 18),"the 'systemTime' variable is automatically advanced by");
-        	EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+372, 340, 18),"default.  This variable can be shared across a network to");
-			EditorGUI.LabelField(Rect(rt.x+margin+30, rt.y+384, 340, 18),"sync wave positions between client and server computers.");
-
-
-			GUI.contentColor = colorEnabled;
-        	GUI.backgroundColor = colorEnabled;
-
+					
 
 			
-			GUILayout.Space(390.0);
+			//GUILayout.Space(40.0);s
 				
 		}
        	GUILayout.Space(10.0);
 			
 
 				
-
-
-
-
-
-
-       	if (target.useTenkoku == 1.0){
-			rt = GUILayoutUtility.GetRect(buttonText, buttonStyle);
-	        EditorGUI.DrawPreviewTexture(Rect(rt.x+margin,rt.y,387,24),divTex);
-	       	target.showTenkoku = EditorGUI.Foldout(Rect (rt.x+margin+3, rt.y+5, 20, 20), target.showTenkoku, "");
-	       	GUI.Label (Rect (rt.x+margin+20, rt.y+5, 300, 20), GUIContent ("TENKOKU SKY SYSTEM - INTEGRATION"));
-	       	 	
-	       	if (target.showTenkoku){
-
-	       		EditorGUI.LabelField(Rect(rt.x+margin+10, rt.y+30, 140, 18),"Use Wind Settings");
-	       		target.tenkokuUseWind = EditorGUI.Toggle(Rect(rt.x+margin+125, rt.y+30, setWidth, 18),"", target.tenkokuUseWind);
-				
-				EditorGUI.LabelField(Rect(rt.x+margin+195, rt.y+30, 150, 18),"Calculate Sky Reflections");
-	       		target.tenkokuUseReflect = EditorGUI.Toggle(Rect(rt.x+margin+350, rt.y+30, setWidth, 18),"", target.tenkokuUseReflect);
-
-			}
-	       	GUILayout.Space(50.0);
-       	}
-	    GUILayout.Space(10.0);
-
-
+			
 	        //target.setCamera = EditorGUILayout.ObjectField("Scene Camera Object",target.setCamera, Transform, true);
 
 	        //target.setTrack = EditorGUILayout.ObjectField("Scene Track Object",target.setTrack, Transform, true);
@@ -389,7 +215,7 @@ class suimono_module_editor extends Editor {
 	        //target.soundObject = EditorGUILayout.ObjectField("Suimono Sound Object",target.soundObject, Transform, true);
 	        //target.playSounds = EditorGUILayout.Toggle("Enable Sounds", target.playSounds);
 			//target.maxVolume = EditorGUILayout.Slider("Max Sound Volume",target.maxVolume,0.0,1.0);
-			//GUILayout.Space(186.0);
+			GUILayout.Space(186.0);
 			
 	        //GENERAL SETTINGS
 

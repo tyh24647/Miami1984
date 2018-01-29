@@ -8,12 +8,11 @@ Properties {
 }
 
 Category {
-	Tags { "Queue"="Overlay+22" "IgnoreProjector"="True"}
+	Tags { "Queue"="Overlay" "IgnoreProjector"="True"} //overlay
 	Blend SrcAlpha OneMinusSrcAlpha
-	Cull Off
-	Lighting Off
-	ZWrite Off
-	Fog{Mode Off}
+	//AlphaTest Greater .01
+	//ColorMask RGB
+	Cull Off Lighting Off ZWrite Off Fog{Mode Off}
 
 	
 	BindChannels {
@@ -22,11 +21,10 @@ Category {
 		Bind "TexCoord", texcoord
 	}
 	
+
 	SubShader {
 		Pass {
-			Tags{ "LightMode" = "ForwardBase" }
-			Lighting On
-
+		
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -34,12 +32,10 @@ Category {
 			#pragma multi_compile_particles
 			
 			#include "UnityCG.cginc"
-            #include "AutoLight.cginc"
 
 			sampler2D _MainTex;
 			float4 _TintColor;
-			uniform float4 _LightColor0;
-
+			
 			struct appdata_t {
 				float4 vertex : POSITION;
 				float4 color : COLOR;
@@ -50,7 +46,6 @@ Category {
 				float4 vertex : POSITION;
 				float4 color : COLOR;
 				float2 texcoord : TEXCOORD0;
-				LIGHTING_COORDS(3,4)
 			};
 			
 			float4 _MainTex_ST;
@@ -61,8 +56,6 @@ Category {
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
-
-				o.color = o.color * _LightColor0;
 				return o;
 			}
 
@@ -71,8 +64,8 @@ Category {
 			
 			half4 frag (v2f i) : COLOR
 			{
-				half la = LIGHT_ATTENUATION(i);
-				return 1.0f * _TintColor * i.color * tex2D(_MainTex, i.texcoord) * la;
+
+				return 3.0f * _TintColor * i.color * tex2D(_MainTex, i.texcoord);
 			}
 			ENDCG 
 			
@@ -82,7 +75,9 @@ Category {
 	
 	
 	
-
+	
+	
+	
 	
 	// ---- Dual texture cards
 	SubShader {

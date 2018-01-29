@@ -97,7 +97,7 @@ Pass{
 		effectUVs = i.uv;
 		float3 normal2 = UnpackNormal(tex2D(_HeightMap, effectUVs));
    
-		normal2 = normal2 * float3(21, 11, 0.5);
+		normal2 *= float3(21, 11, 0.5);
 		
 		//grab original background
 		half4 oCol = half4(tex2Dproj(_waterTex1, UNITY_PROJ_COORD(i.uvgrab)).rgb, 1);
@@ -116,6 +116,7 @@ Pass{
 		float3 combinedNormal2 = normalize(normal1 * normal2);
 		float2 offset2 = combinedNormal2.xy * _Strength * _GrabTexture_TexelSize.xy * 1.25;  //5
 		i.uvs.xy = (offset2 * i.uvs.z) + i.uvs.xy;
+		i.uvs.zw *= 1.0;
 		
 		//Sample Depth
 		half drefr = Linear01Depth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.uvs)).r);//i.ref
@@ -126,7 +127,7 @@ Pass{
 		//if (colMask >= 0.999)
 			oCol = rCol;
 
-		oCol.rgb = oCol.rgb * ((1.0 + (0.05 * _Overlay)) + (_DepthColor.rgb * MTex.g * 0.25));
+		oCol.rgb *= (1.0 + (0.05 * _Overlay)) + (_DepthColor.rgb * MTex.g * 0.25);
 		oCol -= (((1.0-MTex.r)*0.1)*_Overlay);
 		oCol.a = MTex.r * i.color.a * _DepthColor.a;// * 1.65;//(MTex.r*1.5);
 		

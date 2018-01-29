@@ -4,7 +4,7 @@ timeCreated: 1495358137
 licenseType: Free
 VideoClipImporter:
   serializedVersion: 2
-  useLegacyImporter: 0
+  useLegacyImporter: 1
   quality: 0.5
   isColorLinear: 0
   originalWidth: 640
@@ -24,7 +24,16 @@ VideoClipImporter:
   importAudio: 0
   sourceAudioChannelCount: 
   sourceAudioSampleRate: 
-  targetSettings: {}
+  targetSettings:
+    0:
+      enableTranscoding: 0
+      codec: 0
+      resizeFormat: 0
+      aspectRatio: 0
+      customWidth: 640
+      customHeight: 368
+      bitrateMode: 2
+      spatialQuality: 2
   output:
     format: 0
     settings:

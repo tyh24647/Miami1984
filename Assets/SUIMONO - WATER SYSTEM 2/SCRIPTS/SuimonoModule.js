@@ -6,94 +6,87 @@
 //Underwater Effects variables
 var suimonoVersionNumber : String = "";
 
-var systemTime : float = 0.0;
+var unityVersionIndex : int;// = 1;
+var unityVersionUseIndex : int;//;
+var unityVersionOptions = new Array("Unity","Unity DX11","Unity Pro","Unity Pro DX11","Unity iOS  ( experimental )","Unity Android  ( experimental )");
 
-//layers
-var layerWater : String;
-var layerWaterNum : int = 28;
-var layerDepth : String;
-var layerDepthNum : int = 29;
-var layerScreenFX : String;
-var layerScreenFXNum : int = 30;
-var layerUnderwater : String;
+var includePresetsInBuild : boolean = false;
 
-var layersAreSet : boolean = false;
-
-#if UNITY_EDITOR
-	var tagManager : SerializedObject;
-	var projectlayers : SerializedProperty;
-#endif
-
+var useDarkUI : boolean = true;
+var useUVReversal : boolean = false;
+var isUnityPro : boolean = true;
 var unityVersion : String = "---";
-
-var manualCamera : Transform;
-var mainCamera : Transform;
-var cameraTypeIndex : int = 0;
-var cameraTypeOptions = new Array("Auto Select Camera","Manual Select Camera");
 var setCamera : Transform;
 var setTrack : Transform;
-var setLight : Light;
-
+var enableUnderwaterPhysics : boolean = true;
 var enableUnderwaterFX : boolean = true;
+var enableUnderwaterDeferred : boolean = true;
 var enableInteraction : boolean = true;
-var objectEnableUnderwaterFX : float = 1.0;
 
 var enableRefraction : boolean = true;
-var enableReflections : boolean = true;
 var enableDynamicReflections : boolean = true;
-var enableCaustics : boolean = true;
-var enableCausticsBlending : boolean = false;
-var enableAdvancedEdge : boolean = true;
-var enableAdvancedDistort : boolean = true;
 var enableTenkoku : boolean = false;
-var enableAutoAdvance : boolean = true;
 
 var showPerformance : boolean = false;
 var showGeneral : boolean = false;
 
+var etherealScroll : float = 0.1; 
+
+var enableBlur : boolean = true;
 var underwaterColor : Color = Color(0.58,0.61,0.61,0.0);
 var enableTransition : boolean = true;
+var blurAmount : float = 0.005;
+var refractionAmount : float = 20.0;
+var cameraPlane_offset : float = 0.1;
 var transition_offset : float = 0.1;
-var fxRippleObject : GameObject;
 
+var showDebug : boolean = false;
+var blurSamples : int = 20;
+
+var causticsOnMobile : boolean = false;
+var causticObjectNum : int = 25;
+//private var camRendering : RenderingPath;
+
+var shaderSurface : Shader;
+var shaderUnderwater : Shader;
+var shaderUnderwaterFX : Shader;
+private var shaderDropletsFX : Shader;
+private var debrisShaderFX : Shader;
+
+private var underwaterLevel = 0.0;
+private var underwaterRefractPlane : GameObject;
+private var waterTransitionPlane : GameObject;
+private var waterTransitionPlane2 : GameObject;
 private var underwaterDebris : ParticleSystem;
+
 private var underLightAmt : float = 0.0;
+private var underFogDist : float = 0.0;
+private var underFogSpread : float = 0.0;
 private var reflectColor : Color;
+private var causticsColor : Color;
+private var causticsSizing : float;
+private var hitAmt : float = 1.0;
+private var origDepthAmt : float = 1.0;
+private var origReflColr : Color;
+
 private var refractAmt : float = 0.0;
 private var refractSpd : float = 0.0;
+private var refractScl : float = 0.0;
 
 private var targetSurface : GameObject;
+private var targetObject : SuimonoObject;
 private var doTransitionTimer : float = 0.0;
  
 static var isUnderwater : boolean = false;
 static var doWaterTransition : boolean = false;
 
 
-//transparency
-var enableTransparency : boolean = true;
-var transResolution : int = 3;
-var transLayer : int = 0;
-var transLayerMask : LayerMask;
-var causticLayer : int = 0;
-var causticLayerMask : LayerMask;
-var suiLayerMasks : Array;
-var resOptions = new Array("4096","2048","1024","512","256","128","64","32","16","8");
-var resolutions = new Array(4096,2048,1024,512,256,128,64,32,16,8);
-var transRenderDistance : float = 100;
-private var transToolsObject : cameraTools;
-private var transCamObject : Camera;
-private var causticToolsObject : cameraTools;
-private var causticHandlerObjectTrans : cameraCausticsHandler;
-private var causticHandlerObject : cameraCausticsHandler;
-private var causticCamObject : Camera;
-private var wakeObject : GameObject;
-private var wakeCamObject : Camera;
-private var normalsObject : GameObject;
-private var normalsCamObject : Camera;
 
+
+//splash effects variables
+var alwaysEmitRipples : boolean = false;
+var maxEmission = 5000;
 var playSounds : boolean = true;
-var playSoundBelow : boolean = true;
-var playSoundAbove : boolean = true;
 var maxVolume = 1.0;
 var maxSounds = 10;
 var defaultSplashSound : AudioClip[];
@@ -101,12 +94,39 @@ var soundObject : Transform;
 
 var fxObject : SuimonoModuleFX;
 
+private var isinwater : boolean = false;
+private var atDepth : float = 0.0;
+
+private var splash_rings : Transform;
+private var splash_small : Transform;
+private var splash_med : Transform;
+private var splash_dirt : Transform;
+private var splash_drops : Transform;
+
+private var isPlayingTimer = 0.0;
+
+private var setvolumetarget = 0.65;
 private var setvolume = 0.65;
+
+private var ringsSystem : Renderer;
+//private var ringsParticles : ParticleSystem.Particle[];
+
+//private var ringFoamSystem : ParticleSystem;
+//private var ringFoamParticles : ParticleSystem.Particle[];
+//private var ringFoamParticlesNum : int = 1;
+
+//private var splashSystem : ParticleSystem;
+//private var splashParticles : ParticleSystem.Particle[];
+//private var splashParticlesNum : int = 1;
+
+//private var splashDropSystem : ParticleSystem;
+//private var splashDropParticles : ParticleSystem.Particle[];
+//private var splashDropParticlesNum : int = 1;
 
 private var sndparentobj : fx_soundModule;
 private var underSoundObject : Transform;
-private var underSoundComponent : AudioSource;
-private var sndComponents : AudioSource[];
+private var sndObject = new Array();
+private var sndObjects : Transform[];
 private var currentSound = 0;
 
 var currentObjectIsOver : float = 0.0;
@@ -119,23 +139,22 @@ private var effectBubbleSystem : ParticleSystem;
 private var effectBubbles : ParticleSystem.Particle[];
 private var effectBubblesNum : int = 1;
 
+private var planeIsSet : boolean = false;
+
 var suimonoModuleLibrary : SuimonoModuleLib;
 
 
+private var waterTransitionRendererComponent : Renderer;
+private var waterTransitionParticleComponent : ParticleSystem;
+private var waterTransitionParticleRenderComponent : Renderer;
+private var waterTransition2RendererComponent : Renderer;
+private var waterTransition2ParticleComponent : ParticleSystem;
+private var waterTransition2ParticleRenderComponent : Renderer;
 private var underwaterDebrisRendererComponent : Renderer;
+public var underwaterRefractRendererComponent : Renderer;
 public var setCameraComponent : Camera;
 
 private var underTrans : float = 0.0;
-
-//tenkoku specific variables
-public var useTenkoku : float = 0.0;
-public var tenkokuWindDir : float = 0.0;
-public var tenkokuWindAmt : float = 0.0;
-public var tenkokuUseWind : boolean = true;
-private var tenObject : GameObject;
-private var showTenkoku : boolean = true;
-private var tenkokuUseReflect : boolean = true;
-private var tenkokuWindModule : WindZone;
 
 //collect for GC
 private var lx : int;
@@ -146,120 +165,52 @@ private var setstep : AudioClip;
 private var setpitch : float;
 private var waitTime : float;
 private var useSoundAudioComponent : AudioSource;
-private var useRefract : float; 
-private var useLight : float = 1.0; 
-private var useLightCol : Color;	
+private var useRefract : float;  	
 private var flow_dir : Vector2;
 private var tempAngle : Vector3;
 private var getmap : Color ;
 private var getheight : float;
-private var getheightC : float;
-private var getheightT : float;
-private var getheightR : float;
+private var getheightW : float;
+private var getheightD1 : float;
+private var getheightD2 : float;
+private var getheight1 : float;
+private var getheight2 : float;
+private var getheight3 : float;
 private var isOverWater : boolean;
 private var surfaceLevel : float;
 private var groundLevel : float;
 private var layer : int;
 private var layermask : int;
+private var hitRender : Renderer;
 private var testpos : Vector3;
+private var hits : RaycastHit[];
 private var i : int;
 private var hit : RaycastHit;
 private var pixelUV : Vector2;
+private var pixelUV2 : Vector2;
+private var pixelUV3 : Vector2;
+private var checktex : Texture2D;
+private var flowtex : Texture2D;
+private var wavetex : Texture2D;	
+private var twfMult : float;
+private var waveSpd : Vector2;
+private var waveSpdb : Vector2;
+private var tscaleN : Vector2;	
+private var getwavetex : Color;
 private var returnValue : float;
 private var returnValueAll : float[];
 private var h1 : float;
 private var setDegrees : float = 0.0;
-private var enabledUFX : float = 1.0;
-private var enabledCaustics : float = 1.0;
-
-private var setUnderBright : float;
-private var causticObject : fx_causticModule;
-private var enTrans : float = 0.0;
-private var enCaustic : float = 0.0;
-private var setEdge : float = 1.0;
-private var underwaterObject : Suimono_UnderwaterFog;
-private var currentSurfaceObject : GameObject = null;
 
 var heightValues : float[];
-var causticObjectLight : Light;
-var isForward : float = 0.0;
-var isAdvDist : float = 0.0;
 
-
-//Height Variables
-var waveScale : float = 1.0;
-var flowSpeed : float = 0.02;
-var offset : float = 0.0;
-var heightTex : Texture2D;
-var heightTexT : Texture2D;
-var heightTexR : Texture2D;
-var heightObject : Transform;
-var relativePos : Vector2 = Vector2(0,0);
-var texCoord : Vector3 = Vector3();
-var texCoord1 : Vector3 = Vector3();
-var texCoordT : Vector3 = Vector3();
-var texCoordT1 : Vector3 = Vector3();
-var texCoordR : Vector3 = Vector3();
-var texCoordR1 : Vector3 = Vector3();
-var heightVal0 : Color;
-var heightVal1 : Color;
-var heightValT0 : Color;
-var heightValT1 : Color;
-var heightValR0 : Color;
-var heightValR1 : Color;
-var localTime : float = 0.0;
-private var baseHeight : float = 0.0;
-private var baseAngle : float = 0.0;
-var pixelArray : Color[];
-var pixelArrayT : Color[];
-var pixelArrayR : Color[];
-
-var useDecodeTex : Texture2D;
-var useDecodeArray : Color[];
-var row : int;
-var pixIndex : int;
-var pixCol : Color;
-
-var t : int;
-var y : int;
-#if UNITY_EDITOR
-	var layerTP : SerializedProperty;
-	var layerWP : SerializedProperty;
-	var layerSP : SerializedProperty;
-	var layerXP : SerializedProperty;
-	var layerN : SerializedProperty;
-#endif
-
-var dir: Vector3;
-var pivotPoint : Vector3;
-var useLocalTime : float;
-var flow_dirC : Vector2;
-var flowSpeed0 : Vector2;
-var flowSpeed1 : Vector2;
-var flowSpeed2 : Vector2;
-var flowSpeed3 : Vector2;
-var tScale : float;
-var oPos : Vector2;
-
-
-
-//Variables for Unity 5.3+ only
-#if UNITY_5_3 || UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
-	private var debrisEmission : ParticleSystem.EmissionModule;
-#endif
-
-
-
-
-
-function Awake(){
-
-	//###  SET CURRENT SUIMONO NUMBER   ###
-	suimonoVersionNumber = "2.1.1";
-	
-	//Force name
-	gameObject.name = "SUIMONO_Module";
-}
+//cache shader assignments
+private var shader_effectPlaneBasic : Shader;
+private var shader_effectRefractMobile : Shader;
+private var shader_particle : Shader;
+private var shader_effectPlaneProDX11 : Shader;
+private var shader_effectRefractPro : Shader;
+private var shader_effectPlanePro : Shader;
 
 
 
@@ -267,49 +218,39 @@ function Awake(){
 
 function Start(){
 
-	//### DISCONNECT FROM PREFAB ###;
+
+	//###  SET CURRENT SUIMONO NUMBER   ###
+	suimonoVersionNumber = "2.0.05";
+	
+	
 	#if UNITY_EDITOR
 		PrefabUtility.DisconnectPrefabInstance(this.gameObject);
 	#endif
     
-    //### SET LAYERS ###;
-	InitLayers();
-
 	//get unity version
 	unityVersion = Application.unityVersion.ToString().Substring(0,1);
 	
-	//Set Camera and Track Objects
-	Suimono_CheckCamera();
-
-	//SET PHYSICS LAYER INTERACTIONS
-	//This is introduced because Unity 5 no longer handles mesh colliders and triggers without throwing an error.
-	//thanks a whole lot guys O_o (for nuthin').  The below physics setup should workaround this problem for everyone.
-	for (lx = 0; lx < 32; lx++){
-		//loop through and decouple layer collisions for all layers(up to 20).
-		//layer 4 is the built-in water layer.
-		Physics.IgnoreLayerCollision(lx,layerWaterNum);
-	}
-
+	//INITIATE DEFAULT SHADERS
+	//shaderSurface = Shader.Find("Suimono2/water_pro_final");
+	//shaderUnderwater = Shader.Find("Suimono2/water_under_pro_final");
+	//shaderUnderwaterFX = Shader.Find("Suimono2/effect_refractPlane_final");
+	//shaderDropletsFX = Shader.Find("Suimono2/effect_refraction");
+	//debrisShaderFX = Shader.Find("Suimono2/particle_Alpha");
 
 	//INITIATE OBJECTS
-    suimonoModuleLibrary = this.gameObject.GetComponent(SuimonoModuleLib) as SuimonoModuleLib;
-    if (this.gameObject.Find("_caustic_effects") != null) causticObject = this.gameObject.Find("_caustic_effects").GetComponent(fx_causticModule);
-	if (causticObject != null) causticObjectLight = causticObject.gameObject.Find("mainCausticObject").GetComponent(Light);
+    suimonoModuleLibrary = this.gameObject.GetComponent(SuimonoModuleLib);
+    
+    if (this.gameObject.Find("effect_refract_plane") != null) underwaterRefractPlane = this.gameObject.Find("effect_refract_plane");
+    if (this.gameObject.Find("effect_dropletsParticle") != null) waterTransitionPlane = this.gameObject.Find("effect_dropletsParticle");
+    if (this.gameObject.Find("effect_water_fade") != null) waterTransitionPlane2 = this.gameObject.Find("effect_water_fade");
+    
+    #if !UNITY_3_5
+    	if (underwaterRefractPlane != null) underwaterRefractPlane.SetActive(true);
+    #else
+    	if (underwaterRefractPlane != null) underwaterRefractPlane.active = true;
+    #endif
+    
 
-	//transparency objects
-	transToolsObject = this.transform.Find("cam_SuimonoTrans").gameObject.GetComponent(cameraTools);
-	transCamObject = this.transform.Find("cam_SuimonoTrans").gameObject.GetComponent(Camera) as Camera;
-	causticHandlerObjectTrans = this.transform.Find("cam_SuimonoTrans").gameObject.GetComponent(cameraCausticsHandler);
-
-	causticToolsObject = this.transform.Find("cam_SuimonoCaustic").gameObject.GetComponent(cameraTools);
-	causticCamObject = this.transform.Find("cam_SuimonoCaustic").gameObject.GetComponent(Camera) as Camera;
-	causticHandlerObject = this.transform.Find("cam_SuimonoCaustic").gameObject.GetComponent(cameraCausticsHandler);
-
-	//wake advanced effect objects
-	wakeObject = this.transform.Find("cam_SuimonoWake").gameObject;
-	wakeCamObject = this.transform.Find("cam_SuimonoWake").gameObject.GetComponent(Camera) as Camera;
-	normalsObject = this.transform.Find("cam_SuimonoNormals").gameObject;
-	normalsCamObject = this.transform.Find("cam_SuimonoNormals").gameObject.GetComponent(Camera) as Camera;
 
     //Effects Initialization
     fxObject = this.gameObject.GetComponent(SuimonoModuleFX) as SuimonoModuleFX;
@@ -318,30 +259,18 @@ function Start(){
     if (this.gameObject.Find("effect_fx_bubbles") != null) effectBubbleSystem = this.gameObject.Find("effect_fx_bubbles").gameObject.GetComponent(ParticleSystem);
        
 
-	//store component references
-	underwaterDebrisRendererComponent = underwaterDebris.GetComponent(Renderer);
-
-	//store audio object
-	if (suimonoModuleLibrary != null){
-		if (suimonoModuleLibrary.soundObject != null){
-			soundObject = suimonoModuleLibrary.soundObject;
-		}
-	}
-
-
 	#if UNITY_EDITOR
 	if (EditorApplication.isPlaying){
 	#endif
-
 	if (soundObject != null && sndparentobj != null){
 		maxSounds = sndparentobj.maxSounds;
-		sndComponents = new AudioSource[maxSounds];
-
+		sndObjects = new Transform[maxSounds];
+		
 		//init sound object pool
 		for (var sx=0; sx < (maxSounds); sx++){
 			var soundObjectPrefab = Instantiate(soundObject, transform.position, transform.rotation);
 			soundObjectPrefab.transform.parent = sndparentobj.transform;
-			sndComponents[sx] = soundObjectPrefab.gameObject.GetComponent(AudioSource);
+			sndObjects[sx] = (soundObjectPrefab);
 		}
 		
 		//init underwater sound
@@ -349,7 +278,6 @@ function Start(){
 			underSoundObject = Instantiate(soundObject, transform.position, transform.rotation);
 			underSoundObject.transform.name = "Underwater Sound";
 			underSoundObject.transform.parent = sndparentobj.transform;
-			underSoundComponent = underSoundObject.gameObject.GetComponent(AudioSource);
 		}
 	}
 
@@ -357,344 +285,166 @@ function Start(){
 	}
 	#endif
 
+	
 
-	//tun off antialiasing (causes unexpected rendering issues.  Recommend post fx aliasing instead)
-	QualitySettings.antiAliasing = 0;
-
-	//set linear space flag
-	if (QualitySettings.activeColorSpace == ColorSpace.Linear){
-		Shader.SetGlobalFloat("_Suimono_isLinear",1.0);
-	} else {
-		Shader.SetGlobalFloat("_Suimono_isLinear",0.0);
-	}
-
-
-
-	//store pixel arrays for Height Calculation
-	if (suimonoModuleLibrary != null){
-		if (suimonoModuleLibrary.texHeightC != null){
-			heightTex = suimonoModuleLibrary.texHeightC;
-			pixelArray = suimonoModuleLibrary.texHeightC.GetPixels(0);
-		}
-		if (suimonoModuleLibrary.texHeightT != null){
-			heightTexT = suimonoModuleLibrary.texHeightT;
-			pixelArrayT = suimonoModuleLibrary.texHeightT.GetPixels(0);
-		} 
-		if (suimonoModuleLibrary.texHeightR != null){
-			heightTexR = suimonoModuleLibrary.texHeightR;
-			pixelArrayR = suimonoModuleLibrary.texHeightR.GetPixels(0);
-		} 
-	}
-
-
-	//set tenkoku flag
-	tenObject = GameObject.Find("Tenkoku DynamicSky");
-	Shader.SetGlobalFloat("_useTenkoku",0.0);
-
-}
-
-
-
-
-
-function InitLayers(){
-
-
-	//check whether layers are set
-	#if UNITY_EDITOR
-		tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
-		projectlayers = tagManager.FindProperty("layers");
-		layersAreSet = false;
-		
-		for (t = 8; t <= 31; t++){
-	    	layerTP = projectlayers.GetArrayElementAtIndex(t);
-	        if (layerTP.stringValue != ""){
-	        	if (layerTP.stringValue == "Suimono_Water" || layerTP.stringValue == "Suimono_Depth" || layerTP.stringValue == "Suimono_Screen" || layerTP.stringValue == "Suimono_Underwater"){
-	        		layersAreSet = true;
-	        	}
-	        }
-	    }
-    #endif
-
-
-
-
-    //Set Layers if Applicable
-	if (!layersAreSet){
-	#if UNITY_EDITOR
-		
-        if (projectlayers == null || !projectlayers.isArray){
-            Debug.LogWarning("Can't set up Suimono layers.  It's possible the format of the layers and tags data has changed in this version of Unity.");
-            Debug.LogWarning("Layers is null: " + (projectlayers == null));
-            return;
-        }
-
-		layerWater = "Suimono_Water";
-		layerDepth = "Suimono_Depth";
-		layerScreenFX = "Suimono_Screen";
-		layerUnderwater = "Suimono_Underwater";
-
-		//ASSIGN LAYERS
-		layerWaterNum = -1;
-		layerDepthNum = -1;
-		layerScreenFXNum = -1;
-
-		for (y = 8; y <= 31; y++){
-        	layerWP = projectlayers.GetArrayElementAtIndex(y);
-            if (layerWP.stringValue != layerWater && layerWP.stringValue == "" && layerWaterNum == -1){
-            	layerWaterNum = y;
-                if (!layersAreSet) Debug.Log("Setting up Suimono layers.  Layer " + layerWaterNum + " is now called " + layerWater);
-                layerWP.stringValue = layerWater;
-            }
-        	layerSP = projectlayers.GetArrayElementAtIndex(y);
-            if (layerSP.stringValue != layerDepth && layerWP.stringValue == "" && layerDepthNum == -1){
-            	layerDepthNum = y;
-                if (!layersAreSet) Debug.Log("Setting up Suimono layers.  Layer " + layerDepthNum + " is now called " + layerDepth);
-                layerSP.stringValue = layerDepth;
-            }
-            layerXP = projectlayers.GetArrayElementAtIndex(y);
-            if (layerXP.stringValue != layerScreenFX && layerWP.stringValue == "" && layerScreenFXNum == -1){
-            	layerScreenFXNum = y;
-                if (!layersAreSet) Debug.Log("Setting up Suimono layers.  Layer " + layerScreenFXNum + " is now called " + layerScreenFX);
-                layerXP.stringValue = layerScreenFX;
-            }
-        }
-
-        if (!layersAreSet) tagManager.ApplyModifiedProperties();
-
-    #endif
-    layersAreSet = true;
-	}
-}
-
-
-
-
-
-
-
-
-function LateUpdate(){
-
-	//Set Water System Time
-	if (systemTime < 0.0) systemTime = 0.0;
-	if (enableAutoAdvance) systemTime += Time.deltaTime;
-
-
-	//set project layer masks
-	#if UNITY_EDITOR
-		suiLayerMasks = new Array();
-		tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
-		projectlayers = tagManager.FindProperty("layers");
-		for (i = 0; i < projectlayers.arraySize; i++){
-			layerN = projectlayers.GetArrayElementAtIndex(i);
-			suiLayerMasks.Add(layerN.stringValue);
-		}
-	#endif
-
-
-	//GET TENKOKU SPECIFIC VARIABLES
-	useTenkoku = 0.0;
-	if (tenObject != null){
-		if (tenObject.activeInHierarchy){
-			useTenkoku = 1.0;
-		}
-
-		if (useTenkoku == 1.0){
-			if (setLight == null) setLight = GameObject.Find("LIGHT_World").GetComponent(Light);
-			if (tenkokuWindModule == null){
-				tenkokuWindModule = GameObject.Find("Tenkoku_WindZone").GetComponent(WindZone);
-			} else {
-				tenkokuWindDir = tenkokuWindModule.transform.eulerAngles.y;
-				tenkokuWindAmt = tenkokuWindModule.windMain;
-			}
+	
+	//set camera
+	if (setCamera == null){
+		if (Camera.main != null){
+			setCamera = Camera.main.transform;
 		}
 	}
-	Shader.SetGlobalFloat("_useTenkoku",useTenkoku);
-
-
-	//GET RIPPLE OBJECT REFERENCE AND LAYER
-	if (Application.isPlaying && fxRippleObject == null){
-		fxRippleObject = GameObject.Find("fx_rippleNormals(Clone)");
-	}
-	if (fxRippleObject != null){
-		fxRippleObject.layer = layerScreenFXNum;
-	}
-
-
-	//SET COMPONENT LAYERS
-	if (normalsCamObject != null) normalsCamObject.cullingMask = 1<<layerScreenFXNum;
-	if (wakeCamObject != null) wakeCamObject.cullingMask = 1<<layerScreenFXNum;
-
-
-
-	//HANDLE COMPONENTS
-
-	//Tranparency function
-	if (transCamObject != null){
-		transLayer = (transLayer & ~(1 << layerWaterNum)); //remove water layer from transparent mask
-		transLayer = (transLayer & ~(1 << layerDepthNum)); //remove Depth layer from transparent mask
-		transLayer = (transLayer & ~(1 << layerScreenFXNum)); //remove Screen layer from transparent mask
-
-		transCamObject.cullingMask = transLayer; 
-		transCamObject.farClipPlane = transRenderDistance;
-	} else {
-		transCamObject = this.transform.Find("cam_SuimonoTrans").gameObject.GetComponent(Camera) as Camera;
-	}
-
-	if (transToolsObject != null){
-		transToolsObject.resolution = System.Convert.ToInt32(resolutions[transResolution]);
-		if (enableTransparency == false){
-			transToolsObject.gameObject.SetActive(false);
-		} else {
-			transToolsObject.gameObject.SetActive(true);
-		}
-	} else {
-		transToolsObject = this.transform.Find("cam_SuimonoTrans").gameObject.GetComponent(cameraTools);
+	
+	//set track object
+	if (setTrack == null && setCamera != null){
+		setTrack = setCamera.transform;
 	}
 	
 
+	//store component references
+	waterTransitionRendererComponent = waterTransitionPlane.GetComponent(Renderer);
+	waterTransitionParticleComponent = waterTransitionPlane.GetComponent(ParticleSystem);
+	waterTransitionParticleRenderComponent = waterTransitionPlane.GetComponent(ParticleSystem).GetComponent(Renderer);
+	waterTransition2RendererComponent = waterTransitionPlane2.GetComponent(Renderer);
+	waterTransition2ParticleComponent = waterTransitionPlane2.GetComponent(ParticleSystem);
+	waterTransition2ParticleRenderComponent = waterTransitionPlane2.GetComponent(ParticleSystem).GetComponent(Renderer);
+	underwaterDebrisRendererComponent = underwaterDebris.GetComponent(Renderer);
+	underwaterRefractRendererComponent = underwaterRefractPlane.GetComponent(Renderer);
 
+	//Store Cached Shader References
+	shader_effectPlaneBasic = Shader.Find("Suimono2/effect_refractPlane_basic");
+		#if UNITY_5_0
+		shader_effectPlaneBasic = Shader.Find("Suimono2/effect_refractPlane_basicU5");
+		#endif
+	shader_effectRefractMobile = Shader.Find("Suimono2/effect_refraction_mobile");
+	shader_particle = Shader.Find("Suimono2/particle_Alpha_4");
+	shader_effectPlaneProDX11 = Shader.Find("Suimono2/effect_refractPlane");
+		#if UNITY_5_0
+		shader_effectPlaneProDX11 = Shader.Find("Suimono2/effect_refractPlaneU5");
+		#endif
+	shader_effectRefractPro = Shader.Find("Suimono2/effect_refraction");
+	shader_effectPlanePro = Shader.Find("Suimono2/effect_refractPlane");
+		#if UNITY_5_0
+		shader_effectPlanePro = Shader.Find("Suimono2/effect_refractPlaneU5");
+		#endif
 
-//Caustic function
-if (causticCamObject != null){
-	if (enableCaustics == false){
-		if (!enableCausticsBlending) causticCamObject.gameObject.SetActive(false);
-	} else {
-		causticCamObject.gameObject.SetActive(enableCausticsBlending);
-		transLayer = (transLayer & ~(1 << layerDepthNum)); //remove Depth layer from transparent mask
-		transLayer = (transLayer & ~(1 << layerScreenFXNum)); //remove Screen layer from transparent mask
-		causticCamObject.cullingMask = transLayer; 
-		causticCamObject.farClipPlane = transRenderDistance;
-	}
+	InvokeRepeating("StoreSurfaceHeight",0.5,0.1);
 
-	//remove caustics from transparency function
-	causticHandlerObjectTrans.enabled = !enableCausticsBlending;
-} else {
-	causticCamObject = this.transform.Find("cam_SuimonoCaustic").gameObject.GetComponent(Camera) as Camera;
-}
+	//set tenkoku flag
+	Shader.SetGlobalFloat("_useTenkoku",0.0);
 
-
-if (causticToolsObject != null){
-	causticToolsObject.resolution = System.Convert.ToInt32(resolutions[transResolution]);
-} else {
-	causticToolsObject = this.transform.Find("cam_SuimonoCaustic").gameObject.GetComponent(cameraTools);
-}
-
-
-
-
-	enTrans = 0.0;
-	if (enableTransparency) enTrans = 1.0;
-	Shader.SetGlobalFloat("_enableTransparency",enTrans);
-
-	//caustics function
-	enCaustic = 0.0;
-	if (enableCaustics) enCaustic = 1.0;
-	Shader.SetGlobalFloat("_suimono_enableCaustic",enCaustic);
-
-	//force suimono layers to caustics casting light
-	//(note, this isn't strictly necessary as none of these elements accept caustic lighting, but
-	//it's helpful to keep the deferred light occlusion limit more manageable.  These layers don't
-	//matter when it comes to lighting, so there's no point in ever having them turned off.
-	causticLayer = (causticLayer | (1 << layerWaterNum));
-	causticLayer = (causticLayer | (1 << layerDepthNum));
-	causticLayer = (causticLayer | (1 << layerScreenFXNum));
-
-	//advanced edge function
-	setEdge = 1.0;
-	if (!enableAdvancedEdge) setEdge = 0.0;
-	Shader.SetGlobalFloat("_suimono_advancedEdge",setEdge);
 
 }
-
-
 
 
 
 
 function FixedUpdate () {
 
-	//SET PHYSICS LAYER INTERACTIONS
-	//This is introduced because Unity 5 no longer handles mesh colliders and triggers without throwing an error.
-	//thanks a whole lot guys O_o (for nuthin').  The below physics setup should workaround this problem for everyone.
-	for (lx = 0; lx < 20; lx++){
-		//loop through and decouple layer collisions for all layers(up to 20).
-		//layer 4 is the built-in water layer.
-		Physics.IgnoreLayerCollision(lx,layerWaterNum);
-	}
-
-
-	//Set Camera and Track Objects
-	Suimono_CheckCamera();
-
-
-	//set caustics
-	if (causticObject != null){
-		
-		if (Application.isPlaying){
-			causticObject.enableCaustics = enableCaustics;
-		} else {
-			causticObject.enableCaustics = false;
-		}
-		
-
-		if (setLight != null){
-			causticObject.sceneLightObject = setLight;
-		}
-	}
-
-	
 	//play underwater sounds
 	PlayUnderwaterSound();
 	
 	
+		//UPDATE CURRENT CAMERA WITH CORRECT DEPTH BUFFER (forward rendering)
+		if (setCamera != null){
+			setCameraComponent = setCamera.GetComponent(Camera);
+			if (setCameraComponent.renderingPath == RenderingPath.Forward){
+				setCameraComponent.depthTextureMode = DepthTextureMode.Depth;
+			}
+		}
+	
+	
+		//SET PHYSICS LAYER INTERACTIONS
+		//This is introduced because Unity 5 no longer handles mesh colliders and triggers without throwing an error.
+		//thanks a whole lot guys O_o (for nuthin').  The below physics setup should workaround this problem for everyone.
+		for (lx = 0; lx < 20; lx++){
+			//loop through and decouple layer collisions for all layers(up to 20).
+			//layer 4 is the built-in water layer.
+			Physics.IgnoreLayerCollision(lx,4);
+		}
+		
+	
+
+
+		//UNITY BASIC VERSION SPECIFIC
+		if (unityVersionIndex == 0){//unity basic version
+			shaderUnderwaterFX = shader_effectPlaneBasic;
+			shaderDropletsFX = shader_effectRefractMobile;
+			debrisShaderFX = shader_particle;
+		}
+		
+		//UNITY BASIC DX11 VERSION SPECIFIC
+		if (unityVersionIndex == 1){//unity basic dx11 version
+			shaderUnderwaterFX = shader_effectPlaneBasic;
+			shaderDropletsFX = shader_effectRefractMobile;
+			debrisShaderFX = shader_particle;
+		}
+				
+		//UNITY iOS VERSION SPECIFIC
+		else if (unityVersionIndex == 4){//mobile
+			shaderUnderwaterFX = shader_effectPlaneBasic;
+			shaderDropletsFX = shader_effectRefractMobile;
+			debrisShaderFX = shader_particle;	
+		}
+		
+		//UNITY ANDROID VERSION SPECIFIC
+		else if (unityVersionIndex == 5){//android
+			shaderUnderwaterFX = shader_effectPlaneBasic;
+			shaderDropletsFX = shader_effectRefractMobile;
+			debrisShaderFX = shader_particle;	
+		}
+			
+		//UNITY PRO DX11 VERSION SPECIFIC
+		#if !UNITY_STANDALONE_OSX
+		else if (unityVersionIndex == 3){//dx11
+			shaderUnderwaterFX = shader_effectPlaneProDX11;
+			shaderDropletsFX = shader_effectRefractPro;
+			debrisShaderFX = shader_particle;
+		}
+		#endif
+		
+		//UNITY PRO VERSION SPECIFIC
+		else if (unityVersionIndex == 2){//pro
+			shaderUnderwaterFX = shader_effectPlanePro;
+			shaderDropletsFX = shader_effectRefractPro;
+			debrisShaderFX = shader_particle;
+		}
+
+		//set special ring ripple system shader
+		if (ringsSystem == null) ringsSystem = GameObject.Find("fx_ripples(Clone)").gameObject.GetComponent(Renderer);
+		if (ringsSystem != null) ringsSystem.sharedMaterial.shader = shaderDropletsFX;
+
+
+	
+	//set camera
+	if (setCamera == null){
+		if (Camera.main != null){
+			setCamera = Camera.main.transform;
+		}
+	} else {
+		//setCamera.GetComponent(Camera).depthTextureMode = DepthTextureMode.Depth;
+	}
+
+	if (setCameraComponent == null){
+		setCameraComponent = Camera.main.GetComponent(Camera);
+	}
+	
+	//set track object
+	if (setTrack == null && setCamera != null){
+		setTrack = setCamera.transform;
+	}
+
 
 	//######## HANDLE FORWARD RENDERING SWITCH #######
 	if (setCamera != null){
-		isForward = 0.0;
-		if (setCameraComponent.actualRenderingPath == RenderingPath.Forward){
-			isForward = 1.0;
-		}
-		Shader.SetGlobalFloat("_isForward",isForward);
-	}
-
-
-
-	//######## HANDLE ADVANCED DISTORTION SWITCH #######
-	if (enableAdvancedDistort){
-		isAdvDist = 1.0;
-		wakeObject.SetActive(true);
-		normalsObject.SetActive(true);
+	if (setCameraComponent.actualRenderingPath == RenderingPath.Forward){
+		Shader.SetGlobalFloat("_isForward",1.0);
 	} else {
-		isAdvDist = 0.0;
-		wakeObject.SetActive(false);
-		normalsObject.SetActive(false);
+		Shader.SetGlobalFloat("_isForward",0.0);
 	}
-	Shader.SetGlobalFloat("_suimono_advancedDistort",isAdvDist);
-
-
-
-	//######## Set Camera Background Color on Shader #######
-	if (setCameraComponent != null){
-		if (suimonoObject != null){
-			setCameraComponent.backgroundColor = suimonoObject.underwaterColor;
-		}
-		Shader.SetGlobalColor("_cameraBGColor",setCameraComponent.backgroundColor);
 	}
-
-	//######## Set Camera Specific Settings #######
-	if (setCameraComponent != null){
-
-		//set camera depth mode to 'Depth'.  The alternative mode
-		//'DepthNormals' causes rendering errors in water surfaces
-		setCameraComponent.depthTextureMode = DepthTextureMode.Depth;
-
-		//Set Water specific visibility layers on camera
-		setCameraComponent.cullingMask = setCameraComponent.cullingMask | (1 <<layerWaterNum);
-		setCameraComponent.cullingMask = (setCameraComponent.cullingMask & ~(1 << layerDepthNum) & ~(1 << layerScreenFXNum));
-	}
-
+	
+	
 
 }
 
@@ -708,28 +458,21 @@ function FixedUpdate () {
 //#############################
 //	CUSTOM FUNCTIONS
 //#############################
-function OnDisable(){
-	CancelInvoke("StoreSurfaceHeight");
-}
 
-function OnEnable(){
-	InvokeRepeating("StoreSurfaceHeight",0.01,0.1);
-}
 
 function StoreSurfaceHeight(){
-	if (this.enabled){
-		if (setCamera != null){
+	
+	if (setCamera != null){
 
-			heightValues = SuimonoGetHeightAll(setCamera.transform.position);
+		//if (heightValues == null) heightValues = new float[9];
+		heightValues = SuimonoGetHeightAll(setCamera.transform.position);
 			currentSurfaceLevel = heightValues[1];
 			currentObjectDepth = heightValues[3];
 			currentObjectIsOver = heightValues[4];
 			currentTransitionDepth = heightValues[9];
-			objectEnableUnderwaterFX = heightValues[10];
-
-			checkUnderwaterEffects();
-			checkWaterTransition();
-		}
+		
+		checkUnderwaterEffects();
+		checkWaterTransition();
 	}
 }
 
@@ -739,33 +482,26 @@ function StoreSurfaceHeight(){
 
 function PlayUnderwaterSound(){
 if (Application.isPlaying){
-	if (underSoundObject != null && setTrack != null && underSoundComponent != null){
+	if (underSoundObject != null){
 		underSoundObject.transform.position = setTrack.transform.position;
 
-		if (currentTransitionDepth > 0.0){
-			if (playSoundBelow && playSounds){
-				underSoundComponent.clip = sndparentobj.underwaterSound;
-				underSoundComponent.volume = maxVolume;
-				underSoundComponent.loop = true;
-				if (!underSoundComponent.isPlaying){
-					underSoundComponent.Play();
-				}
+			if (currentTransitionDepth > 0.0){
+				underSoundObject.gameObject.GetComponent(AudioSource).clip = sndparentobj.underwaterSound;
+				underSoundObject.gameObject.GetComponent(AudioSource).volume = maxVolume;
 			} else {
-				underSoundComponent.Stop();
-			}
-		} else {
-			if (sndparentobj.underwaterSound != null){
-				if (playSoundAbove && playSounds){
-					underSoundComponent.clip = sndparentobj.abovewaterSound;
-					underSoundComponent.volume = 0.45*maxVolume;
-					underSoundComponent.loop = true;
-					if (!underSoundComponent.isPlaying){
-						underSoundComponent.Play();
-					}
-				} else {
-					underSoundComponent.Stop();
+				if (sndparentobj.underwaterSound != null){
+					underSoundObject.gameObject.GetComponent(AudioSource).clip = sndparentobj.abovewaterSound;
+					underSoundObject.gameObject.GetComponent(AudioSource).volume = 0.35*maxVolume;
 				}
 			}
+		
+		if (!underSoundObject.gameObject.GetComponent(AudioSource).isPlaying && playSounds){	
+			underSoundObject.gameObject.GetComponent(AudioSource).loop = true;
+			underSoundObject.gameObject.GetComponent(AudioSource).Play();
+		}
+			
+		if (!playSounds){
+			underSoundObject.gameObject.GetComponent(AudioSource).Stop();
 		}
 	}
 }
@@ -778,16 +514,16 @@ function AddFX(fxSystem : int, effectPos : Vector3, addRate : int, addSize : flo
 	if (fxObject != null){
 		fx = fxSystem;
 
-		if (fxObject.fxParticles[fx] != null){
+		if (fxObject.fxObjects[fx] != null){
 
-			fxObject.fxParticles[fx].Emit(addRate);
+			fxObject.fxObjects[fx].GetComponent(ParticleSystem).Emit(addRate);
 			//get particles
 			if (setParticles != null) setParticles = null;
-			setParticles = new ParticleSystem.Particle[fxObject.fxParticles[fx].particleCount];
-			fxObject.fxParticles[fx].GetParticles(setParticles);
+			setParticles = new ParticleSystem.Particle[fxObject.fxObjects[fx].GetComponent(ParticleSystem).particleCount];
+			fxObject.fxObjects[fx].GetComponent(ParticleSystem).GetParticles(setParticles);
 			//set particles
-			if (fxObject.fxParticles[fx].particleCount > 0.0){
-			for (px = (fxObject.fxParticles[fx].particleCount-addRate); px < fxObject.fxParticles[fx].particleCount; px++){
+			if (fxObject.fxObjects[fx].GetComponent(ParticleSystem).particleCount > 0.0){
+			for (px = (fxObject.fxObjects[fx].GetComponent(ParticleSystem).particleCount-addRate); px < fxObject.fxObjects[fx].GetComponent(ParticleSystem).particleCount; px++){
 					
 					//set position
 					setParticles[px].position.x = effectPos.x;
@@ -795,12 +531,8 @@ function AddFX(fxSystem : int, effectPos : Vector3, addRate : int, addSize : flo
 					setParticles[px].position.z = effectPos.z;
 					
 					//set variables
-					#if UNITY_5_3 || UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
-						setParticles[px].startSize = addSize;
-					#else
-						setParticles[px].size = addSize;
-					#endif
-
+					setParticles[px].size = addSize;
+					
 					setParticles[px].rotation = addRot;
 					setParticles[px].angularVelocity = addARot;
 					
@@ -808,16 +540,11 @@ function AddFX(fxSystem : int, effectPos : Vector3, addRate : int, addSize : flo
 					setParticles[px].velocity.y = addVeloc.y;
 					setParticles[px].velocity.z = addVeloc.z;
 					
+					setParticles[px].color *= addCol;
 					
-					#if UNITY_5_3 || UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
-						setParticles[px].startColor *= addCol;
-					#else
-						setParticles[px].color *= addCol;
-					#endif
-
 			}
-			fxObject.fxParticles[fx].SetParticles(setParticles,setParticles.length);
-			fxObject.fxParticles[fx].Play();
+			fxObject.fxObjects[fx].GetComponent(ParticleSystem).SetParticles(setParticles,setParticles.length);
+			fxObject.fxObjects[fx].GetComponent(ParticleSystem).Play();
 			}
 
 		}
@@ -838,7 +565,7 @@ function AddSoundFX(sndClip : AudioClip, soundPos : Vector3, sndVelocity:Vector3
 		waitTime = 0.4;
 		setpitch = sndVelocity.y;
 		setvolume = sndVelocity.z;
-		setvolume = Mathf.Lerp(0.0,1.0,setvolume) * maxVolume;
+		setvolume = Mathf.Lerp(0.0,1.0,setvolume);
 
 		//check depth and morph sounds if underwater
 		if (currentObjectDepth > 0.0){
@@ -846,7 +573,7 @@ function AddSoundFX(sndClip : AudioClip, soundPos : Vector3, sndVelocity:Vector3
 			setvolume *=0.5;
 		}
 		
-		useSoundAudioComponent = sndComponents[currentSound];
+		useSoundAudioComponent = sndObjects[currentSound].GetComponent(AudioSource);
 		useSoundAudioComponent.clip = sndClip;
 		if (!useSoundAudioComponent.isPlaying){
 			useSoundAudioComponent.transform.position = soundPos;
@@ -891,7 +618,7 @@ if (enableInteraction){
 			setvolume *=0.5;
 		}
 		
-		useSoundAudioComponent = sndComponents[currentSound];
+		useSoundAudioComponent = sndObjects[currentSound].GetComponent(AudioSource);
 		if (!useSoundAudioComponent.isPlaying){
 			useSoundAudioComponent.transform.position = soundPos;
 			useSoundAudioComponent.volume = setvolume;
@@ -918,33 +645,43 @@ if (enableInteraction){
 
 function checkUnderwaterEffects(){
 
-	if (Application.isPlaying){
-		if (currentTransitionDepth > 0.1){
+
+	//set blur
+	if (enableBlur){
+		underwaterRefractRendererComponent.sharedMaterial.SetFloat("_BlurSpread",blurAmount);
+		underwaterRefractRendererComponent.sharedMaterial.SetFloat("_blurSamples",blurSamples);
+	} else {
+		underwaterRefractRendererComponent.sharedMaterial.SetFloat("_BlurSpread",0.0);
+		underwaterRefractRendererComponent.sharedMaterial.SetFloat("_blurSamples",blurSamples);
+	}
+
+
+	
+	if (currentTransitionDepth > 0.0){
+	
+		if (enableUnderwaterFX && currentObjectIsOver==1.0){
 		
-			if (enableUnderwaterFX && objectEnableUnderwaterFX==1.0 && currentObjectIsOver==1.0){
-				isUnderwater = true;
-				Shader.SetGlobalFloat("_Suimono_IsUnderwater",1.0);
-				if (suimonoObject != null){
-					suimonoObject.useShader = suimonoObject.shader_Under;
-				}
-				if (causticHandlerObject != null){
-					causticHandlerObjectTrans.isUnderwater = true;
-					causticHandlerObject.isUnderwater = true;
-				}
-			}
-			
-		} else {
-			//swap camera rendering to back to default
-			isUnderwater = false;
-	   		Shader.SetGlobalFloat("_Suimono_IsUnderwater",0.0);
-			if (suimonoObject != null){
-				suimonoObject.useShader = suimonoObject.shader_Surface;
-			}
-			if (causticHandlerObject != null){
-				causticHandlerObjectTrans.isUnderwater = false;
-				causticHandlerObject.isUnderwater = false;
-			}
+			//swap camera rendering to deferred for best underwater rendering!
+			//note: this can be disabled in the module settings.
+			//if (enableUnderwaterDeferred) setCamera.GetComponent(Camera).renderingPath = RenderingPath.DeferredLighting;
+		
+			//reposition refract plane
+			underwaterRefractRendererComponent.sharedMaterial.SetFloat("_blurSamples",blurSamples);
+			underwaterRefractRendererComponent.sharedMaterial.shader = shaderUnderwaterFX;
+			underwaterRefractPlane.transform.parent = setCamera.transform;
+			underwaterRefractPlane.transform.localScale = Vector3(0.4,1.0,0.3);
+			underwaterRefractPlane.transform.localPosition = Vector3(0.0,0.0,(setCamera.GetComponent(Camera).nearClipPlane+(cameraPlane_offset)+0.05));
+			underwaterRefractPlane.transform.localEulerAngles = Vector3(270.0,0.0,0.0);
+	   		underwaterRefractRendererComponent.enabled = true;
+
+
 		}
+		
+	} else {
+		
+		//swap camera rendering to back to default
+   		underwaterRefractRendererComponent.enabled = false;
+
 	}
 }
 
@@ -956,143 +693,154 @@ function checkUnderwaterEffects(){
 
 
 function checkWaterTransition () {
-if (Application.isPlaying){
 
-	doTransitionTimer += Time.deltaTime;
-	
-	//SET COLORS
-	reflectColor = Color(0.827,0.941,1.0,1.0);
+		doTransitionTimer += Time.deltaTime;
+		
+		//SET COLORS
+		reflectColor = Color(0.827,0.941,1.0,1.0);
 
+		if (enableUnderwaterFX){
 
-		if (currentTransitionDepth > 0.1 && currentObjectIsOver==1.0){
-			
+		if (currentTransitionDepth > 0.0 && currentObjectIsOver==1.0){
+		
 			doWaterTransition = true;
+			
+			//play underwater transition
+			if (underTrans >= 0.0){
+				underwaterRefractRendererComponent.sharedMaterial.SetFloat("_transition",underTrans);
+				//underTrans -= Time.deltaTime*6.0;
+				underTrans = Mathf.SmoothStep(underTrans,0.0,Time.deltaTime*12.5);
+			}
+			
+	       	//set underwater debris
+	       	if (suimonoObject != null && setCamera != null){
+		       	if (suimonoObject.enableUnderDebris && setCamera != null){
 
-		    //set underwater debris
-		    if (suimonoObject != null && setCamera != null){
-
-				if (enableUnderwaterFX && objectEnableUnderwaterFX==1.0){
-
-					if (suimonoObject.enableUnderDebris){
-			       		underwaterDebris.transform.position = setCamera.transform.position;
-					    underwaterDebris.transform.rotation = setCamera.transform.rotation;
-					    underwaterDebris.transform.Translate(Vector3.forward * 5.0);
-
-						underwaterDebrisRendererComponent.enabled=true;
-
-						#if UNITY_5_3 || UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
-							debrisEmission = underwaterDebris.emission;
-							debrisEmission.enabled = true;
-						#else
-							underwaterDebris.enableEmission=true;
-						#endif
-
-						underwaterDebris.Play();
-					} else {
-						if (underwaterDebris != null) underwaterDebrisRendererComponent.enabled = false;
-					}
-
-					setUnderBright = underLightAmt;
-					setUnderBright *= 0.5;
-
-
-			       	//set attributes to shader
-			       	useLight = 1.0;
-			       	useLightCol = Color(1,1,1,1);
-			       	useRefract = 1.0;
-			       	if (setLight != null){
-			       		useLight = setLight.intensity;
-			       		useLightCol = setLight.color;
-			       	}
-			       	if (!enableRefraction) useRefract = 0.0;
-
-
-					if (underwaterObject == null){
-						if (setCamera.gameObject.GetComponent(Suimono_UnderwaterFog) != null){
-							underwaterObject = setCamera.gameObject.GetComponent(Suimono_UnderwaterFog);
-						}
-					}
-					if (underwaterObject != null){
-						underwaterObject.lightFactor = suimonoObject.underLightFactor * useLight;
-						underwaterObject.refractAmt = suimonoObject.underRefractionAmount * useRefract;
-						underwaterObject.refractScale = suimonoObject.underRefractionScale;
-						underwaterObject.refractSpd = suimonoObject.underRefractionSpeed * useRefract;
-						underwaterObject.fogEnd = suimonoObject.underwaterFogDist;
-						underwaterObject.fogStart = suimonoObject.underwaterFogSpread;
-						underwaterObject.blurSpread = suimonoObject.underBlurAmount;
-						underwaterObject.underwaterColor = suimonoObject.underwaterColor;
-						underwaterObject.darkRange = suimonoObject.underDarkRange;
-
-						Shader.SetGlobalColor("_suimono_lightColor",useLightCol);
-						underwaterObject.doTransition = false;
-
-						//set caustic and underwater light brightness
-						if (causticObject != null){
-							
-							if (Application.isPlaying){
-
-								if (causticObject != null){
-									causticObject.heightFac = underwaterObject.hFac*2.0;
-								}
-								//if (setLight != null){
-									//if (useTenkoku == 1.0){
-										//tenObject
-										//setLight.intensity *= Mathf.Clamp(1.0-underwaterObject.hFac,1.0,0.1);
-									//}
-								//}
-							}
-						}
-					}
-
-
-				} else {
-					if (underwaterDebris != null) underwaterDebrisRendererComponent.enabled = false;
+		       		underwaterDebrisRendererComponent.sharedMaterial.shader = debrisShaderFX;
+			       	underwaterDebris.transform.position = setCamera.transform.position;
+			       	underwaterDebris.transform.rotation = setCamera.transform.rotation;
+			       	underwaterDebris.transform.Translate(Vector3.forward * 40.0);
+					underwaterDebrisRendererComponent.enabled=true;
+					underwaterDebris.enableEmission=true;
+					underwaterDebris.Play();
 				}
-			}
+			
+				//get attributes from surface
+				underwaterColor = suimonoObject.underwaterColor;
+				refractionAmount = suimonoObject.underRefractionAmount;
+		       	blurAmount = suimonoObject.underBlurAmount;
+		       	underFogSpread = suimonoObject.underwaterFogSpread;
+		       	underFogDist = suimonoObject.underwaterFogDist;
+		       	
+		       	underLightAmt = suimonoObject.reflectDistUnderAmt;
+		       	refractAmt = suimonoObject.underRefractionAmount;
+		       	refractSpd = suimonoObject.underRefractionSpeed*10;
+		       	refractScl = suimonoObject.underRefractionScale;
 
 
-			if (underwaterObject != null){
-				underwaterObject.cancelTransition = true;
-			}
-
-
+		       	//set attributes to shader
+		       	useRefract = 1.0;
+		       	if (!enableRefraction) useRefract = 0.0;
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_UnderReflDist",underLightAmt);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_blurSamples",blurSamples);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_RefrStrength",refractAmt*useRefract);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_RefrSpeed",refractSpd*useRefract);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_AnimSpeed",refractSpd);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_MasterScale",refractScl);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_underFogStart",underFogDist);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_underFogStretch",underFogSpread);
+		       	underwaterRefractRendererComponent.sharedMaterial.SetFloat("_BlurSpread",blurAmount*useRefract);
+				underwaterRefractRendererComponent.sharedMaterial.SetColor("_DepthColorB",underwaterColor);
+				underwaterRefractRendererComponent.sharedMaterial.SetFloat("_DepthAmt",0.001);
+				underwaterRefractRendererComponent.sharedMaterial.SetFloat("_Strength",refractionAmount);
+				
+				underwaterRefractPlane.transform.parent = setCamera.transform;
+				underwaterRefractPlane.transform.localEulerAngles = Vector3(270.0,0.0,0.0);
+			    underwaterRefractRendererComponent.enabled = true;
+	  
+	       	} else {
+	       		underwaterRefractRendererComponent.enabled = false;
+	       	}
+	       	
+	       	
+	       	//hide water transition
+	       	waterTransitionPlane.transform.parent = this.transform;
+	     	waterTransitionParticleRenderComponent.enabled = false;
+	     	waterTransitionParticleComponent.Clear();
+	     	
+	     	waterTransitionPlane2.transform.parent = this.transform;
+			waterTransition2ParticleRenderComponent.enabled = false;
+	        waterTransition2ParticleComponent.Clear();
+			
 	    } else {
 
 	        //reset underwater debris
-	        if (underwaterDebris != null){
-	       		underwaterDebrisRendererComponent.enabled=false;
-	       	}
+	        underwaterDebris.transform.parent = this.transform;
+	       	underwaterDebrisRendererComponent.enabled=false;
 
+	       	//turn off water refraction plane
+	       	underwaterRefractPlane.transform.parent = this.transform;
+	     	underwaterRefractRendererComponent.enabled = false;
+	
 	     	//show water transition
 	     	if (enableTransition){
 	     	if (doWaterTransition && setCamera != null){
 	     		
 	     		doTransitionTimer = 0.0;
-
-	      		if (underwaterObject != null){
-					underwaterObject.doTransition = true;
-				}
-
+	     		//sets and emits random water "screen" droplets
+	     		waterTransitionRendererComponent.sharedMaterial.shader = shaderDropletsFX;
+	     		waterTransitionParticleRenderComponent.enabled = true;
+	     		waterTransitionPlane.transform.parent = setCamera.transform;
+	       		waterTransitionPlane.transform.localPosition = Vector3(0.0,0.0,setCamera.GetComponent(Camera).nearClipPlane+cameraPlane_offset+0.02);
+	       		waterTransitionPlane.transform.localEulerAngles = Vector3(270.0,262.9,0.0);
+	      		waterTransitionParticleComponent.Play();
+	      		waterTransitionParticleComponent.Emit(Random.Range(60,120));
+	      		
+	      		//sets and plays water transition "screen" effect
+	      		waterTransition2RendererComponent.sharedMaterial.shader = shaderDropletsFX;
+	      		waterTransition2ParticleRenderComponent.enabled = true;
+	     		waterTransitionPlane2.transform.parent = setCamera.transform;
+	       		waterTransitionPlane2.transform.localPosition = Vector3(0.0,0.0,setCamera.GetComponent(Camera).nearClipPlane+cameraPlane_offset+0.01);
+	       		waterTransitionPlane2.transform.localEulerAngles = Vector3(270.0,262.9,0.0);
+	      		waterTransition2ParticleComponent.Emit(1);
+	      		
 	       		doWaterTransition = false;
-	
+	       		
+	       		//reset component positions
+	       		yield WaitForSeconds(12);
+		       		if (doTransitionTimer >= 12.0){
+			       		waterTransitionPlane.transform.parent = this.transform;
+			       		waterTransitionPlane2.transform.parent = this.transform;
+		       		}
+		       		
 		       		
 	     	} else {
 	     		
 	     		underTrans = 1.0;
-
+	     		
+	     		waterTransitionRendererComponent.sharedMaterial.shader = shaderDropletsFX;
+	     		waterTransitionParticleRenderComponent.enabled = true;
+	     		waterTransitionParticleComponent.Stop();
+	     		
+	     		waterTransition2RendererComponent.sharedMaterial.shader = shaderDropletsFX;
+	     		waterTransition2ParticleRenderComponent.enabled = true;
 	     	}
 	       	}
-	    }
 
+	     
+	    }
+    }
     
-	    if (!enableUnderwaterFX){
-	    	if (underwaterDebrisRendererComponent != null){
-				underwaterDebrisRendererComponent.enabled=false;
-			}
-	    }
+    
+    if (!enableUnderwaterFX){
+    	//reset underwater FX and Shaders
+    	underwaterRefractPlane.transform.parent = this.transform;
+   		underwaterRefractRendererComponent.enabled = false;
+		underwaterDebrisRendererComponent.enabled=false;
+
+    }
 
 }
-}
 
 
 
@@ -1100,72 +848,11 @@ if (Application.isPlaying){
 
 
 
+function OnApplicationQuit(){
 
-
-function Suimono_CheckCamera(){
-
-
-
-
-	//get main camera object
-	if (cameraTypeIndex == 0){
-		if (Camera.main != null){
-			mainCamera = Camera.main.transform;
-		}
-		manualCamera = null;
-	}
-
-
-	if (cameraTypeIndex == 1){
-		if (manualCamera != null){
-			mainCamera = manualCamera;
-		} else {
-			if (Camera.main != null){
-				mainCamera = Camera.main.transform;
-			}
-		}
-	}
-	//if (setCamera != mainCamera){ 
-		//update camera reference flag
-		//setCamera = mainCamera;
-	//}
-
-
-
-
-	//set camera
-	if (setCamera != mainCamera){
-		//if (Camera.main != null){
-		//if (Camera.main.transform != null){
-			setCamera = mainCamera;
-			//setCamera = Camera.main.transform;
-			setCameraComponent = setCamera.gameObject.GetComponent(Camera);
-			underwaterObject = setCamera.gameObject.GetComponent(Suimono_UnderwaterFog);
-
-		//}
-		//}
-	}
-
-	//set camera component
-	if (setCameraComponent == null && setCamera != null){
-			setCameraComponent = setCamera.gameObject.GetComponent(Camera);
-	}
-
-	//reset camera component
-	if (setCamera != null && setCameraComponent != null){
-		if (setCameraComponent.transform != setCamera){
-			setCameraComponent = setCamera.gameObject.GetComponent(Camera);
-			underwaterObject = setCamera.gameObject.GetComponent(Suimono_UnderwaterFog);
-		}
-	}
-	
-	//set track object
-	if (setTrack == null && setCamera != null){
-		setTrack = setCamera.transform;
-	}
-
-	//install camera effects
-	InstallCameraEffect();
+    if (underwaterRefractPlane != null) underwaterRefractPlane.transform.parent = this.transform;
+	if (waterTransitionPlane != null) waterTransitionPlane.transform.parent = this.transform;
+	if (waterTransitionPlane2 != null) waterTransitionPlane2.transform.parent = this.transform;
 
 }
 
@@ -1221,10 +908,11 @@ function SuimonoGetHeight(testObject : Vector3, returnMode : String) : float {
 	// Return values
 	returnValue = 0.0;
 	
+	//if (returnMode == "depth") returnValue = (surfaceLevel+getheight)-groundLevel;
 	if (returnMode == "height") returnValue = getheight;
 	if (returnMode == "surfaceLevel") returnValue = surfaceLevel+getheight;
 	if (returnMode == "baseLevel") returnValue = surfaceLevel;
-	if (returnMode == "object depth") returnValue = getheight-testObject.y;
+	if (returnMode == "object depth") returnValue = (surfaceLevel+getheight)-testObject.y;
 	if (returnMode == "isOverWater" && isOverWater) returnValue = 1.0;
 	if (returnMode == "isOverWater" && !isOverWater) returnValue = 0.0;
 	
@@ -1234,30 +922,25 @@ function SuimonoGetHeight(testObject : Vector3, returnMode : String) : float {
 	}
 	
 	if (suimonoObject != null){
-		if (returnMode == "direction") returnValue = suimonoObject.flowDirection;
-		if (returnMode == "speed") returnValue = suimonoObject.flowSpeed;
+		if (returnMode == "direction") returnValue = suimonoObject.flow_dir_degrees;
+		if (returnMode == "speed") returnValue = suimonoObject.setflowSpeed;
 			
 		if (returnMode == "wave height"){
-			h1 = 0.0;
+			h1 = (suimonoObject.detailHeight + suimonoObject.waveHeight);
+		   	h1 = Mathf.Lerp(h1, 0.0, getmap.r * suimonoObject.normalShore);
 			returnValue = getheight/h1;
 		}
 	}
 
 	if (returnMode == "transitionDepth") returnValue = ((surfaceLevel+getheight)-(testObject.y-(transition_offset*underTrans)));
 
-
-	if (returnMode == "underwaterEnabled"){
-		enabledUFX = 1;
-		if (!suimonoObject.enableUnderwaterFX) enabledUFX = 0;
-		returnValue = enabledUFX;
-	}
-
-	if (returnMode == "causticsEnabled"){
-		enabledCaustics = 1;
-		if (!suimonoObject.enableCausticFX) enabledCaustics = 0;
-		returnValue = enabledCaustics;
-	}
-
+	//set local variables
+	//if (returnMode == "store variables"){
+	//	currentSurfaceLevel = surfaceLevel+getheight;
+	//	currentObjectDepth = (surfaceLevel+getheight)-testObject.y;//-(transition_offset*underTrans));
+	//	currentTransitionDepth = (surfaceLevel+getheight)-(testObject.y-(transition_offset*underTrans));
+	//}
+	
 
 	return returnValue;
 
@@ -1276,20 +959,20 @@ function SuimonoGetHeightAll(testObject : Vector3) : float[] {
 	CalculateHeights(testObject);
 
 	// Return values
-	returnValueAll = new float[12];
+	if (returnValueAll == null) returnValueAll = new float[10];
 	
 	// 0 height
 	returnValueAll[0]=(getheight);
 	
 	// 1 surface level
-	returnValueAll[1]=(getheight);
-
+	returnValueAll[1]=(surfaceLevel+getheight);
+	
 	// 2 base level
 	returnValueAll[2]=(surfaceLevel);
 	
 	// 3 object depth
-	returnValueAll[3]=((getheight)-testObject.y);
-
+	returnValueAll[3]=((surfaceLevel+getheight)-testObject.y);
+	
 	// 4 is Over Water
 	if (isOverWater) returnValue = 1.0;
 	if (!isOverWater) returnValue = 0.0;
@@ -1297,108 +980,44 @@ function SuimonoGetHeightAll(testObject : Vector3) : float[] {
 	
 	// 5 is at surface
 	returnValue = 0.0;
-	if (((getheight)-testObject.y) < 0.25 && ((getheight)-testObject.y) > -0.25) returnValue = 1.0;
+	if (((surfaceLevel+getheight)-testObject.y) < 0.25 && ((surfaceLevel+getheight)-testObject.y) > -0.25) returnValue = 1.0;
 	returnValueAll[5]=(returnValue);
 	
 	
 	// 6 direction
 	if (suimonoObject != null){
-		setDegrees = suimonoObject.flowDirection + suimonoObject.transform.eulerAngles.y;
+		setDegrees = suimonoObject.flow_dir_degrees + suimonoObject.transform.eulerAngles.y;
 		if (setDegrees < 0.0) setDegrees = 365.0 + setDegrees;
 		if (setDegrees > 365.0) setDegrees = setDegrees-365.0;
 		if (suimonoObject != null) returnValueAll[6]= setDegrees;
 		if (suimonoObject == null) returnValueAll[6]= 0.0;
 		
 		// 7 speed
-		if (suimonoObject != null) returnValueAll[7]=(suimonoObject.flowSpeed);
+		if (suimonoObject != null) returnValueAll[7]=(suimonoObject.foamSpeed);
 		if (suimonoObject == null) returnValueAll[7]=0.0;
 		
 		// 8 wave height
-		if (suimonoObject != null) h1 = (suimonoObject.lgWaveHeight);
+		if (suimonoObject != null) h1 = (suimonoObject.detailHeight + suimonoObject.waveHeight);
+		if (suimonoObject != null) h1 = Mathf.Lerp(h1, 0.0, getmap.r * suimonoObject.normalShore);
 		if (suimonoObject == null) h1 = 0.0;
 		returnValueAll[8]=(getheight/h1);
 	}
 	
 	// 9 transition depth
-	returnValueAll[9] = ((getheight)-(testObject.y-(transition_offset*underTrans)));
+	returnValueAll[9] = ((surfaceLevel+getheight)-(testObject.y-(transition_offset*underTrans)));
 
-	// 10 enabled Underwater FX
-	enabledUFX = 1;
-	if (suimonoObject != null){
-		if (!suimonoObject.enableUnderwaterFX) enabledUFX = 0;
-		returnValueAll[10] = enabledUFX;
-	}
-	// 11 enabled Underwater FX
-	enabledCaustics = 1;
-	if (suimonoObject != null){
-		if (!suimonoObject.enableCausticFX) enabledCaustics = 0;
-		returnValueAll[11] = enabledCaustics;
-	}
 	
+	//set local variables
+	//if (returnMode == "store variables"){
+	//	currentSurfaceLevel = returnValueAll[1]
+	//	currentObjectDepth = returnValueAll[3]
+	//	currentTransitionDepth = returnValueAll[3]-(transition_offset*underTrans));
+	//}
+	
+
 	return returnValueAll;
 
 }
-
-
-
-
-
-
-
-
- function RotatePointAroundPivot(point: Vector3, pivot: Vector3, angles: Vector3): Vector3 {
-   dir = point - pivot;
-   dir = Quaternion.Euler(angles * -1) * dir;
-   point = dir + pivot;
-   return point;
- }
-
-
-
-
-function DecodeHeightPixels(texPosx : float, texPosy : float, texNum : int) : Color{
-
-	if (texNum == 0){
-		useDecodeTex = heightTex;
-		useDecodeArray = pixelArray;
-	}
-	if (texNum == 1){
-		useDecodeTex = heightTexT;
-		useDecodeArray = pixelArrayT;
-	}
-	if (texNum == 2){
-		useDecodeTex = heightTexR;
-		useDecodeArray = pixelArrayR;
-	}
-
-	texPosx = (texPosx % useDecodeTex.width);
-	texPosy = (texPosy % useDecodeTex.height);
-	if (texPosx < 0) texPosx = useDecodeTex.width - Mathf.Abs(texPosx);
-	if (texPosy < 0) texPosy = useDecodeTex.height - Mathf.Abs(texPosy);
-	if (texPosx > useDecodeTex.width) texPosx = texPosx - useDecodeTex.width;
-	if (texPosy > useDecodeTex.height) texPosy = texPosy - useDecodeTex.height;
-
-	row = (useDecodeArray.length/useDecodeTex.height) - Mathf.FloorToInt(texPosy);
-	pixIndex = ((Mathf.FloorToInt(texPosx) + 1) + (useDecodeArray.length - (useDecodeTex.width * row))) - 1;
-	if (pixIndex > useDecodeArray.length) pixIndex = pixIndex - (useDecodeArray.length);
-	if (pixIndex < 0) pixIndex = useDecodeArray.length - pixIndex;
-
-	pixCol = useDecodeArray[pixIndex];
-
-
-	if (QualitySettings.activeColorSpace == ColorSpace.Linear){
-		pixCol.r = Mathf.GammaToLinearSpace(pixCol.r);
-	}
-	if (QualitySettings.activeColorSpace == ColorSpace.Gamma){
-		pixCol.r = pixCol.r * 0.464646;
-	}
-
-
-
-	return pixCol;
-}
-
-
 
 
 
@@ -1406,128 +1025,209 @@ function CalculateHeights(testObject : Vector3){
 
 	getmap = Color(0.0,0.0,0.0,0.0);
 	getheight = -1.0;
-	getheightC = -1.0;
-	getheightT = -1.0;
-	getheightR = 0.0;
+	getheightW = -1.0;
+	getheightD1 = -1.0;
+	getheightD2 = -1.0;
+	getheight1 = 0.0;
+	getheight2 = 0.0;
+	getheight3 = 0.0;
 	isOverWater = false;
 	surfaceLevel = -1.0;
 	groundLevel = 0.0;
-
-	layermask = 1 <<layerWaterNum;
+	layer = 4;
+	layermask = 1 << layer;
 	testpos = Vector3(testObject.x,testObject.y+5000,testObject.z);
 
+	
 	if(Physics.Raycast(testpos, -Vector3.up,hit,10000,layermask)){
+	//for (i = 0;i < hits.Length; i++) {
 
-		targetSurface = hit.transform.gameObject;
-		if (currentSurfaceObject != targetSurface || suimonoObject == null){
-			currentSurfaceObject = targetSurface;
+		//hit = hits[i];
+
+		//if (hit.transform.gameObject.layer==4){ //hits object on water layer
+			
 			suimonoObject = hit.transform.parent.gameObject.GetComponent(SuimonoObject);
-		}
+			if (suimonoObject != null && hit.collider != null){
 
-		if (suimonoObject.typeIndex == 0){
-			heightObject = hit.transform;
-		} else {
-			heightObject = hit.transform.parent;
-		}
+				targetSurface = hit.transform.gameObject;
+				isOverWater = true;
+				surfaceLevel = hit.point.y;
+				
+				// default height to hit.point on flat water planes
+			   	if (suimonoObject != null){
+				if (suimonoObject.typeIndex != 2 && unityVersionIndex != 4 && unityVersionIndex != 5){
 
-		if (suimonoObject != null && hit.collider != null){
+				if (Application.isPlaying){
+				hitRender = hit.collider.GetComponent(Renderer);
+				//if (hit.collider.GetComponent(Renderer).sharedMaterial.GetTexture("_Surface1") != null){
+				if (hitRender.sharedMaterial.GetTexture("_Surface1") != null){
+					pixelUV = hit.textureCoord;
+					pixelUV2 = hit.textureCoord;
+					pixelUV3 = hit.textureCoord;
+					checktex = hitRender.sharedMaterial.GetTexture("_Surface1") as Texture2D;
+					flowtex = hitRender.sharedMaterial.GetTexture("_FlowMap") as Texture2D;
+					wavetex = hitRender.sharedMaterial.GetTexture("_WaveTex") as Texture2D;
+					
+		    		// CALCULATE DEEP WAVES
+		    		twfMult = 0.15;
+					waveSpd = Vector2(suimonoObject._suimono_uv3x,suimonoObject._suimono_uv3y);
+					waveSpdb = Vector2(suimonoObject._suimono_uv4x,suimonoObject._suimono_uv4y);
+					tscaleN = hitRender.sharedMaterial.GetTextureScale("_Surface1");
+					
+		   			pixelUV.x = (hit.textureCoord.x * tscaleN.x * twfMult + waveSpd.x);
+		   			pixelUV.y = (hit.textureCoord.y * tscaleN.y * twfMult + waveSpd.y);
+		   			if (checktex != null) pixelUV.x *= checktex.width;
+		    		if (checktex != null) pixelUV.y *= checktex.height;
+		    		if (checktex != null) getheight1 = checktex.GetPixel(pixelUV.x, pixelUV.y).r;
+					//getheight1 = suimonoObject.pixels_Surface[Mathf.Abs(Mathf.FloorToInt((checktex.width*(pixelUV.y))+pixelUV.x))].r;
 
-			isOverWater = true;
-			surfaceLevel = heightObject.position.y;//hit.point.y;
+		  			
+		  			pixelUV2.x = (hit.textureCoord.x * tscaleN.x * twfMult - waveSpdb.x - 0.5);
+		   			pixelUV2.y = (hit.textureCoord.y * tscaleN.y * twfMult - waveSpdb.y - 0.5);
+				   	if (checktex != null) pixelUV2.x *= checktex.width;
+		    		if (checktex != null) pixelUV2.y *= checktex.height;
+		    		if (checktex != null) getheight2 = checktex.GetPixel(pixelUV2.x, pixelUV2.y).r;
+					//getheight2 = suimonoObject.pixels_Surface[Mathf.Abs(Mathf.FloorToInt((checktex.width*(pixelUV2.y))+pixelUV2.x))].r;
+
+		    		if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+		    			getheight1 = Mathf.GammaToLinearSpace(getheight1);
+						getheight2 = Mathf.GammaToLinearSpace(getheight2);
+					} else {
+		    			getheight1 *= (0.4545);
+						getheight2 *= (0.4545);
+					}
+					
+					getheightW = Mathf.Lerp(0.0,suimonoObject.useDpWvHt,Mathf.Clamp01(getheight1+getheight2));
+		   				   			
+		   			
+		   			
+		   			// CALCULATE DETAIL WAVES
+		    		twfMult = 1.0;
+					waveSpd = Vector2(suimonoObject._suimono_uvx,suimonoObject._suimono_uvy);
+					waveSpdb = Vector2(suimonoObject._suimono_uv2x,suimonoObject._suimono_uv2y);
+					tscaleN = hitRender.sharedMaterial.GetTextureScale("_WaveLargeTex");
+					
+		   			pixelUV.x = (hit.textureCoord.x * tscaleN.x * twfMult + waveSpd.x);
+		   			pixelUV.y = (hit.textureCoord.y * tscaleN.y * twfMult + waveSpd.y);
+		   			if (checktex != null) pixelUV.x *= checktex.width;
+		    		if (checktex != null) pixelUV.y *= checktex.height;
+		    		if (checktex != null) getheight1 = checktex.GetPixel(pixelUV.x, pixelUV.y).r;
+		  
+		  			pixelUV2.x = (hit.textureCoord.x * tscaleN.x * twfMult - waveSpdb.x - 0.5);
+		   			pixelUV2.y = (hit.textureCoord.y * tscaleN.y * twfMult - waveSpdb.y - 0.5);
+				   	if (checktex != null) pixelUV2.x *= checktex.width;
+		    		if (checktex != null) pixelUV2.y *= checktex.height;
+		    		if (checktex != null) getheight2 = checktex.GetPixel(pixelUV2.x, pixelUV2.y).r;   			
+
+		    		if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+		    			getheight1 = Mathf.GammaToLinearSpace(getheight1);
+						getheight2 = Mathf.GammaToLinearSpace(getheight2);
+					} else {
+						getheight1 *= (0.4545);
+						getheight2 *= (0.4545);
+					}
+					getheightD1 = Mathf.Lerp(0.0,suimonoObject.useDtHt,Mathf.Clamp01(getheight1+getheight2));
+		   				   			
+		   			
+		   			/*
+					//shoreline calculation - Normalize
+		    		twfMult = 1.0;
+					waveSpd = Vector2(suimonoObject._suimono_uvx,suimonoObject._suimono_uvy); 
+					tscaleN = hitRender.sharedMaterial.GetTextureScale("_FlowMap");
+					
+		   			pixelUV.x = (hit.textureCoord.x * tscaleN.x * twfMult);
+		   			pixelUV.y = (hit.textureCoord.y * tscaleN.y * twfMult);
+		   			if (flowtex != null) pixelUV.x *= flowtex.width;
+		    		if (flowtex != null) pixelUV.y *= flowtex.height;
+		    		if (flowtex != null) getmap.r = flowtex.GetPixel(pixelUV.x, pixelUV.y).r;
+		    		
+		    		if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+		    			getmap.r = Mathf.GammaToLinearSpace(getmap.r);
+				   		getmap.g = Mathf.GammaToLinearSpace(getmap.g);
+		    		} else {
+		    			getmap.r *= (0.4545);
+						getmap.g *= (0.4545);
+					}
+		    		
+		    		
+		    		
+		    		//shoreline calculation - Shore wave Height
+			    	//twfMult = 1.0;// * suimonoObject.setDtScale;
+					//waveSpd = Vector2(suimonoObject._suimono_uvx,suimonoObject._suimono_uvy); 
+					//tscaleN = hit.collider.GetComponent(Renderer).sharedMaterial.GetTextureScale("_FlowMap");
+					
+					//var getflowmap : Color;
+					//var getwavetex : Color;
+		   			//pixelUV.x = (hit.textureCoord.x * tscaleN.x * twfMult);
+		   			//pixelUV.y = (hit.textureCoord.y * tscaleN.y * twfMult);
+		   			//if (flowtex != null) pixelUV.x *= flowtex.width;
+		    		//if (flowtex != null) pixelUV.y *= flowtex.height;
+		    		//if (flowtex != null) getflowmap = flowtex.GetPixel(pixelUV.x, pixelUV.y);
+		    		
+				 	//var flowmap : Vector2 = Vector2(Mathf.Clamp01(getflowmap.r + getflowmap.g),getflowmap.b);
+				 	//flowmap.x *= 2.0 - 1.0;
+				 	//flowmap.y *= 2.0 - 1.0;
+					//flowmap.x = Mathf.Lerp(0.0,flowmap.x,suimonoObject.setFlowShoreScale);
+					//flowmap.y = Mathf.Lerp(0.0,flowmap.y,suimonoObject.setFlowShoreScale);
+
+			    	twfMult = suimonoObject.setFlowShoreScale;
+					waveSpd = Vector2(suimonoObject._suimono_uvx,suimonoObject._suimono_uvy); 
+					tscaleN = hitRender.sharedMaterial.GetTextureScale("_WaveMap");
+		   			pixelUV.x = (hit.textureCoord.x * tscaleN.x * twfMult)+suimonoObject.setflowOffX;//+flowmap.x;
+		   			pixelUV.y = (hit.textureCoord.y * tscaleN.y * twfMult)+suimonoObject.setflowOffY;//+flowmap.y;
+		   			if (wavetex != null) pixelUV.x *= wavetex.width;
+		    		if (wavetex != null) pixelUV.y *= wavetex.height;
+
+					if (wavetex != null) getwavetex = wavetex.GetPixel(pixelUV.x,pixelUV.y);
+					
+		    		if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+			    		getwavetex.r = Mathf.GammaToLinearSpace(getwavetex.r);
+			    		getwavetex.g = Mathf.GammaToLinearSpace(getwavetex.g);
+			    		getwavetex.b = Mathf.GammaToLinearSpace(getwavetex.b);
+		    		} else {
+						getwavetex.r *= (0.4545);
+						getwavetex.g *= (0.4545);
+						getwavetex.b *= (0.4545);
+					}
+
+					//wrap normal to shore calculations
+					//float4 getflowmap = tex2D(_FlowMap, IN.uv_FlowMap);
+				 	//float2 flowmap = float2(saturate(getflowmap.r + getflowmap.g),getflowmap.b) * 2.0 - 1.0;
+					//flowmap.x = lerp(0.0,flowmap.x,_FlowShoreScale);
+					//flowmap.y = lerp(0.0,flowmap.y,_FlowShoreScale);
+					//half4 waveTex = tex2D(_WaveTex, float2((IN.uv_FlowMap.x*shoreWaveScale)+flowOffX+flowmap.x,(IN.uv_FlowMap.y*shoreWaveScale)+flowOffY+flowmap.y));
+					//o.Normal = lerp(o.Normal,half3(0,0,1),waveTex.g * _WaveShoreHeight * flow.g);
+
+					*/
 
 
 
-			//calculate relative position
-			if (heightObject != null){
-				baseHeight = heightObject.position.y;
-				baseAngle = heightObject.rotation.y;
-				relativePos.x = ((heightObject.position.x - testObject.x)/(20.0*heightObject.localScale.x) + 1) * 0.5 * heightObject.localScale.x;
-				relativePos.y = ((heightObject.position.z - testObject.z)/(20.0*heightObject.localScale.z) + 1) * 0.5 * heightObject.localScale.z;
+
+		    		//####   final Height calculation  #####
+		    		getheight = getheightW + getheightD1;
+
+		   			//getheight = (getheight1 * suimonoObject.detailHeight);
+		   			//getheight += (getheight2 * suimonoObject.waveHeight);
+		   				//normalize shore
+		   				getheight = Mathf.Lerp(getheight,0.0, getmap.r * suimonoObject.normalShore);
+		   				
+		   				//add shore waves - turned off for now
+		   				getheight += Mathf.Lerp(0.0,1.0, getwavetex.g * suimonoObject.usewaveShoreHt * getmap.r);
+		   				
+		   				//final projection calculation
+		   				getheight *= suimonoObject.projectHeight;
+		   				//suimonoObject.usewaveShoreHt
+		   				//o.Normal = lerp(o.Normal,half3(0,0,1),getwavetex.g * _WaveShoreHeight * flow.g);
+		   									
+		   				//getheight += Mathf.Lerp(0.0,suimonoObject.usewaveShoreHt,waveTex.r)*getmap.r;
+		   		}
+	    		}
+	    		} else {
+				   	getheight = 0.0;
+				}
+	    		}
 			}
-
-
-
-			//calculate offset
-			useLocalTime = suimonoObject.localTime;
-			flow_dirC = SuimonoConvertAngleToVector(suimonoObject.flowDirection);
-			flowSpeed0 = Vector2(flow_dirC.x*useLocalTime,flow_dirC.y*useLocalTime);
-			flowSpeed1 = Vector2(flow_dirC.x*useLocalTime*0.25,flow_dirC.y*useLocalTime*0.25);
-			flowSpeed2 = Vector2(flow_dirC.x*useLocalTime*0.0625,flow_dirC.y*useLocalTime*0.0625);
-			flowSpeed3 = Vector2(flow_dirC.x*useLocalTime*0.125,flow_dirC.y*useLocalTime*0.125);
-			tScale = (1.0/(suimonoObject.waveScale));
-			oPos = Vector2(0.0-suimonoObject.savePos.x,0.0-suimonoObject.savePos.y);
-
-			//calculate texture coordinates
-			if (heightTex != null){
-
-				texCoord.x = (relativePos.x * tScale + flowSpeed0.x + (oPos.x)) * heightTex.width;
-				texCoord.z = (relativePos.y * tScale + flowSpeed0.y + (oPos.y)) * heightTex.height;
-				texCoord1.x = ((relativePos.x * tScale * 0.75) - flowSpeed1.x + (oPos.x*0.75)) * heightTex.width;
-				texCoord1.z = ((relativePos.y * tScale * 0.75) - flowSpeed1.y + (oPos.y*0.75)) * heightTex.height;
-
-				texCoordT.x = (relativePos.x * tScale + flowSpeed0.x + (oPos.x)) * heightTexT.width;
-				texCoordT.z = (relativePos.y * tScale + flowSpeed0.y + (oPos.y)) * heightTexT.height;
-				texCoordT1.x = ((relativePos.x * tScale * 0.5) - flowSpeed1.x + (oPos.x*0.5)) * heightTexT.width;
-				texCoordT1.z = ((relativePos.y * tScale * 0.5) - flowSpeed1.y + (oPos.y*0.5)) * heightTexT.height;
-
-				texCoordR.x = (relativePos.x * suimonoObject.lgWaveScale * tScale + flowSpeed2.x + (oPos.x*suimonoObject.lgWaveScale)) * heightTexR.width;
-				texCoordR.z = (relativePos.y * suimonoObject.lgWaveScale * tScale + flowSpeed2.y + (oPos.y*suimonoObject.lgWaveScale)) * heightTexR.height;
-				texCoordR1.x = ((relativePos.x * suimonoObject.lgWaveScale * tScale) + flowSpeed3.x + (oPos.x*suimonoObject.lgWaveScale)) * heightTexR.width;
-				texCoordR1.z = ((relativePos.y * suimonoObject.lgWaveScale * tScale ) + flowSpeed3.y + (oPos.y*suimonoObject.lgWaveScale)) * heightTexR.height;
-
-
-				//rotate coordinates
-				if (baseAngle != 0.0){
-		    	
-		    		pivotPoint = Vector3(heightTex.width*heightObject.localScale.x*tScale*0.5+(flowSpeed0.x*heightTex.width),0,heightTex.height*heightObject.localScale.z*tScale*0.5+(flowSpeed0.y*heightTex.height));
-		    		texCoord = RotatePointAroundPivot(texCoord,pivotPoint,heightObject.eulerAngles);
-		    		pivotPoint = Vector3(heightTex.width*heightObject.localScale.x*tScale*0.5*0.75-(flowSpeed1.x*heightTex.width),0,heightTex.height*heightObject.localScale.z*tScale*0.5*0.75-(flowSpeed1.y*heightTex.height));
-		    		texCoord1 = RotatePointAroundPivot(texCoord1,pivotPoint,heightObject.eulerAngles);
-
-		    		pivotPoint = Vector3(heightTexT.width*heightObject.localScale.x*tScale*0.5+(flowSpeed0.x*heightTexT.width),0,heightTexT.height*heightObject.localScale.z*tScale*0.5+(flowSpeed0.y*heightTexT.height));
-		    		texCoordT = RotatePointAroundPivot(texCoordT,pivotPoint,heightObject.eulerAngles);
-		    		pivotPoint = Vector3(heightTexT.width*heightObject.localScale.x*tScale*0.5*0.5-(flowSpeed1.x*heightTexT.width),0,heightTexT.height*heightObject.localScale.z*tScale*0.5*0.5-(flowSpeed1.y*heightTexT.height));
-		    		texCoordT1 = RotatePointAroundPivot(texCoordT1,pivotPoint,heightObject.eulerAngles);
-
-			    	pivotPoint = Vector3(heightTexR.width*heightObject.localScale.x*suimonoObject.lgWaveScale*tScale*0.5+(flowSpeed2.x*heightTexR.width),0,heightTexR.height*heightObject.localScale.z*suimonoObject.lgWaveScale*tScale*0.5+(flowSpeed2.y*heightTexR.height));
-		    		texCoordR = RotatePointAroundPivot(texCoordR,pivotPoint,heightObject.eulerAngles);
-		    		pivotPoint = Vector3(heightTexR.width*heightObject.localScale.x*suimonoObject.lgWaveScale*tScale*0.5+(flowSpeed3.x*heightTexR.width),0,heightTexR.height*heightObject.localScale.z*suimonoObject.lgWaveScale*tScale*0.5+(flowSpeed3.y*heightTexR.height));
-		    		texCoordR1 = RotatePointAroundPivot(texCoordR1,pivotPoint,heightObject.eulerAngles);
-		    	}
-
-				//decode height value
-				heightVal0 = DecodeHeightPixels(texCoord.x,texCoord.z,0);
-				heightVal1 = DecodeHeightPixels(texCoord1.x,texCoord1.z,0);
-				heightValT0 = DecodeHeightPixels(texCoordT.x,texCoordT.z,1);
-				heightValT1 = DecodeHeightPixels(texCoordT1.x,texCoordT1.z,1);
-				heightValR0 = DecodeHeightPixels(texCoordR.x,texCoordR.z,2);
-				heightValR1 = DecodeHeightPixels(texCoordR1.x,texCoordR1.z,2);
-
-				//set heightvalue
-				getheightC = (heightVal0.r + heightVal1.r) * 0.8;
-				getheightT = ((heightValT0.r*0.2) + (heightValT0.r * heightValT1.r * 0.8)) * suimonoObject.turbulenceFactor * 0.5;
-				getheightR = ((heightValR0.r * 4.0) + (heightValR1.r * 3.0));
-
-				getheight = baseHeight + (getheightC * suimonoObject.waveHeight);
-				getheight += (getheightT * suimonoObject.waveHeight);
-				getheight += (getheightR * suimonoObject.lgWaveHeight);
-				getheight = Mathf.Lerp(baseHeight,getheight,suimonoObject.useHeightProjection);
-			}
-
-		}
 	}
+
 }
 
-
-
-function InstallCameraEffect(){
-
-	//Installs Camera effect if it doesn't already exist.
-	if (setCameraComponent != null){
-		if (setCameraComponent.gameObject.GetComponent(Suimono_UnderwaterFog) != null){
-			//do nothing
-		} else {
-			setCameraComponent.gameObject.AddComponent(Suimono_UnderwaterFog);
-		}
-	}
-}

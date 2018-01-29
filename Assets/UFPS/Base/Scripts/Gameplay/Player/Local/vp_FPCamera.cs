@@ -275,8 +275,8 @@ public class vp_FPCamera : vp_Component
 		m_RotationSpring.MinVelocity = 0.0f;
 
 #if UNITY_EDITOR
-		if (DisableVRModeOnStartup && UnityEngine.VR.VRSettings.enabled)
-			UnityEngine.VR.VRSettings.enabled = false;
+		if (DisableVRModeOnStartup && UnityEngine.XR.XRSettings.enabled)
+			UnityEngine.XR.XRSettings.enabled = false;
 #endif
 
 	}

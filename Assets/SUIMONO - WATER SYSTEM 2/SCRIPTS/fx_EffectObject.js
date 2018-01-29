@@ -2,6 +2,9 @@
 
 @script ExecuteInEditMode()
 
+//enum Sui_FX_Type{
+//		particle,audio
+//		}
 enum Sui_FX_Rules{
 		none,isUnderWater,isAboveWater,isAtWaterSurface,speedIsGreater,speedIsLess,
 		waterDepthGreater,waterDepthLess
@@ -16,8 +19,11 @@ enum Sui_FX_ActionType{
 		none,once,repeat
 		}
 
+//particle
+//var effectType : Sui_FX_Type[];
 var fxObject : SuimonoModuleFX;			
 var effectRule : Sui_FX_Rules[];
+//var effectRuleModifier : Sui_FX_RuleModifiers[];
 var effectData : float[];
 var resetRule : Sui_FX_Rules[];
 var effectSystemName : String[];
@@ -30,6 +36,8 @@ var effectSize : Vector2 = Vector2(1.0,1.0);
 var emitSpeed : float;
 var speedThreshold : float;
 var directionMultiplier : float;
+//var linkSizeToSpeed : boolean = false;
+//var linkDirections : boolean = false;
 var emitAtWaterLevel : boolean = false;
 var effectDistance : float = 100.0;
 
@@ -43,6 +51,7 @@ var audioSpeed : float;
 var tintCol : Color = Color(1,1,1,1);
 var clampRot : boolean = false;
 
+
 // for custom editor
 var typeIndex : int = 0;
 var ruleIndex : int[];
@@ -51,13 +60,21 @@ var ruleOptions = new Array("None","Object Is Underwater","Object Is Above Water
 	"Water Depth Is Less Than"
 	);
 
+
+	
+
 var systemIndex : int = 0;
 var sysNames = new Array();
-//var useDarkUI : boolean = true;
-var currentSpeed : float;
+//var systemOptions = new Array("splash","bubbles");
 
+//
+
+var useDarkUI : boolean = true;
+
+var currentSpeed : float;
 private var savePos : Vector3 = Vector3(0,0,0);
 private var moduleObject : SuimonoModule;
+//private var suimonoCamera : sui_demo_Controller2;
 private var delayTimer : float;
 private var emitTimer : float;
 private var delayPass : boolean = true;
@@ -70,15 +87,18 @@ private var isOverWater : float;
 private var currentWaterPos : float;
 private var emitPos : Vector3;
 private var rulepass : boolean = false;
+
 private var timerAudio : float = 0.0;
 private var timerParticle : float = 0.0;
+
 private var checkTime : float = 0.0;
+
 private var currentCamDistance : float = 0.0;
 
 //collect for GC
 private var gizPos : Vector3;
 private var sN : int;
-//private var setName : String;
+private var setName : String;
 private var s : int;
 private var ruleCheck : boolean[];
 private var ruleCKNum : int = 0;
@@ -99,6 +119,7 @@ private var tempData : float[];
 private var aR : int;	
 private var endLP : int;
 private var setInt : int;
+		
 private var heightValues : float[];
 		
 
@@ -157,10 +178,21 @@ function Start () {
 
 
 
+//function Update(){
+	//populate system names
+//	if (fxObject != null){
+//		sysNames = fxObject.sysNames;
+//	}	
+//}
 
 
 function SetUpdate(){
 
+	//populate system names
+	//if (fxObject != null){
+	//	sysNames = fxObject.sysNames;
+	//}	
+	
 	
 	if (moduleObject != null){
 
@@ -175,34 +207,40 @@ function SetUpdate(){
 			}
 		}
 		#endif
+		
+		//set ui
+		//if (moduleObject != null)
+			//useDarkUI = moduleObject.useDarkUI;
+		
+
+
+
 
 
 
 		if (Application.isPlaying){	
 		
 		//calculate camera distance
-		if (moduleObject.setTrack != null){
-			currentCamDistance = Vector3.Distance(this.transform.position,moduleObject.setTrack.transform.position);
-			if (currentCamDistance <= effectDistance){
-			
-				//track position / speed
-				if (savePos != this.transform.position){
-					currentSpeed = Vector3.Distance(savePos,Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z))/Time.deltaTime;
-				}
-				savePos = this.transform.position;
-
-
-				// track timers and emit
-				timerParticle += Time.deltaTime;
-				timerAudio += Time.deltaTime;
-				
-				EmitFX();
-				if (timerAudio > audioSpeed){
-					timerAudio = 0.0;
-					EmitSoundFX();
-				}
-				
+		currentCamDistance = Vector3.Distance(this.transform.position,moduleObject.setTrack.transform.position);
+		if (currentCamDistance <= effectDistance){
+		
+			//track position / speed
+			if (savePos != this.transform.position){
+				currentSpeed = Vector3.Distance(savePos,Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z))/Time.deltaTime;
 			}
+			savePos = this.transform.position;
+
+
+			// track timers and emit
+			timerParticle += Time.deltaTime;
+			timerAudio += Time.deltaTime;
+			
+			EmitFX();
+			if (timerAudio > audioSpeed){
+				timerAudio = 0.0;
+				EmitSoundFX();
+			}
+			
 		}
 		
 		}
@@ -216,12 +254,11 @@ function SetUpdate(){
 function EmitSoundFX(){
 
 	if (audioObj != null && moduleObject != null){
-	if (moduleObject.gameObject.activeInHierarchy){
 	if (rulepass){
 		moduleObject.AddSoundFX(audioObj,emitPos,Vector3(0,Random.Range(audioPit.x,audioPit.y),Random.Range(audioVol.x,audioVol.y)));
 	}
 	}
-	}
+
 }
 
 
@@ -230,7 +267,6 @@ function EmitSoundFX(){
 function EmitFX () {
 if (Application.isPlaying){	
 if (moduleObject != null){
-if (moduleObject.gameObject.activeInHierarchy){
 
 	//######################################
 	//##    CALCULATE TIMING and DELAYS   ##
@@ -261,7 +297,6 @@ if (moduleObject.gameObject.activeInHierarchy){
 	//##########################
 	rulepass = false;
 	if (ruleCheck == null) ruleCheck = new boolean[effectRule.Length];
-	ruleCheck = new boolean[effectRule.Length];
 	ruleCKNum = 0;
 	if (resetCheck == null) resetCheck = new boolean[resetRule.Length];
 	resetCKNum  = 0;
@@ -291,8 +326,13 @@ if (moduleObject.gameObject.activeInHierarchy){
 		emitS = Random.Range(effectSize.x,effectSize.y);
 		emitV = Vector3(0,0,0);
 		emitPos = transform.position;
-		emitR = transform.eulerAngles.y-180;
-
+		
+		#if UNITY_3_5
+			emitR = 135.0+transform.eulerAngles.y;
+		#else
+			emitR = 90.0+transform.eulerAngles.y;
+		#endif
+		//emitR = 0.0;
 		if (!clampRot){
 			emitR = Random.Range(-30,10.0);
 		}
@@ -300,7 +340,7 @@ if (moduleObject.gameObject.activeInHierarchy){
 		
 		//get water level
 		if (emitAtWaterLevel){
-			emitPos.y = (transform.position.y + currentWaterPos)-0.35;//0.2;
+			emitPos.y = (transform.position.y + currentWaterPos)+0.01;
 		}
 		
 		if (directionMultiplier > 0.0){
@@ -319,7 +359,7 @@ if (moduleObject.gameObject.activeInHierarchy){
 		}
 		}
 	}
-}
+	
 }
 }
 }
@@ -444,16 +484,16 @@ function DeleteRule(ruleNum : int){
 
 
 
-function OnDisable(){
+function OnDisabled(){
 	CancelInvoke("SetUpdate");
 }
 
-function OnEnable(){
+function OnEnabled(){
 
     staggerOffset++;
     stagger = (staggerOffset+0f) *0.05f  ;
     staggerOffset = staggerOffset % staggerModulus;
     
 	CancelInvoke("SetUpdate");
-	InvokeRepeating("SetUpdate",0.1+stagger,(1.0/10.0));
+	InvokeRepeating("SetUpdate",0.1+stagger,(1.0/30.0));
 }

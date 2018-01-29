@@ -1,0 +1,1339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6D748A5-0B92-CB91-5DCC-3A82DAD28C54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>com.unity.package-manager-ui.Editor</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
+    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityBuildTarget>StandaloneOSXUniversal:2</UnityBuildTarget>
+    <UnityVersion>2018.1.0b4</UnityVersion>
+    <RootNamespace>
+    </RootNamespace>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_1_0;UNITY_2018_1;UNITY_2018;PLATFORM_ARCH_64;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_OSX;PLATFORM_STANDALONE;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_SPATIALTRACKING;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_UNITY_COLLECTIONS_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_1_0;UNITY_2018_1;UNITY_2018;PLATFORM_ARCH_64;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_OSX;PLATFORM_STANDALONE;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_SPATIALTRACKING;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_UNITY_COLLECTIONS_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT;PLAYMAKER;PLAYMAKER_1_8;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.BaselibModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.BaselibModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CloudWebServicesModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CloudWebServicesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.FacebookModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.FacebookModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticlesLegacyModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTrackingModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpatialTrackingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StyleSheetsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TimelineModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TimelineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WebModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Locator">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/Unity.Locator.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Timeline">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIAutomation">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.GoogleAudioSpatializer">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.Unity/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="RAIN">
+      <HintPath>Assets/RAIN/RAIN.dll</HintPath>
+    </Reference>
+    <Reference Include="RAINMetaform">
+      <HintPath>Assets/RAIN/RAINMetaform.dll</HintPath>
+    </Reference>
+    <Reference Include="RAINMetaformEditor">
+      <HintPath>Assets/RAIN/Editor/RAINMetaformEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="RAINEditor">
+      <HintPath>Assets/RAIN/Editor/RAINEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress.3.5">
+      <HintPath>Assets/Movinarc/PackageUninstaller/Editor/SharpCompress.3.5.dll</HintPath>
+    </Reference>
+    <Reference Include="SabreCSG.Core">
+      <HintPath>Assets/SabreCSG/Scripts/SabreCSG.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ShaderForge">
+      <HintPath>Assets/ShaderForge/Editor/ShaderForge.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/Editor/UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@0.0.19/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@0.0.19/Editor/UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>/Users/tyhostager/Library/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/UnityScript.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript.Lang">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/UnityScript.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Boo.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry.AccessControl">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/Microsoft.Win32.Registry.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="System.AppContext">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Concurrent">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Collections.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.NonGeneric">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Collections.NonGeneric.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Collections.Specialized.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.EventBasedAsync">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ComponentModel.EventBasedAsync.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.TypeConverter">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ComponentModel.TypeConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Console">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Common">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Contracts">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Debug">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.FileVersionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.Process.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.StackTrace.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TextWriterTraceListener">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tools">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceEvent">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.TraceEvent.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.TraceSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Diagnostics.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Drawing.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Dynamic.Runtime">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Dynamic.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Extensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Globalization.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.FileSystem.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.DriveInfo">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.FileSystem.DriveInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Watcher">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.FileSystem.Watcher.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.IsolatedStorage">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.IsolatedStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.MemoryMappedFiles">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.MemoryMappedFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipes">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.Pipes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.UnmanagedMemoryStream">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.UnmanagedMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Expressions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Linq.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Parallel">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Linq.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Queryable">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Linq.Queryable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.AuthenticationManager">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.AuthenticationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Cache">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.HttpListener">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Mail">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Mail.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NameResolution">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.NameResolution.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.NetworkInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Requests">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Requests.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Security">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.ServicePoint">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.ServicePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Sockets">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Utilities">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebHeaderCollection">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.WebHeaderCollection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets.Client">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.WebSockets.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Net.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ObjectModel">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.ILGeneration">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.Emit.ILGeneration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.Lightweight">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.Emit.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.Emit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Extensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.ReaderWriter">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Resources.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.ResourceManager">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Resources.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.VisualC">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.CompilerServices.VisualC.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Handles">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Handles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.InteropServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Numerics">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Json">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Serialization.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.Serialization.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Claims">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Claims.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.DeriveBytes">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.DeriveBytes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encryption.Aes">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Encryption.Aes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encryption.ECDiffieHellman">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Encryption.ECDiffieHellman.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encryption.ECDsa">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Encryption.ECDsa.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encryption">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Encryption.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Hashing.Algorithms">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Hashing.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Hashing">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Hashing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.RSA">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.RSA.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.RandomNumberGenerator">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.RandomNumberGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.Principal.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.SecureString">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Security.SecureString.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Duplex">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceModel.Duplex.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Http">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.NetTcp">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceModel.NetTcp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Security">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceModel.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess.ServiceController">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ServiceProcess.ServiceController.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.Extensions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Text.Encoding.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Text.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Text.RegularExpressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.AccessControl">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Overlapped">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.Overlapped.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Parallel">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.Tasks.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.Thread.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.ThreadPool">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.ThreadPool.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Timer">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.Timer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.ReaderWriter">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XDocument">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlSerializer">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Xsl.Primitives">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/System.Xml.Xsl.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Facades/netstandard.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\AssemblyInfo.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\External\SemVersion.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\External\SemVersionExtension.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Common\OperationSignal.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Common\ThreadedDelay.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\IAddOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\IBaseOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\IListOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\IOperationFactory.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\IRemoveOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Interfaces\ISearchOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\OperationFactory.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\Package.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageCollection.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageFilter.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageGroupOrigins.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageInfo.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageInfoListExtensions.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageListExtensions.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Packages\PackageState.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmAddOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmBaseOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmListOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmOperationFactory.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmRemoveOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\Services\Upm\UpmSearchOperation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\Common\Alert.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\Common\Caret.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\Common\LoadingSpinner.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\Common\UIUtils.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageDetails.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageGroup.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageItem.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageList.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageManagerWindow.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Sources\UI\PackageSearchFilterTabs.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\IValidationTest.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\IValidationTestResult.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\UI\PackageValidationWindow.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\Utilities\Utilities.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationSuite.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationTests\AssemblyDefinitionValidation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationTests\BaseValidation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationTests\ChangeLogValidation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationTests\ManifestValidation.cs" />
+    <Compile Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\ValidationSuite\ValidationTests\MetaFilesValidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Editor\License.txt" />
+    <None Include="Assets\Extensions\unitycoder_com\Demo_NormalMapMaker\Shaders\BumpedDiffuseFixNormal.shader" />
+    <None Include="Assets\Extensions\unitycoder_com\Demo_NormalMapMaker\Shaders\BumpedSpecularFixNormal.shader" />
+    <None Include="Assets\Extensions\unitycoder_com\Demo_NormalMapMaker\Shaders\BumpedSpecularSeparate.shader" />
+    <None Include="Assets\Extensions\unitycoder_com\Demo_NormalMapMaker\Shaders\BumpedSpecularSeparateFixNormal.shader" />
+    <None Include="Assets\Fonts\Jupiter\LICENSE.txt" />
+    <None Include="Assets\Materials\UI-Default-No-Alpha.shader" />
+    <None Include="Assets\Movinarc\PackageUninstaller\README.txt" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
+    <None Include="Assets\NatureStarterKit\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+    <None Include="Assets\NatureStarterKit\info.txt" />
+    <None Include="Assets\NatureStarterKit2\info.txt" />
+    <None Include="Assets\Palm Trees\Shaders\WavingDoublePassCullBackface.shader" />
+    <None Include="Assets\Palm Trees\Shaders\WavingDoublePassNoCullBackface.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
+    <None Include="Assets\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
+    <None Include="Assets\PostProcessing\Editor Resources\UI\Trackball.shader" />
+    <None Include="Assets\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+    <None Include="Assets\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\ACES.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Blit.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Bloom.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Bloom.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Common.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\FXAA.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\FXAA3.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Fog.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\GrainGen.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\LutGen.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\MotionBlur.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\TAA.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\TAA.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
+    <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
+    <None Include="Assets\RAIN\Editor\ScriptTemplates\BehaviorTreeTemplate.xml" />
+    <None Include="Assets\RAIN\Editor\Shaders\RAINShader.shader" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\Monsterrat4\Monsterrat4.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\Monsterrat_white\Monsterrat_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\MrDafoe1\MrDafoe1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\MrDafoe2\MrDafoe2.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\MrDafoe_white\MrDafoe_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\VcrOsdMono_white\VcrOsdMono_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\misterpixel_white\MisterPixel_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\monotron1\Monotron1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\monotron_white\Monotron_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\monsterrat1\Monsterrat1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\monsterrat2\Monsterrat2.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\monsterrat3\Monsterrat3.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\raleway1\Raleway1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\raleway_white\Raleway_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\sixcaps1\SixCaps1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\sixcaps2\SixCaps2.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\sixcaps_white\SixCaps_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\yellowtail1\Yellowtail1.fnt" />
+    <None Include="Assets\RetroAesthetics\Fonts\Bitmap\yellowtail_white\Yellowtail_white.fnt" />
+    <None Include="Assets\RetroAesthetics\Shaders\Post-processing\RetroCameraEffect.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\RetroEmissiveColors.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\RetroEmissiveTextured.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\RetroGridGenerative.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\RetroSkybox.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\SpriteGradientSprites.shader" />
+    <None Include="Assets\RetroAesthetics\Shaders\UnlitTextureColor.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESET_(Default) Calm Water Presets.txt" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESET_(Default) Ocean Presets.txt" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\RESOURCES\SUIMONO_PRESET_Custom Presets.txt" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_depthmask.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_reflect.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refractFX.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refractPlane.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refractPlaneU5.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refractPlane_basic.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refractPlane_basicU5.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refraction.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refraction_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_refraction_mobile.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_effect_splash.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlpha.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlphaDouble.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlphaOverlay.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlphaOverlaySurf.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_particleAlpha_4.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_android.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_basic.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_basic_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_ios.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_pro.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_pro_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_android.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_basic.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_basic_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_ios.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_pro.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_water_under_pro_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_waterscale_basic.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_waterscale_pro.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\Suimono2_waterscale_pro_dx11.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\SuimonoFunctions.cginc" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\SHADERS\SuimonoFunctionsDX11.cginc" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\OBJECTS\Shaders\Reflect-BumpSpec.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\OBJECTS\Shaders\Suimono2_Demo_HairSpec.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\OBJECTS\Shaders\Suimono2_Demo_Skin.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\OBJECTS\Shaders\Suimono2_ReflectBumpSpecDouble.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\TERRAIN\Shaders\suimono2_demo_fauna_double.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_DEMO\TERRAIN\Shaders\suimono2_demo_fauna_single.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_EXTRAS\BetterSkybox\BetterSkybox_readme.txt" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_EXTRAS\BetterSkybox\Resources\Shaders\BetterSkybox_alphahorizon.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_EXTRAS\BetterSkybox\Resources\Shaders\BetterSkybox_spheremap.shader" />
+    <None Include="Assets\SUIMONO - WATER SYSTEM 2\_Suimono2.0_ReadMe.txt" />
+    <None Include="Assets\SabreCSG\Changelog.txt" />
+    <None Include="Assets\SabreCSG\Internal\Shaders\BrushPreview.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Diffuse-VertexColored.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Handle.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Line.shader" />
+    <None Include="Assets\SabreCSG\Shaders\LineDashed.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Plane.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Preview.shader" />
+    <None Include="Assets\SabreCSG\Shaders\SeeExcluded.shader" />
+    <None Include="Assets\SabreCSG\Shaders\Tri-Planar.shader" />
+    <None Include="Assets\SabreCSG\Shaders\UINoAlpha.shader" />
+    <None Include="Assets\SabreCSG\Shaders\VertexTinted.shader" />
+    <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
+    <None Include="Assets\SaveGameFree\Documentation.txt" />
+    <None Include="Assets\SaveGameFree\Readme.txt" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\Cubemaps.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\CustomLighting.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\LightCone.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\LightWrapping.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\MaterialPlatform.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\Parallax.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\PixelRotator.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\Refraction.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\TessellationDisplacement.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\Tiles.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\Vegetation.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\VertexAnimation.shader" />
+    <None Include="Assets\ShaderForge\Example Assets\Shaders\VertexColorRounding.shader" />
+    <None Include="Assets\ShaderForge\Readme.txt" />
+    <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
+    <None Include="Assets\Standard Assets\Effects\ImageEffects\Readme.txt" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
+    <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
+    <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
+    <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+    <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+    <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
+    <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
+    <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpecTransp.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Particle Alpha Blend.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\TenkokuBlur.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\TenkokuDepth.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\TenkokuSunShafts.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_FX_Fog.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_aurora_plane.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_cloud_plane.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_fx_particle.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_fx_particle_lit.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_galaxy.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_moonsphere.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_planet.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_skybox.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\SHADERS\Tenkoku_suneclipse.shader" />
+    <None Include="Assets\TENKOKU - DYNAMIC SKY\_Tenkoku_ReadMe.txt" />
+    <None Include="Assets\Textures and Sprites\SF UI\Background\LICENSE.txt" />
+    <None Include="Assets\UFPS\Base\Content\Art\Body\Animations\_README_Animations.txt" />
+    <None Include="Assets\UFPS\Base\Content\Art\Body\Materials\InvisibleShadowCaster.shader" />
+    <None Include="Assets\UFPS\Base\Content\Art\Weapons\Source\BasicArms\_README_BasicArms.txt" />
+    <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\DiffuseVertexColor.shader" />
+    <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\ReflectiveCubeMapped.shader" />
+    <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\ReflectiveCubeMapped_Glass.shader" />
+    <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\Scroll_Emissive.shader" />
+    <None Include="Assets\UFPS\Base\Content\Levels\SkyCity\CustomShaders\SimpleEmissive.shader" />
+    <None Include="Assets\UFPS\Base\Scripts\Gameplay\Player\Local\OldInventory\_OLD_INVENTORY_README_.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ArtilleryInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\AstronautCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\AstronautController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\AstronautInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\AstronautWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ControllerCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ControllerMegaSpeed.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyShooterZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyWeaponCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CowboyWeaponZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\CrouchInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DefaultCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DefaultInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DefaultWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DrunkCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DrunkController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DrunkInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\DrunkWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\FreezeInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ImmobileWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MaceCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MaceInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MaceWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaCameraCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaShooterZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaWeaponCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MafiaWeaponZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MechWeaponZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToDown.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToDownLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToDownRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeAttackToUp.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullDown.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullUp.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullUpLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponPullUpRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingDown.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingDownLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingDownRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MeleeWeaponSwingUp.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernCameraCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernCameraZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernCameraZoomInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernControllerZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernShooterZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernWeaponCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\ModernWeaponZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseLowSensCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseLowSensInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseLowSensWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseRawUnityCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseRawUnityInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseRawUnityWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseSmoothingCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseSmoothingInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\MouseSmoothingWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\OldSchoolWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\Persp1999Camera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\Persp1999Input.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\Persp1999Weapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspModernCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspModernInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspModernWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PerspOldWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PivotChestWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PivotElbowWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PivotMuzzleWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\PivotWristWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SimpleAIShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SmackController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SniperCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SniperInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SniperShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SniperWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\StompingCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\StompingInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFController.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\SystemOFFWeaponGlideIn.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\TurretCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\TurretInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\TurretShooter.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\TurretWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\WallFacingCamera.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\WallFacingInput.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Demo\WallFacingWeapon.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraClimb.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraDead.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraDefault.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraFreeze.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraReload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraSlide.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Camera\CameraZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerClimb.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDead.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerDefault.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerFreeze.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Controller\ControllerZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\FootFX\FootFXFixedTimeCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\FootFX\FootFXFixedTimeRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\FootFX\FootFXFixedTimeZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Input\InputClimb.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Input\InputDead.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Input\InputZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterMachinegun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterMachinegunOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterMachinegunZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterPistol.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterPistolOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterPistolZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterRevolver.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Shooter\ShooterRevolverZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponGenericSlide.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegunCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegunOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegunReload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegunRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponMachinegunZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistol.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolReload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolReload2.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponPistolZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolver.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverCrouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverOutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverReload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverRun.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\Standard\Weapon\WeaponRevolverZoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\ShooterAssaultRifle01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\ShooterAssaultRifle01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Crouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Reload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Run.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\AssaultRifle01\WeaponAssaultRifle01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Attack.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Rewield.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Grenade01\WeaponGrenade01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Knife01\KnifeAttackToDown.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Knife01\KnifeAttackToDownLeft.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Knife01\KnifeAttackToDownRight.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\ShooterPistol01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\ShooterPistol01OutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\ShooterPistol01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Crouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Idle.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01OutOfControl.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Run.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Slide.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Pistol01\WeaponPistol01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\ShooterShotgun01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\ShooterShotgun01Zoom.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Crouch.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Default.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Reload.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Run.txt" />
+    <None Include="Assets\UFPS\Base\Scripts\Presets\WeaponsHD\Shotgun01\WeaponShotgun01Zoom.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRCameraDead.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRMaceDefault.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRMachinegunDefault.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRMachinegunReload.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRMachinegunRun.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRMachinegunZoom.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRPistolDefault.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRPistolReload1.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRPistolReload2.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRPistolRun.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRPistolZoom.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRRevolverCrouch.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRRevolverDefault.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRRevolverReload.txt" />
+    <None Include="Assets\UFPS\VR\Content\Presets\VRRevolverZoom.txt" />
+    <None Include="Assets\UFPS\VR\Content\Scenes\_VR_SCENE_SETUP_README_.txt" />
+    <None Include="Assets\UFPS\VR\_VR_README_.txt" />
+    <None Include="Assets\VHS\Shaders\VHSPostProcessEffect.shader" />
+    <None Include="Assets\VHS\original\VHSPostProcessEffect.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\Additive.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\AlphaBlended.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\Fast-Additive.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\Fast-AlphaBlended.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\Strip-Additive.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\Strip-AlphaBlended.shader" />
+    <None Include="Assets\VolumetricLines\Shaders\_SimpleShader.cginc" />
+    <None Include="Assets\VolumetricLines\Shaders\_StripShader.cginc" />
+    <None Include="Assets\Wood texture floor_01\readme.txt" />
+    <None Include="Assets\__TYLER__\Shaders\Ty80sGridPattern.shader" />
+    <None Include="Assets\__TYLER__\Shaders\TyVHSEffect.shader" />
+    <None Include="Assets\__TYLER__\Shaders\TyVHSEffect2.shader" />
+    <None Include="Assets\ats V2 package\ats pathShader Package\Shader\ats Road Path bumped diffuse alphatest.shader" />
+    <None Include="Assets\ats V2 package\ats vertexLitShader Package\Shader\atsv2 vertexlit.shader" />
+    <None Include="Assets\ats V2 package\atsV2 UnityTerrainBump Package\TerrainReplacementAtsV2.shader" />
+    <None Include="Assets\ats V2 package\atsV2 billboardShader package\Tree.cginc" />
+    <None Include="Assets\ats V2 package\atsV2 billboardShader package\TreeCreatorBarkRendertex.shader" />
+    <None Include="Assets\ats V2 package\atsV2 billboardShader package\TreeCreatorLeavesRendertex.shader" />
+    <None Include="Assets\ats V2 package\atsV2 grassShader Package\atsV2WavingGrass.shader" />
+    <None Include="Assets\ats V2 package\readme_billboardShader.txt" />
+    <None Include="Assets\ats V2 package\readme_grassShader.txt" />
+    <None Include="Assets\ats V2 package\readme_terrainBumpShader.txt" />
+    <None Include="Assets\ats V2 package\readme_treeBarkShader.txt" />
+    <None Include="Assets\ats V2 package\readme_vertexLitShader.txt" />
+    <None Include="Assets\prototype_textures\readme.txt" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageDetails.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageGroup.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageItem.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageList.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageManagerWindow.uxml" />
+    <None Include="\Users\tyhostager\Documents\Unity Projects\Miami1984\Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageSearchFilterTabs.uxml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+</Project>

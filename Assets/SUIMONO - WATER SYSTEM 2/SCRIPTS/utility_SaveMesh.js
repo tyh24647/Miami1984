@@ -2,21 +2,16 @@
 
 @script ExecuteInEditMode()
 
-//PUBLIC VARIABLES
 var saveAsset : boolean = false;
 var useName : String = "";
-
-//PRIVATE VARIABLES
-private var mesh : Mesh = new Mesh();
-
-
 
 function Start () {
 
 }
 
 
-function LateUpdate () {
+
+function Update () {
 #if UNITY_EDITOR
 	if (saveAsset && useName != ""){
 		saveAsset = false;
@@ -28,13 +23,14 @@ function LateUpdate () {
 
 function SaveAsset () {
 #if UNITY_EDITOR
-	mesh = new Mesh();
+	var mesh : Mesh = new Mesh();
 	mesh = GetComponent(MeshFilter).sharedMesh;
 	mesh.name = useName;
 	mesh.RecalculateNormals();
-	var o_35_14_636298862476449420 = mesh;
+	;
 
 	if (mesh != null){ 
+		//AssetDatabase.CreateAsset(mesh, Application.dataPath+"/Test/Mesh/"+useName+".asset");
 		AssetDatabase.CreateAsset(mesh, "Assets/SUIMONO - WATER SYSTEM 2/MESH/"+useName+".asset");
 		Debug.Log("Asset Created at: "+AssetDatabase.GetAssetPath(mesh)+"!");
 	}

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -81,6 +78,7 @@ public class PLGameData : MonoBehaviour {
     // Use this for initialization
     void Start() {
         this.CurrentLevel = GetCurrentLevel();
+        Load();
     }
 
     // Update is called once per frame
@@ -99,10 +97,22 @@ public class PLGameData : MonoBehaviour {
         }
     }
 
+
+#if UNITY_EDITOR
     private void OnGUI() {
-        GUI.Label(new Rect(10, 10, 150, 30), "Health: " + Health);
-        GUI.Label(new Rect(10, 40, 150, 30), "Stamina: " + Stamina);
+        GUI.color = Color.yellow;
+        GUI.backgroundColor = new Color(0.0f, 0.0f, 0.0f, 0.2f);
+        GUI.Label(new Rect(10, 10, Screen.width - 100, 30), "Player: " + (ObjUtils.IsNullOrEmpty(PlayerName) ? "Default" : PlayerName));
+        GUI.Label(new Rect(10, 30, Screen.width - 100, 30), "Debug Mode: " + true);
+        GUI.Label(new Rect(10, 50, Screen.width - 100, 30), "Health: " + Health);
+        GUI.Label(new Rect(10, 70, Screen.width - 100, 30), "Stamina: " + Stamina);
+        GUI.Label(new Rect(10, 90, Screen.width - 100, 30), "Current Scene Index: " + (CurrentSceneIndex + 1));
+        GUI.Label(new Rect(10, 110, Screen.width - 100, 30), "Should Autosave on Exit: " + ShouldSaveOnExit);
+        GUI.Label(new Rect(10, 130, Screen.width - 100, 30), "Save Type: Binary");
+        GUI.Label(new Rect(10, 150, Screen.width - 100, 30), "User save location: \"" + GameDataPath + "\"");
     }
+#endif
+
     #endregion
 
 
@@ -127,6 +137,8 @@ public class PLGameData : MonoBehaviour {
         // close the output file
         file.Close();
 
+        // after a file is changed, reload the data from binary
+        Load();
     }
 
     public void Load() {
@@ -179,7 +191,7 @@ public class PLGameData : MonoBehaviour {
             LastPlayedSongName = this.LastSongPlayedName,
             NearbyEnemyCount = this.NearbyEnemyCount,
             //HasNearbyEnemies = this.HasNearbyEnemies,
-
+            PlayerName = this.PlayerName,
 
 
 
@@ -210,7 +222,7 @@ public class PLGameData : MonoBehaviour {
             this.LastSongPlayedName = playerData.LastPlayedSongName;
             this.NearbyEnemyCount = playerData.NearbyEnemyCount;
             this.HasNearbyEnemies = playerData.HasNearbyEnemies;
-
+            this.PlayerName = playerData.PlayerName;
 
         }
 
@@ -247,13 +259,14 @@ public class PLGameData : MonoBehaviour {
 
         if (!ObjUtils.IsNullOrEmpty(filePath)) {
             Log.d("Opening deserialized binary file at path \"" + filePath + "\"...");
-            var tmp = File.Open(
+
+            var temporaryFile = File.Open(
                 path: filePath,
                 mode: fileMode
             );
 
-            if (tmp != null) {
-                file = tmp;
+            if (temporaryFile != null) {
+                file = temporaryFile;
             } else {
                 Log.w("Unable to load file at the specified location --> \'" + filePath + "\'");
             }

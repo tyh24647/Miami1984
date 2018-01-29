@@ -86,6 +86,8 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
                 //
                 // TODO add prefs saving with persistence
                 //
+
+                //PLGameData.GameData.Save();
             });
 
             var tmp = new UnityAction(() => {
@@ -267,6 +269,15 @@ public class PlayerGraphicsConfiguration : MonoBehaviour {
             verticalLayout.CalculateLayoutInputVertical();
         } else {
             Log.d("Unable to modify scroll view height. Skipping procedure.");
+        }
+
+        bool shouldEnableScrollBars = ShowAdvancedSettings;
+        if (scrollView) {
+            var scrollBars = scrollView.GetComponents<Scrollbar>();
+            if (!ObjUtils.IsNullOrEmpty(scrollBars) && scrollBars.Count() == 2) {
+                scrollBars[0].enabled = ShowAdvancedSettings;
+                scrollBars[1].enabled = ShowAdvancedSettings;
+            }
         }
 
         this.ShowAdvancedSettings = !ShowAdvancedSettings;  // toggle view mode

@@ -251,7 +251,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: .0500000007
+    gravityModifier: .5
     inheritVelocity: 0
     maxNumParticles: 500
   ShapeModule:

@@ -13,9 +13,8 @@ var effectsLabels : String[];
 var effectsSystems : Transform[];
 var systemClampType : Sui_FX_ClampType[];
 var fxObjects : Transform[];
-var fxParticles : ParticleSystem[];
 
-
+var useDarkUI : boolean = true;
 
 //editor
 var clampIndex : int[];
@@ -84,13 +83,11 @@ function Start () {
 		var instPos : Vector3 = transform.position;
 		instPos.y = -10000.0;
 		fxObjects = new Transform[effectsSystems.Length];
-		fxParticles = new ParticleSystem[effectsSystems.Length];
 
 		for (var fx=0; fx < (effectsSystems.Length); fx++){
 			var fxObjectPrefab = Instantiate(effectsSystems[fx], instPos, transform.rotation);
 			fxObjectPrefab.transform.parent = fxParentObject.transform;
 			fxObjects[fx] = (fxObjectPrefab);
-			fxParticles[fx] = fxObjectPrefab.gameObject.GetComponent(ParticleSystem);
 		}
 	}
 	}
@@ -109,21 +106,22 @@ function Start () {
 
 
 
-
-
-function LateUpdate () {
+function Update () {
 
 	//get objects while in editor mode
 	#if UNITY_EDITOR
 	if (!Application.isPlaying){
 		if (moduleObject == null){
-			if (GameObject.Find("SUIMONO_Module")){
-				moduleObject = GameObject.Find("SUIMONO_Module").GetComponent(SuimonoModule) as SuimonoModule;
-			}
+		if (GameObject.Find("SUIMONO_Module")){
+			moduleObject = GameObject.Find("SUIMONO_Module").GetComponent(SuimonoModule) as SuimonoModule;
+		}
 		}
 	}
 	#endif
 	
+	//set ui
+	useDarkUI = moduleObject.useDarkUI;
+
 
 
 	if (!Application.isPlaying){	
@@ -138,9 +136,8 @@ function LateUpdate () {
 		}
 	}
 	
+	
 }
-
-
 
 
 
@@ -173,7 +170,7 @@ function ClampSystems(){
 			currPXWaterPos = 0.0;
 			
 			//get particles
-			useParticleComponent = fxParticles[fx];
+			useParticleComponent = fxObjects[fx].GetComponent(ParticleSystem);
 			if (setParticles == null) setParticles = new ParticleSystem.Particle[useParticleComponent.particleCount];
 			useParticleComponent.GetParticles(setParticles);
 			//set particles
@@ -212,10 +209,11 @@ function ClampSystems(){
 
 
 function AddSystem(){
-
 	tempSystems  = effectsSystems;
 	tempClamp  = clampIndex;
 	
+	//if (effectsSystems == null) effectsSystems = new Transform[tempSystems.Length+1];
+	//if (clampIndex == null) clampIndex = new int[tempClamp.Length+1];
 	effectsSystems = new Transform[tempSystems.Length+1];
 	clampIndex = new int[tempClamp.Length+1];
 		
@@ -230,10 +228,13 @@ function AddSystem(){
 
 
 
-function AddParticle( particleData : ParticleSystem.Particle){
-	particleReserve.Add(particleData);
-}
 
+function AddParticle( particleData : ParticleSystem.Particle){
+
+	particleReserve.Add(particleData);
+	//fxObjects[Mathf.Floor(particleData.angularVelocity)].GetComponent(ParticleSystem).Emit(1);
+	
+}
 
 
 function updateFX(){
@@ -242,33 +243,31 @@ function updateFX(){
 	for (efx = 0; efx < effectsSystems.length; efx++){
 		for (epx = 0; epx < particleReserve.Count; epx++){
 			if (Mathf.Floor(particleReserve[epx].angularVelocity) == efx){
-				fxParticles[fx].Emit(1);
+				fxObjects[efx].GetComponent(ParticleSystem).Emit(1);
 			}
 		}				
 	}
 	
 	
+	//YIELD Systems till end of frame
+	//This is a Unity particels system behavior fudge... maybe someday they fix this?(hope)
+	//yield new WaitForEndOfFrame();
+
 	//SET NEW Particle position and behaviors
 	for (fx = 0; fx < effectsSystems.length; fx++){
 		for (px = 0; px < particleReserve.Count; px++){
 			if (Mathf.Floor(particleReserve[px].angularVelocity) == fx){
 
 				//get particles
-				useParticleComponent = fxParticles[fx];
+				useParticleComponent = fxObjects[fx].GetComponent(ParticleSystem);
 				if (setParticles == null) setParticles = new ParticleSystem.Particle[useParticleComponent.particleCount];
 				useParticleComponent.GetParticles(setParticles);
 				//set particles
 				for (sx = (useParticleComponent.particleCount-1); sx < useParticleComponent.particleCount; sx++){
 					//set position
 					setParticles[px].position = particleReserve[px].position;
-					
 					//set variables
-					#if UNITY_5_3 || UNITY_5_4 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
-						setParticles[px].startSize = particleReserve[px].startSize;
-					#else
-						setParticles[px].size = particleReserve[px].size;
-					#endif
-
+					setParticles[px].size = particleReserve[px].size;
 					setParticles[px].rotation = particleReserve[px].rotation;
 					setParticles[px].velocity = particleReserve[px].velocity;
 				}
@@ -282,6 +281,9 @@ function updateFX(){
 	if (particleReserve == null) particleReserve = new List.<ParticleSystem.Particle>();
 	
 }
+
+
+
 
 
 
@@ -320,7 +322,6 @@ function DeleteSystem(sysNum : int){
 		}
 	}
 }
-
 
 
 function OnApplicationQuit(){

@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{D6D748A5-0B92-CB91-5DCC-3A82DAD28C54}|" GitUserInfo="UsingGIT">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/__TYLER__/Scripts/PressAnyKeyScreen.cs">
+    <Files>
+      <File FileName="Assets/__TYLER__/Scripts/CustomSliderValues.cs" Line="35" Column="41" />
+      <File FileName="Assets/__TYLER__/Scripts/TyMusicPlayer.cs" Line="268" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/PlayerGraphicsConfiguration.cs" Line="62" Column="44" />
+      <File FileName="Assets/__TYLER__/Menus/Main Menu/Scripts/MainMenuRenderer.cs" Line="39" Column="18" />
+      <File FileName="Assets/__TYLER__/Scripts/Player Data/PLDataModifierGUI.cs" Line="21" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/Player Data/PLPrefs.cs" Line="26" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/Player Data/PLGameData.cs" Line="100" Column="5" />
+      <File FileName="Assets/__TYLER__/Scripts/Player Data/UserData.cs" Line="8" Column="31" />
+      <File FileName="Assets/__TYLER__/Scripts/PlayerNameDelegate.cs" Line="2" Column="22" />
+      <File FileName="Assets/__TYLER__/Scripts/PoweredByUnitySceneManager.cs" Line="10" Column="4" />
+      <File FileName="Assets/__TYLER__/Scripts/TrackingScreen.cs" Line="16" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/Scenes.cs" Line="1" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/Characters/TyCamConfiguration.cs" Line="1" Column="1" />
+      <File FileName="Assets/Editor/Codebase/Systems/Interface/Themes/Editor/ThemeIconset.cs" Line="103" Column="1" />
+      <File FileName="Assets/__TYLER__/Scripts/PressAnyKeyBlinkingTxt.cs" Line="20" Column="31" />
+      <File FileName="Assets/__TYLER__/Scripts/PressAnyKeyScreen.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.com.unity.package-manager-ui.Editor PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp-Editor-firstpass PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

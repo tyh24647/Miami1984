@@ -39,6 +39,7 @@ public class Scenes : MonoBehaviour {
     }
 
     public void LoadInitialScene() {
+
         if (SceneManager.GetSceneByBuildIndex(1) != null) {
             for (var i = DefaultStartingSceneIndex; i < SceneManager.sceneCount; i++) {
                 if (i == 1) {
@@ -58,6 +59,7 @@ public class Scenes : MonoBehaviour {
     }
 
     public void AsyncLoadInitialScene() {
+
         for (var i = DefaultStartingSceneIndex; i < SceneManager.sceneCount; i++) {
             if (i == 1) {
                 continue;
@@ -77,20 +79,22 @@ public class Scenes : MonoBehaviour {
     private IEnumerator AsyncLoadSceneWithIndex(int index) {
         Log.d("AsyncOperation -> Loading scene \'" + SceneManager.GetSceneAt(index).name + "\'...");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
+
+        if (index > 0) {
+            SceneManager.UnloadSceneAsync(index - 1);
+        }
+
         while (!asyncLoad.isDone) {
             yield return null;
-
-            // TODO add loading screen
         }
     }
 
     private IEnumerator AsyncLoadSceneWithName(string sceneName) {
         Log.d("AsyncOperation -> Loading scene \'" + SceneManager.GetSceneByName(sceneName).name + "\'...");
         AsyncOperation asyncload = SceneManager.LoadSceneAsync(sceneName);
+
         while (!asyncload.isDone) {
             yield return null;
-
-            // TODO
         }
     }
 
@@ -99,8 +103,6 @@ public class Scenes : MonoBehaviour {
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(index);
         while (!asyncUnload.isDone) {
             yield return null;
-
-            // TODO 
         }
     }
 
@@ -109,8 +111,6 @@ public class Scenes : MonoBehaviour {
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
         while (!asyncUnload.isDone) {
             yield return null;
-
-            // TODO
         }
     }
 }

@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace UnityStandardAssets.Utility {
+namespace UnityStandardAssets.Utility
+{
 #if UNITY_EDITOR
 
     [ExecuteInEditMode]
 #endif
-    public class PlatformSpecificContent : MonoBehaviour {
-        private enum BuildTargetGroup {
+    public class PlatformSpecificContent : MonoBehaviour
+    {
+        private enum BuildTargetGroup
+        {
             Standalone,
             Mobile
         }
@@ -29,28 +32,28 @@ namespace UnityStandardAssets.Utility {
 
 #if UNITY_EDITOR
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             EditorApplication.update += Update;
-#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged += Update;
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             EditorApplication.update -= Update;
-#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged -= Update;
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
-        private void Update() {
+        private void Update()
+        {
             CheckEnableContent();
         }
 #endif
 
 
-        private void CheckEnableContent() {
+        private void CheckEnableContent()
+        {
 #if (UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_TIZEN || UNITY_STV )
 		if (m_BuildTargetGroup == BuildTargetGroup.Mobile)
 		{
@@ -61,30 +64,41 @@ namespace UnityStandardAssets.Utility {
 #endif
 
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_TIZEN || UNITY_STV )
-            if (m_BuildTargetGroup == BuildTargetGroup.Mobile) {
+            if (m_BuildTargetGroup == BuildTargetGroup.Mobile)
+            {
                 EnableContent(false);
-            } else {
+            }
+            else
+            {
                 EnableContent(true);
             }
 #endif
         }
 
 
-        private void EnableContent(bool enabled) {
-            if (m_Content.Length > 0) {
-                foreach (var g in m_Content) {
-                    if (g != null) {
+        private void EnableContent(bool enabled)
+        {
+            if (m_Content.Length > 0)
+            {
+                foreach (var g in m_Content)
+                {
+                    if (g != null)
+                    {
                         g.SetActive(enabled);
                     }
                 }
             }
-            if (m_ChildrenOfThisObject) {
-                foreach (Transform t in transform) {
+            if (m_ChildrenOfThisObject)
+            {
+                foreach (Transform t in transform)
+                {
                     t.gameObject.SetActive(enabled);
                 }
             }
-            if (m_MonoBehaviours.Length > 0) {
-                foreach (var monoBehaviour in m_MonoBehaviours) {
+            if (m_MonoBehaviours.Length > 0)
+            {
+                foreach (var monoBehaviour in m_MonoBehaviours)
+                {
                     monoBehaviour.enabled = enabled;
                 }
             }

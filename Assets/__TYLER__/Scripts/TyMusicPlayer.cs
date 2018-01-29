@@ -174,6 +174,8 @@ public class TyMusicPlayer : MonoBehaviour {
                         PlaySong(newSong ?? Songs[0]);
                     }
                 }
+            } else {
+                Log.w("No songs found in the songs list. Skipping procedure");
             }
         } else {
             AudioSource.Stop();
