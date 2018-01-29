@@ -41,5 +41,5 @@ Assets/__TYLER__/Music/03 The Getaway.wav
 Assets/__TYLER__/Music/02 Miami Sunset.wav
 
 # TY CUSTOM
-*.meta
+!*.*.meta
 
