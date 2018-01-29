@@ -21,14 +21,15 @@ class suimono_objectfx_editor extends Editor {
    	var showReflect : boolean = false;
  	var showFoam : boolean = false;
  	
- 	var logoTex : Texture;// = Resources.Load("textures/gui_tex_suimonologo");
-	var divTex : Texture;// = Resources.Load("textures/gui_tex_suimonodiv");
-	var divRevTex : Texture;// = Resources.Load("textures/gui_tex_suimonodivrev");
-	var divVertTex : Texture;// = Resources.Load("textures/gui_tex_suimono_divvert");
-	var divHorizTex : Texture;// = Resources.Load("textures/gui_tex_suimono_divhorz");
-	var bgPreset : Texture;// = Resources.Load("textures/gui_bgpreset");
-	var bgPresetSt : Texture;// = Resources.Load("textures/gui_bgpresetSt");
-	var bgPresetNd : Texture;// = Resources.Load("textures/gui_bgpresetNd");
+ 	var logoTex : Texture = Resources.Load("textures/gui_tex_suimonologo");
+	var divTex : Texture = Resources.Load("textures/gui_tex_suimonodiv");
+	var divRevTex : Texture = Resources.Load("textures/gui_tex_suimonodivrev");
+	var divVertTex : Texture = Resources.Load("textures/gui_tex_suimono_divvert");
+	var divHorizTex : Texture = Resources.Load("textures/gui_tex_suimono_divhorz");
+	
+	var bgPreset : Texture = Resources.Load("textures/gui_bgpreset");
+	var bgPresetSt : Texture = Resources.Load("textures/gui_bgpresetSt");
+	var bgPresetNd : Texture = Resources.Load("textures/gui_bgpresetNd");
 			
  	var colorEnabled : Color = Color(1.0,1.0,1.0,1.0);
 	var colorDisabled : Color = Color(1.0,1.0,1.0,0.35);
@@ -50,31 +51,22 @@ class suimono_objectfx_editor extends Editor {
 		
     function OnInspectorGUI () {
     	
-    	//load textures
-	 	logoTex = Resources.Load("textures/gui_tex_suimonologo");
-		divTex = Resources.Load("textures/gui_tex_suimonodiv");
-		divRevTex = Resources.Load("textures/gui_tex_suimonodivrev");
-		divVertTex = Resources.Load("textures/gui_tex_suimono_divvert");
-		divHorizTex = Resources.Load("textures/gui_tex_suimono_divhorz");
-		bgPreset = Resources.Load("textures/gui_bgpreset");
-		bgPresetSt = Resources.Load("textures/gui_bgpresetSt");
-		bgPresetNd = Resources.Load("textures/gui_bgpresetNd");
-
-		#if UNITY_PRO_LICENSE
-			divTex = Resources.Load("textures/gui_tex_suimonodiv");
-			logoTex = Resources.Load("textures/gui_tex_suimonologofx");
-			bgPreset = Resources.Load("textures/gui_bgpreset");
-			bgPresetSt = Resources.Load("textures/gui_bgpresetSt");
-			bgPresetNd = Resources.Load("textures/gui_bgpresetNd");
-			highlightColor = Color(1,0.5,0,0.9);
-		#else
+		if (!target.useDarkUI){
 			divTex = Resources.Load("textures/gui_tex_suimonodiv_i");
 			logoTex = Resources.Load("textures/gui_tex_suimonologofx_i");
 			bgPreset = Resources.Load("textures/gui_bgpreset_i");
 			bgPresetSt = Resources.Load("textures/gui_bgpresetSt_i");
 			bgPresetNd = Resources.Load("textures/gui_bgpresetNd_i");
 			highlightColor = Color(0.0,0.81,0.9,0.6);
-		#endif
+		} else {
+			divTex = Resources.Load("textures/gui_tex_suimonodiv");
+			logoTex = Resources.Load("textures/gui_tex_suimonologofx");
+			bgPreset = Resources.Load("textures/gui_bgpreset");
+			bgPresetSt = Resources.Load("textures/gui_bgpresetSt");
+			bgPresetNd = Resources.Load("textures/gui_bgpresetNd");
+			highlightColor = Color(1,0.5,0,0.9);
+		}
+
 
 		//SUIMONO LOGO
 		var buttonText : GUIContent = new GUIContent(""); 

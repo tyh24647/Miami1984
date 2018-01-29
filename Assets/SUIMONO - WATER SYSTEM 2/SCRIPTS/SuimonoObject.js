@@ -1,1391 +1,2480 @@
-﻿
-@script ExecuteInEditMode()
 #pragma strict
+
+@script ExecuteInEditMode()
 import System.IO;
 
+var suimonoVersionNumber : String = "";
 
-var systemTime : float = 0.0;
-var systemLocalTime : float = 0.0;
-var flowSpeed : float = 0.1;
-var flowDirection : float = 180.0;
-var useBeaufortScale : boolean = false;
-var beaufortScale : float = 1.0;
-var turbulenceFactor : float = 1.0;
-var waveScale : float = 0.5;
-var lgWaveHeight : float = 0.0;
-var lgWaveScale : float = 1.0;
-var waveHeight : float = 1.0;
-var heightProjection : float = 1.0;
-var useHeightProjection : float = 1.0;
-var refractStrength : float = 1.0;
-var reflectProjection : float = 1.0;
-var reflectBlur : float = 0.0;
-var aberrationScale : float = 0.1;
-var roughness : float = 0.1;
-var roughness2 : float = 0.35;
-var reflectTerm : float = 0.0255;
-var showDepthMask : boolean = false;
-var showWorldMask : boolean = false;
-var cameraDistance : float = 1000.0;
-var underwaterDepth : float = 5;
-
-//DX9 version
-var useDX9Settings : boolean = false;
-
-
-//objects
-private var moduleObject : SuimonoModule;
-private var suimonoModuleLibrary : SuimonoModuleLib;
-private var suimonoObject : GameObject;
-private var surfaceRenderer : Renderer;
-private var surfaceMesh : MeshFilter;
-private var surfaceCollider : MeshCollider;
-private var surfaceReflections : cameraTools;
-private var surfaceReflBlur : Suimono_DistanceBlur;
-private var scaleObject : GameObject;
-private var scaleRenderer : Renderer;
-private var scaleMesh : MeshFilter;
-private var surfaceVolume : Renderer;
-
-//materials
-private var tempMaterial : Material;
-
-//type and options
-var suimonoVersionNumber : String;
-var showGeneral : boolean = false;
-var typeIndex : int = 1;
-var typeOptions = new Array("Infinite 3D Ocean", "3D Waves", "Flat Plane");
-var editorIndex : int = 1;
-var editorUseIndex : int = 1;
-var editorOptions = new Array( "Simple","Advanced");
-
-//mesh and lod
-var enableCustomMesh : boolean = false;
-private var meshWasSet : boolean = false;
-var lodIndex : int;
-var useLodIndex : int;
-var lodOptions = new Array("High Detail","Medium Detail","Low Detail","Single Quad");
-var customMesh : Mesh;
-var oceanScale : float = 2.0;
-
-//underwater
-var enableUnderwaterFX : boolean = true;
-
-//casutics
-var enableCausticFX : boolean = true;
-var causticsFade : float = 0.55;
-var causticsColor : Color = Color(1,1,1,1);
-
-//tessellation
-var enableTess : boolean = true;
-var useEnableTess : boolean = true;
-var waveTessAmt : float = 8.0;
-var waveTessMin : float = 0.0;
-var waveTessSpread : float = 0.08;
-
-//reflections
-var dynamicReflectFlag : float = 1.0;
-var enableReflections : boolean = true;
-var enableDynamicReflections : boolean = true;
-
-var useEnableReflections : boolean = true;
-var useEnableDynamicReflections : boolean = true;
-
-var useReflections : boolean = true;
-var useDynReflections : boolean = true;
-var reflectLayer : int = 0;
-var reflectResolution : int = 4;
-var reflectLayerMask : LayerMask;
-var reflectionDistance : float = 1000.0;
-//var reflectionSpread : float = 0.5;
-var suiLayerMasks : Array;
-var resOptions = new Array("4096","2048","1024","512","256","128","64","32","16","8");
-var resolutions = new Array(4096,2048,1024,512,256,128,64,32,16,8);
-var reflectFallback : int = 1;
-var resFallbackOptions = new Array("None","skybox","Custom Cubemap","Color");
-var customRefCubemap : Texture;
-var customRefColor : Color = Color(0.9,0.9,0.9,1.0);
-var reflectionColor : Color = Color(1,1,1,1);
-
-//custom textures
-var enableCustomTextures : boolean = false;
-var customTexNormal1 : Texture2D;
-var customTexHeight1 : Texture2D;
-var customTexNormal2 : Texture2D;
-var customTexHeight2 : Texture2D;
-var customTexNormal3 : Texture2D;
-var customTexHeight3 : Texture2D;
-var useTexNormal1 : Texture2D;
-var useTexHeight1 : Texture2D;
-var useTexNormal2 : Texture2D;
-var useTexHeight2 : Texture2D;
-var useTexNormal3 : Texture2D;
-var useTexHeight3 : Texture2D;
-
-//waves
-var showWaves : boolean = false;
-var customWaves : boolean = false;
-var localTime : float = 0.0;
-private var flow_dir : Vector2 = Vector2(0,0);
-private var tempAngle : Vector3;
-var beaufortVal : float = 1.0;
-
-//shorelines
-var showShore : boolean = false;
-var shorelineHeight : float = 0.75;
-var shorelineFreq : float = 0.5;
-var shorelineScale : float = 0.15;
-var shorelineSpeed : float = 2.5;
-var shorelineNorm : float = 0.5;
-
-//surface
-var showSurface : boolean = false;
-var overallBright : float = 1.0;
-var overallTransparency : float = 1.0;
-var depthAmt : float = 0.1;
-var shallowAmt : float = 0.1;
-var depthColor : Color;
-var shallowColor : Color;
-var edgeAmt : float = 0.1;
-var specularColor : Color;
-var sssColor : Color;
-var blendColor : Color;
-var overlayColor : Color;
-
-//foam
-var showFoam : boolean = false;
-var enableFoam : boolean = true;
-var foamColor : Color = Color(0.9,0.9,0.9,1.0);
-var foamScale : float = 40.0;
-var foamSpeed : float = 0.1;
-var edgeFoamAmt : float = 0.5;
-var shallowFoamAmt : float = 1.0;
-var hFoamHeight : float = 1.0;
-var hFoamSpread : float = 1.0;
-var heightFoamAmt : float = 0.5;
-
-//underwater 
-var showUnderwater : boolean = false;
-var underwaterColor : Color = Color(1,0,0,1);
-var underLightFactor : float = 1.0;
-var underRefractionAmount : float = 0.005;
-var underRefractionScale : float = 1.5;
-var underRefractionSpeed : float = 0.5;
-var underwaterFogDist : float = 20.0;
-var underwaterFogSpread : float = 0.0;
-var enableUnderDebris : boolean = false;
-var underBlurAmount : float = 1.0;
-var underDarkRange : float = 40.0;
-
-//scaling
-var setScale : float = 1.0;
-var currentAngles : Vector3 = Vector3(0,0,0);
-var currentPosition : Vector3 = Vector3(0,0,0);
-var newPos : Vector3 = Vector3(0,0,0);
-var spacer : float = 0.0;
-var setScaleX : float = 0.0;
-var setScaleZ : float = 0.0;
-var offamt : float = 0.0;
-var savePos : Vector2 = Vector2(0,0);
-var recPos : Vector2 = Vector2(0,0);
-var _suimono_uv : Vector2 = Vector2(0,0);
-
-//editor
-var showSimpleEditor : boolean = false;
-
-//shaders
-var useShader : Shader;
-var currUseShader : Shader;
-var shader_Surface : Shader;
-var shader_Scale : Shader;
-var shader_Under : Shader;
-
-//presets
-var presetDirs : String[];
-var presetFiles : String[];
-var presetIndex : int = -1;
-var presetUseIndex : int = -1;
-var presetFileIndex : int = 0;
-var presetFileUseIndex : int = 0;
+//preset variables
+var useDarkUI : boolean = true;
+//var renderTex : RenderTexture;
+var presetIndex : int;
+private var presetUseIndex : int;
 var presetOptions : String[];
-var showPresets : boolean = false;
-var presetStartTransition : boolean = false;
-var presetTransitionCurrent : int = 0;
-var presetTransitionTime : float = 5.0;
+
+var presetFileIndex : int;
+var presetFileUseIndex : int;
+var presetFiles : String[];
+
+var refractShift : float = 1.0;
+var refractScale : float = 1.0;
+var blurSpread : float = 0.1;
+var hasStarted : boolean = false;
+var setShoreWaveScale : float = 1.0;
+var setFlowShoreScale : float = 1.0;
+var setflowOffX : float = 0.0;
+var setflowOffY : float = 0.0;
+var usewaveShoreHt : float = 0.0;
+var waveBreakAmt : float = 1.0;
+var shallowFoamAmt : float = 1.0;
+
+var shoreOffX : float = 0.0;
+var shoreOffY : float = 0.0;
+
 var presetTransIndexFrm : int = 0;
 var presetTransIndexTo : int = 0;
+var presetStartTransition : boolean = false;
+var presetTransitionTime : float = 3.0;
+var presetTransitionCurrent : float = 1.0;
+var presetSaveName : String = "my custom preset";
 var presetToggleSave : boolean = false;
-var presetsLoaded : boolean = false;
 var presetDataArray : String[];
 var presetDataString : String;
-var dir : String = "";
-var baseDir : String = "SUIMONO - WATER SYSTEM 2/RESOURCES/";
-var presetSaveName : String = "my custom preset";
-var presetFile : String = "";
-var workData : String;
-var workData2 : String;
+var baseDir : String = "SUIMONO - WATER SYSTEM 2";
+var suimonoModuleObject : GameObject;
+var suimonoModuleLibrary : SuimonoModuleLib;
+var mirrorTexture : RenderTexture;
 
- var materialPath : String;
-//var currCoords : Vector2;
-var oceanUseScale : float;
+var hFoamHeight : float = 5.5;
+var hFoamAmt : float = 1.0;
+var hFoamSpread : float = 2.0;
+
+var reflectionObject : GameObject;
+var shorelineObject : GameObject;
+var shorelineComponent : Suimono_flowGenerator;
+
+var overallBright : float = 1.0;
+var overallTransparency : float = 1.0;
+var enableUnderDebris : boolean = true;
+var enableUnderDebrisWrite : float = 1.0;
+
+var waterForce : Vector2 = Vector2(0.0, 0.0);
+var flowForce : Vector2 = Vector2(0.0, 0.0);
+var convertAngle : Vector3;
+
+//general variables
+var presetFile : String = "/RESOURCES/_PRESETS.txt";
+var typeIndex : int;
+var typeUseIndex : int;
+var typeOptions = new Array("Infinite 3D Ocean", "3D Waves", "Flat Plane");
+var enableCustomTextures : boolean = false;
+
+//editor variables
+var showGeneral : boolean = false;
+var showWaves : boolean = false;
+var showSurface : boolean = false;
+var showFoam : boolean = false;
+var showUnderwater : boolean = false;
+var showEffects : boolean = false;
+var showPresets : boolean = false;
+var showPresetsTrans : boolean = false;
+var showTess : boolean = false;
+var autoTess : boolean = true;
+
+//underwater settings
+var enableUnderwaterFX : boolean = true;
+var enableUnderRefraction : boolean = true;
+var enableDynamicReflections : boolean = true;
+
+var underRefractionAmount : float = 1.0;
+var underRefractionScale : float = 1.0;
+var underRefractionSpeed : float = 1.0;
+
+var enableUnderBlur : boolean = true;
+var underBlurAmount : float = 0.01;
+var blurSamples : int = 20;
+var enableUnderAutoFog : boolean = true;
+var underwaterColor : Color = Color(0.2, 0.2, 1.0, 1.0);
+var enableUnderEthereal : boolean = true;
+var etherealShift : float = 0.1;
+var underwaterFogDist : float = 1.0;
+var underwaterFogSpread : float = 1.0;
+
+var cameraIsSet : boolean;
+
+//wave settings
+var projectHeight : float = 1.0;
+var waveHeight : float = 0.0;
+var detailHeight : float = 0.0;
+var waveShoreHeight : float = 0.0;
+var heightScale : float = 1.0;
+var waveScale : float = 0.0;
+var detailScale : float = 0.0;
+var waveShoreScale : float = 0.0;
+var shoreInfluence : float = 0.0;
+var normalShore : float = 0.0;
+var overallScale : float = 1.0;
+var lightAbsorb : float = 0.125;
+var shadowAmount : float = 0.5;
+var lightRefract : float = 1.0;
+var foamMoveSpeed : float = 1.0;
+var foamScale : float = 0.5;
+var foamAmt : float = 0.3;
+var foamColor : Color = Color(0.9, 0.9, 0.9, 0.9);
+var useFoamColor : Color = Color(0.9, 0.9, 0.9, 0.9);
+var edgeSpread : float = 0.3;
+var edgeBlend : float = 0.3;
+var edgeColor : Color = Color(0.9, 0.9, 0.9, 0.9);
+var useEdgeColor : Color = Color(0.9, 0.9, 0.9, 0.9);
+var reflectDist : float = 0.2;
+var reflectDistUnderAmt : float = 0.2;
+var reflectSpread : float = 0.05;
+var colorDynReflect : Color = Color(1.0, 1.0, 1.0, 0.4);
+var reflectionOffset : float = 0.35;
+var reflectPlaneObject : GameObject;
+
+var colorSurfHigh : Color = Color(0.25, 0.5, 1.0, 0.75);
+var colorSurfLow : Color = Color(0, 0, 0, 0);
+var colorHeight : float = 6.0;
+var colorHeightSpread : float = 2.5;
+var surfaceSmooth : float = 1.0;
+
+//color variables
+var depthColor : Color;
+var depthColorR : Color;
+var depthColorG : Color;
+var depthColorB : Color;
+
+var specColorH : Color;
+var specColorL : Color;
+var specScatterWidth : float;
+var specScatterAmt : float;
+
+//tessellation settings
+var waveTessAmt : float = 8;
+var waveTessMin : float = 0.0;
+var waveTessSpread : float = 0.2;
+var waveFac : float = 1.0;
+
+//flowmap
+var inheritColor : boolean = true;
+var wave_speed : Vector2 = Vector2(0.0015, 0.0015);
+var shore_speed : Vector2 = Vector2(0.0015, 0.0015);
+var foam_speed : Vector2 = Vector2(-0.02, -0.02);
+
+//tide
+var tideColor : Color;
+var tideAmount : float;
+var tideSpread : float;
+
+private var useDepthColor : Color; 
+
+var castshadowIsOn : boolean = true;
+var castshadowStrength : float;
+var castshadowFade : float;
+var castshadowColor : Color = Color(0, 0, 0, 1);
+
+//splash & collision variables
+var splashIsOn : boolean = true;
+var UpdateSpeed : float = 0.5;
+var rippleSensitivity : float = 0.0;
+var splashSensitivity : float = 0.2;
+var isinwater : boolean = false;
+var isUnderwater : boolean = false;
+var atDepth : float = 0.0;
+private var setvolume = 0.65;
+private var ringsTime = 0.0;
+
+//var objectRingsTime : float[];
+//var objectRingsTimes = new Array();
+
+var CurrentColliders : Collider[];
+var CurrCollPoss : Vector3[];
+var CurrCollPos = new Array();
+var CurrentCollider = new Array();
+private var moduleSplashObject : SuimonoModule;
+private var thisSuimonoObject : GameObject;
+private var suimonoScaleObject : GameObject;
+private var suimonoRefractObject : GameObject;
+private var suimonoShadowObject : GameObject;
+
+private var shoreAmt : float = 0.85;
+private var shoreAmtDk : float = 1.0;
+private var shoreTideTimer : float = 0.0;
+
+var _suimono_uvx : float;
+var _suimono_uvy : float;
+var _suimono_uv2x : float;
+var _suimono_uv2y : float;
+var _suimono_uv3x : float;
+var _suimono_uv3y : float;
+var _suimono_uv4x : float;
+var _suimono_uv4y : float;
+var _suimono_uv5x : float;
+var _suimono_uv5y : float;
+var _suimono_uv6x : float;
+var _suimono_uv6y : float;
+var _suimono_uv7x : float;
+var _suimono_uv7y : float;
+var _suimono_uv8x : float;
+var _suimono_uv8y : float;
+var setWavScale : float;
+var setDetScale : float;
+var setDtScale : float;
+var useWaveHt : float;
+var useDetHt : float;
+var useDpWvHt : float;
+var useDtHt : float;
+
+//wave texture animation variables
+var flowSpeed : float = 0.1;
+var setflowSpeed : float = 0.1;
+var setshoreflowSpeed : float = 0.1;
+var waveSpeed : float = 0.1;
+var foamSpeed : float = 0.1;
+var shoreSpeed : float = 0.1;
+var flow_dir : Vector2 = Vector2(0.0015, 0.0015);
+var flow_dir_degrees : float = 0.0;
+
+var shore_dir : Vector2 = Vector2(0.0015, 0.0015);
+var shore_dir_degrees : float = 0.0;
+
+var wave_dir : Vector2 = Vector2(0.0015, 0.0015);
+var foam_dir : Vector2 = Vector2(-0.02, -0.02);
+var water_dir : Vector2 = Vector2(0.0, 0.0);
+private var animationSpeed : float = 1.0;
+private var timex : float = 0.0;
+private var timey : float = 0.0;
+
+private var shaderSurface : Shader;
+private var shaderSurfaceScale : Shader;
+private var shaderUnderwater : Shader;
+private var shaderUnderwaterFX : Shader;
+
+//flowmap
+private var m_animationSpeed : float = 1.0;
+private var systemSpeed : float = 1.0;
+private var m_fFlowMapOffset0 : float = 0.0f;
+private var m_fFlowMapOffset1 : float = 0.0f;
+private var m_fFlowSpeed : float = 0.05f;
+private var m_fCycle : float = 1.0f;
+private var m_fWaveMapScale : float = 2.0f;
+
+//infinite ocean
+private var saveScale : Vector2 = Vector2(10.0, 10.0);
+private var oceanTimer : float = 1.0;
+private var oceanHasStarted : boolean = false;
+
+private var currentWaterLevel : float = 0.0;
+private var currentSurfaceLevel : float = 0.0;
+
+private var tempMaterial : Material;
+private var tempMaterialScale : Material;
+private var tempMaterialShadow : Material;
+
+private var setPos : Vector3 = Vector3(0, 0, 0);
+private var setSpace : Vector2 = Vector2(0.0, 0.0);
+private var setSpace2 : Vector2 = Vector2(0.0, 0.0);
+private var setSpace3 : Vector2 = Vector2(0.0, 0.0);
+private var setSpace4 : Vector2 = Vector2(0.0, 0.0);
+private var setSpace5 : Vector2 = Vector2(0.0, 0.0);
+private var setSpace6 : Vector2 = Vector2(0.0, 0.0);
+private var uvMult : float = 1.0;
+private var uvMult2 : float = 1.0;
+private var uvMult3 : float = 1.0;
+private var uvMult4 : float = 1.0;		
+private var uvMult5 : float = 1.0;
+private var uvMult6 : float = 1.0;
+
+private var savePos : Vector2 = Vector2(0.0, 0.0);
+private var savePos2 : Vector2 = Vector2(0.0, 0.0);
+private var savePos3 : Vector2 = Vector2(0.0, 0.0);
+private var savePos4 : Vector2 = Vector2(0.0, 0.0);
+
+private var currVersionIndex : int = 50;
+private var shaderIsSet : boolean = false;
+
+private var thisrendererComponent : Renderer;
+private var scalerendererComponent : Renderer;
+private var refractrendererComponent : Renderer;
+private var reflectrendererComponent : Renderer;
+private var shadowrendererComponent : Renderer;
+
+//collect for GC
+var userenderTex : boolean;
+var isHDR : float;
+var isMac : float;
+var isLin : float;
+var setTessScale : float;
+var setTessStart : float;
+var setTessSpread : float;
+var cx : int;
+var reflDist : float;
+var getTex : Texture;
+var useRefract : float;
+var refractScl : float;
+var useScale : float;
+var shoreWaveStretch : float;
+var shoreWaveStretch2 : float;
+var absorbAmt : float;
+var shadowAmt : float;
+var setSCL : float;
+var refractAmt : float;
+var refractShft : float;
+var reflectDistAmt : float;
+var reflectSpreadAmt : float;
+var reflectAmt : float;
+var reflectUnderDist : float;
+var blurSprd : float;
+var surfaceSmoothAmt : float;
+var useUnderFogDist : float;
+var _SpecHotAmt : float;
+var _SpecAmt : float;
+var suiHeight : float;
+var camHeight : float;
+var setFoamScale : float;
+var useFoamScale : float;
+var foamSpread : float;
+var useFoamHt : float;
+var useHFoam : float;
+var useHFoamSpd : float;
+var setFoamSpread : float;
+var useEdgeBlend : float;
+var setEdgeBlend : float;
+var useUVR : float;
+var setScaleX : float;
+var setScaleY : float;
+var setScale2X : float;
+var setScale2Y : float;
+
+var setScale3X : float;
+var setScale3Y : float;
+var setScale4X : float;
+var setScale4Y : float;
+			
+var setUsePos : Vector3;
+var upStep : float;
+var spacer : float;
+var spacerUV : float;
+var setScale : float;
 var useSc : float;
 var setSc : Vector2;
-var scaleOff : Vector2;
-var i : int;
-var layerName : String;
-var skybox : Material;
+var setDpth : float;
+var newPos : Vector3;
+var fudgex : float;
+var fudgey : float;
+var offamt : float;
+var offamt2 : float;
+var offamt3 : float;
+var getRatio : float;
+var getScale : Vector2;
+var setDynRef : float;
+var outColor : Color;
+var outValue : float;
+var ckSpeed : float;
+var alwaysEmit : boolean;
+var addSize : float;
+var addRot : float;
+var addVel : Vector3;		
+var hitVeloc : Vector3;
+var tempPointer : GameObject;
+var tempDetector : GameObject;
+var checkColl : Collider;
+var collsetpos : Vector3;
+var sizeScale : float;
+var soundVol : float;	
+var retFloat : float;
+
+var oceanUseScale : float = 5.0;
+var currentOceanMult : float = 1.0;
+
+var thisRenderMaterial : Material;
+var scaleRenderMaterial : Material;
+
+private var presetsLoaded : boolean = false;
+
+private var shader_SurfaceBasic : Shader;
+private var shader_SurfaceScaleBasic : Shader;
+private var shader_SurfaceUnderBasic : Shader;
+private var shader_RefractBasic : Shader;
+private var shader_SurfaceBasicDX11 : Shader;
+private var shader_UnderBasicDX11 : Shader;
+private var shader_SurfaceIOS : Shader;
+private var shader_UnderIOS : Shader;
+private var shader_SurfaceAndroid : Shader;
+private var shader_UnderAndroid : Shader;
+private var shader_SurfaceProDX11 : Shader;
+private var shader_SurfaceScalePro : Shader;
+private var shader_UnderProDX11 : Shader;
+private var shader_RefractProDX11 : Shader;
+private var shader_SurfacePro : Shader;
+private var shader_UnderPro : Shader;
+private var shader_RefractPro : Shader;
+
+//initialize texture references
+private var checktex : Texture2D;
+private var flowtex : Texture2D;
+private var wavetex : Texture2D;
+
+//initialize pixel blocks
+public var pixels_Surface : Color[];
+public var pixels_Flow : Color[];
+public var pixels_Wave : Color[];
+private var pixelsAreSet : boolean = false;
+
+//store switch flag variables
+private var editorReset : boolean = false;
+private var blurSamplesCount : int = -1;
+private var currentVersionIndex : int = -1;
+private var currentFlow_Dir : Vector2 = Vector2(-1.0,-1.0);
+private var currentShore_Dir : Vector2 = Vector2(-1.0,-1.0);
+private var texturesWereSet : boolean = false;
+private var xScaleChanged : boolean = true;
+private var currentXScale : float = -1.0;
+private var currentWaveScale : float = -1.0;
+private var currentDetailWaveScale : float = -1.0;
+private var currentNormalShore : float = -1.0;
+private var waveTexVec2 : Vector2 = Vector2(0,0);
+private var currentWaveBreakAmt : float = -1.0;
+private var refractChanged : boolean = false;	
+private var currentUseRefraction : float = -1.0;
+private var currentRefractScale : float = -1.0;
+private var currentLightRefract : float = -1.0;
+private var currentRefractShft : float = -1.0;
+private var currentUseReflection : float = -1.0;
+private var currentReflectDistAmount : float = -1.0;
+private var currentReflectSpreadAmount : float = -1.0;
+private var currentColorDynReflect : Color = Color(0,0,0,0);
+private var currentReflectAmount : float = -1.0;
+private var currentReflectDistUnderAmt : float = -1.0;
+private var currentBlurSpread : float = -1.0;
+private var currentSurfaceSmooth : float = -1.0;
+private var currentWaveFactor : float = -1.0;
+private var currentWaveHeight : float = -1.0;
+private var currentDetailHeight : float = -1.0;
+private var currentWaveShoreHeight : float = -1.0;
+private var currentWaveShoreScale : float = -1.0;
+private var currentOverallBright : float = -1.0;
+private var currentOverallTransparency : float = -1.0;
+private var currentAbsorbAmt : float = -1.0;
+private var currentShadowAmt : float = -1.0;
+private var currentColorSurfHigh : Color = Color(0,0,0,0);
+private var currentColorSurfLow : Color = Color(0,0,0,0);
+private var currentUseDepthColor : Color = Color(0,0,0,0);
+private var currentDepthColorR : Color = Color(0,0,0,0);
+private var currentDepthColorG : Color = Color(0,0,0,0);
+private var currentDepthColorB : Color = Color(0,0,0,0);
+private var currentUnderwaterColor : Color = Color(0,0,0,0);
+private var currentUnderwaterFogDist : float = -1.0;
+private var currentSpecColorH : Color = Color(0,0,0,0);
+private var currentSpecColorL : Color = Color(0,0,0,0);
+private var currentSpecScatterWidth : float = -1.0;
+private var currentSpecScatterAmount : float = -1.0;
+private var currentTideColor : Color = Color(0,0,0,0);
+private var currentTideAmount : float = -1.0;
+private var currentTideSpread : float = -1.0;
+private var currentFoamScale : float = -1.0;
+private var currentShallowFoamAmount : float = -1.0;
+private var currentFoamMoveSpeed : float = -1.0;
+private var currenthFoamHeight : float = -1.0;
+private var currenthFoamAmount : float = -1.0;
+private var currenthFoamSpread : float = -1.0;
+private var currentUseFoamColor : Color = Color(0,0,0,0);
+private var currentEdgeBlend : float = -1.0;
+private var currentUseEdgeColor : Color = Color(0,0,0,0);
+private var currentUvReversal : float = -1.0;
+private var currentProjectHeight : float = -1.0;
+private var currentDetailScale : float = -1.0;
 
 
-var setFolder : int;
-var setPreset : int;
-var presetDirsArr : Array;
-var d : int;
-var dn : int;
-var presetFilesArr : Array;
-var pdir : String;
-var fileInfo : FileInfo[];
-var f : int = 0;
-var px : int = 0;
-var nx : int = 0;
-var ax : int = 0;
-var n : int = 0;
+function Awake(){
 
-var setMode : int;
-var tempPresetDirsArr : Array;
-var dirInfo : FileInfo[];
-var tempPresetDirs : String[];
-var tempPresetFilesArr : Array;
-var tempPresetFiles : String[];
-var oldName : String;
-var moveName : String;
-var setNum : int;
-
-var sw : StreamWriter;
-var sr : StreamReader;
-var key : String;
-var dat : String;
-var pFrom : int;
-var pTo : int;
-var dx : int;
-var datFile : TextAsset;
-var dataS : String[];
-var retData : String;
-var retVal : boolean;
+	if (typeIndex == 0){
+		this.transform.eulerAngles = Vector3(0.0,183.2475,0.0);
+	}
+	
+}
 
 
-
-
-function Start(){
+function Start () {
 
 	//DISCONNECT FROM PREFAB
 	#if UNITY_EDITOR
 	PrefabUtility.DisconnectPrefabInstance(this.gameObject);
 	#endif
 
-	//SET PRESET DIRECTORIES
+	//SET DIRECTORIES
 	#if UNITY_EDITOR
-		baseDir = "SUIMONO - WATER SYSTEM 2/RESOURCES/";
+	baseDir = "SUIMONO - WATER SYSTEM 2/RESOURCES/";
+	//presetFile  = "_PRESETS.txt";
 	#else
-		baseDir = "Resources/";
+	baseDir = "Resources/";
+	//presetFile  = "_PRESETS.txt";
 	#endif
-	dir = Application.dataPath + "/" + baseDir;
+	
+	//REFERENCE OBJECTS
+	if (GameObject.Find("SUIMONO_Module") != null)
+		suimonoModuleObject = GameObject.Find("SUIMONO_Module").gameObject;
+	
+	thisSuimonoObject = this.transform.Find("Suimono_Object").gameObject;
+	suimonoScaleObject = this.transform.Find("Suimono_ObjectScale").gameObject;
+	//suimonoShadowObject = this.transform.Find("Suimono_ObjectShadow").gameObject;
+	reflectionObject = this.transform.Find("Suimono_reflectionObject").gameObject;
+	shorelineObject = this.transform.Find("Suimono_shorelineObject").gameObject;
+	shorelineComponent = shorelineObject.GetComponent(Suimono_flowGenerator) as Suimono_flowGenerator;
+	
+	//INIT RENDER TEXTURE FOR REFLECTION
+	//renderTex = new RenderTexture(512,512,16,RenderTextureFormat.ARGB32);
 
-
-	//get Suimono objects
-	if (GameObject.Find("SUIMONO_Module") != null){
-		moduleObject = GameObject.Find("SUIMONO_Module").GetComponent(SuimonoModule) as SuimonoModule;
-		if (moduleObject != null) suimonoModuleLibrary = moduleObject.GetComponent(SuimonoModuleLib) as SuimonoModuleLib;
+	//SPLASH & COLLISION SETUP
+	//objectRingsTime = objectRingsTimes.ToBuiltin(float) as float[];
+	if (suimonoModuleObject != null){
+		moduleSplashObject = suimonoModuleObject.GetComponent(SuimonoModule);
+		suimonoModuleLibrary = suimonoModuleObject.GetComponent(SuimonoModuleLib);
+	} else {
+		Debug.Log("SUIMONO: Warning... SUIMONO_Module game object cannot be found!");
 	}
 	
-	//get surface objects
-	suimonoObject = this.transform.Find("Suimono_Object").gameObject;
-	surfaceRenderer = transform.Find("Suimono_Object").gameObject.GetComponent(Renderer);
-	surfaceMesh = transform.Find("Suimono_Object").GetComponent(MeshFilter);
-	surfaceCollider = transform.Find("Suimono_Object").GetComponent(MeshCollider);
-	surfaceReflections = transform.Find("cam_LocalReflections").gameObject.GetComponent(cameraTools) as cameraTools;
-	surfaceReflBlur = transform.Find("cam_LocalReflections").gameObject.GetComponent(Suimono_DistanceBlur) as Suimono_DistanceBlur;
+	CurrentColliders = CurrentCollider.ToBuiltin(Collider) as Collider[];
+	CurrCollPoss = CurrCollPos.ToBuiltin(Vector3) as Vector3[];
+	//Save Original Scale
+	saveScale.x = this.transform.localScale.x;
 
-	//get scale object (infinite ocean)
-	scaleObject = this.transform.Find("Suimono_ObjectScale").gameObject;
-	scaleRenderer = transform.Find("Suimono_ObjectScale").gameObject.GetComponent(Renderer);
-	scaleMesh = transform.Find("Suimono_ObjectScale").GetComponent(MeshFilter);
+	//setup custom material
+	//if (thisSuimonoObject != null) tempMaterial = new Material(thisSuimonoObject.GetComponent(Renderer).sharedMaterial);
+	//thisSuimonoObject.GetComponent(Renderer).sharedMaterial = tempMaterial;
+	//if (suimonoScaleObject != null) tempMaterialScale = new Material(suimonoScaleObject.GetComponent(Renderer).sharedMaterial);
+	//suimonoScaleObject.GetComponent(Renderer).sharedMaterial = tempMaterialScale;
+	//if (suimonoShadowObject != null) tempMaterialShadow = new Material(suimonoShadowObject.GetComponent(Renderer).sharedMaterial);
+	//suimonoShadowObject.GetComponent(Renderer).sharedMaterial = tempMaterialShadow;	
 
-	//Store Shader References
-	shader_Surface = Shader.Find("Suimono2/surface");
-	shader_Scale = Shader.Find("Suimono2/surface_scale");
-	shader_Under = Shader.Find("Suimono2/surface_under");
+	//store component references
+	if (thisSuimonoObject != null)
+		thisrendererComponent = thisSuimonoObject.GetComponent(Renderer);
+	if (suimonoScaleObject != null)
+		scalerendererComponent = suimonoScaleObject.GetComponent(Renderer);
+	if (reflectionObject != null)
+		reflectrendererComponent = reflectionObject.GetComponent(Renderer);
+	//if (suimonoShadowObject != null) shadowrendererComponent = suimonoShadowObject.GetComponent(Renderer);
 
-	//save material if not already saved
-	#if UNITY_EDITOR
-		materialPath = "Assets/SUIMONO - WATER SYSTEM 2/Resources/mat_" + this.gameObject.name + ".mat";
-		if (AssetDatabase.LoadAssetAtPath(materialPath,Material) == null){
-			tempMaterial = new Material(suimonoObject.GetComponent(Renderer).sharedMaterial);
-			AssetDatabase.CreateAsset(tempMaterial, materialPath);
-		}
-		tempMaterial = AssetDatabase.LoadAssetAtPath(materialPath,Material);
-	#else
-		tempMaterial = new Material(suimonoObject.GetComponent(Renderer).sharedMaterial);
-	#endif
-
-	//setup custom material surface
-	if (suimonoObject != null){
-		tempMaterial.shader = shader_Surface;
-		suimonoObject.GetComponent(Renderer).sharedMaterial = tempMaterial;
-		surfaceRenderer = transform.Find("Suimono_Object").gameObject.GetComponent(Renderer);
+	cameraIsSet = true;
+	if (moduleSplashObject.setCamera != null){
+		if (moduleSplashObject.setCamera.GetComponent(Camera) != null) cameraIsSet = false;
 	}
 
-	//Init Presets
-	#if !UNITY_WEBPLAYER
-		PresetInit();
-		PresetLoad(presetIndex);
+	PresetUpdate();
+	PresetLoad();
+	InvokeRepeating("StoreSurfaceHeight",0.1,0.1);
+	Invoke("MarkAsStarted",0.1);
+	presetStartTransition = false;
+
+	//reset collider hax
+	if (GetComponent(MeshCollider) != null){
+		//thisSuimonoObject.GetComponent(MeshCollider).enabled = false;
+		//thisSuimonoObject.GetComponent(MeshCollider).enabled = true;
+	}
+	//shaderSurfaceScale = Shader.Find("Suimono2/waterscale_pro");
+	//suimonoScaleObject.GetComponent(Renderer).sharedMaterial.shader = shaderSurfaceScale;
+
+	//FORCE GAME OBJECT TO NON-STATIC
+	this.gameObject.isStatic = false;
+	thisSuimonoObject.isStatic = false;
+	suimonoScaleObject.isStatic = false;
+	//reflectionObject
+	//shorelineObject
+	//shorelineComponent
+
+
+
+
+	//store component references
+	thisrendererComponent = thisSuimonoObject.GetComponent(Renderer);
+	scalerendererComponent = suimonoScaleObject.GetComponent(Renderer);
+	reflectrendererComponent = reflectionObject.GetComponent(Renderer);
+	//shadowrendererComponent = suimonoShadowObject.GetComponent(Renderer);
+
+	suimonoModuleObject = GameObject.Find("SUIMONO_Module").gameObject;
+	//moduleSplashObject = suimonoModuleObject.GetComponent(SuimonoModule);
+	suimonoModuleLibrary = suimonoModuleObject.GetComponent(SuimonoModuleLib);
+	thisSuimonoObject = this.transform.Find("Suimono_Object").gameObject;
+	suimonoScaleObject = this.transform.Find("Suimono_ObjectScale").gameObject;
+	
+
+	//Store Shader References
+	shader_SurfaceBasic = Shader.Find("Suimono2/water_basic");
+	shader_SurfaceScaleBasic = Shader.Find("Suimono2/waterscale_basic");
+	shader_SurfaceUnderBasic = Shader.Find("Suimono2/water_under_basic");
+	shader_RefractBasic = Shader.Find("Suimono2/effect_refractPlane_basic");
+	shader_SurfaceBasicDX11 = Shader.Find("Suimono2/water_basic_dx11");
+	shader_UnderBasicDX11 = Shader.Find("Suimono2/water_under_basic_dx11");
+	shader_SurfaceIOS = Shader.Find("Suimono2/water_ios");
+	shader_UnderIOS = Shader.Find("Suimono2/water_under_ios");
+	shader_SurfaceAndroid = Shader.Find("Suimono2/water_android");
+	shader_UnderAndroid = Shader.Find("Suimono2/water_under_android");
+	shader_SurfaceProDX11 = Shader.Find("Suimono2/water_pro_dx11");
+	shader_SurfaceScalePro = Shader.Find("Suimono2/waterscale_pro");
+	shader_UnderProDX11 = Shader.Find("Suimono2/water_under_pro_dx11");
+	shader_RefractProDX11 = Shader.Find("Suimono2/effect_refractPlane_dx11");
+	shader_SurfacePro = Shader.Find("Suimono2/water_pro");
+	shader_UnderPro = Shader.Find("Suimono2/water_under_pro");
+	shader_RefractPro = Shader.Find("Suimono2/effect_refractPlane");
+
+
+
+
+
+		
+	//## HANDLE MAC RENDERING SWITCH ##
+	isMac = 0.0;
+	#if UNITY_STANDALONE_OSX
+	isMac = 1.0;
 	#endif
+	Shader.SetGlobalFloat("_isMac", isMac);
+
+	//## HANDLE LINEAR RENDERING SWITCH ##
+	isLin = 0.0;
+	if (QualitySettings.activeColorSpace == ColorSpace.Linear)
+		isLin = 1.0;
+	Shader.SetGlobalFloat("_SuimonoIsLinear",isLin);
+	
+	//######## HANDLE HDR RENDERING SWITCH #######
+	isHDR = 0.0;
+	Shader.SetGlobalFloat("_isHDR",isHDR);
+	
+	editorReset = false;
+	
+	Invoke("StorePixels",1);
+	suimonoVersionNumber = moduleSplashObject.suimonoVersionNumber;
+
 }
 
 
 
 
-
-
-
-function LateUpdate () {
-if (moduleObject != null){
-
-	//-------------------------------------------------------
-	//###  SET SUIMONO VERSION  ###
-	//-------------------------------------------------------
-	//inherit suimono version number from module object for display in UI elements
-	suimonoVersionNumber = moduleObject.suimonoVersionNumber;
-
-
-	//-------------------------------------------------------
-	//###  SET LOCAL TIME AND DIRECTION  ###
-	//-------------------------------------------------------
-	if (moduleObject != null) systemLocalTime = moduleObject.systemTime;
-	localTime = systemLocalTime * flowSpeed * (1.0/waveScale);
-	flow_dir = SuimonoConvertAngleToVector(flowDirection);
-
-	surfaceRenderer.sharedMaterial.SetVector("_suimono_Dir",Vector4(flow_dir.x,1.0,flow_dir.y,localTime));
-
-	//-------------------------------------------------------
-	//###  SET LAYER MASK  ###
-	//-------------------------------------------------------
-	gameObject.layer = moduleObject.layerWaterNum;
-	if (suimonoObject != null) suimonoObject.layer = moduleObject.layerWaterNum;
-	if (scaleObject != null) scaleObject.layer = moduleObject.layerWaterNum;
-	if (surfaceReflections != null) surfaceReflections.gameObject.layer = moduleObject.layerWaterNum; 
-	suiLayerMasks = new Array();
-	for (i = 0; i < 32; i++){
-		layerName = LayerMask.LayerToName(i);
-		suiLayerMasks.Add(layerName);
+function StorePixels(){
+	if (!pixelsAreSet){
+	if (thisrendererComponent != null){
+		/*
+		//initialize pixel blocks
+		checktex = thisrendererComponent.sharedMaterial.GetTexture("_Surface1") as Texture2D;
+		//flowtex = thisrendererComponent.sharedMaterial.GetTexture("_FlowMap") as Texture2D;
+		wavetex = thisrendererComponent.sharedMaterial.GetTexture("_WaveTex") as Texture2D;
+		
+		pixels_Surface = new Color[checktex.width*checktex.height];
+		pixels_Wave = new Color[wavetex.width*wavetex.height];
+		
+		pixels_Surface = checktex.GetPixels(0);  
+		//pixels_Flow = flowtex.GetPixels(0); 
+		pixels_Wave = wavetex.GetPixels(0); 
+		*/
+		pixelsAreSet = true;
 	}
-
-	//-------------------------------------------------------
-	//###  FORCE SIZING  ###
-	//-------------------------------------------------------
-	if (underwaterDepth < 0.1) underwaterDepth = 0.1;
-	transform.localScale.y = 1.0;
-	suimonoObject.transform.localScale.y = 1.0;
-	scaleObject.transform.localScale.y = 1.0;
-	surfaceReflections.transform.localScale.y = 1.0;
-
-	//-------------------------------------------------------
-	//###  CALCULATE BEAUFORT SCALE  ###
-	//-------------------------------------------------------
-	useBeaufortScale = !customWaves;
-	if (useBeaufortScale){
-		beaufortVal = beaufortScale/12.0;
-		turbulenceFactor = Mathf.Clamp(Mathf.Lerp(-0.1,2.1,beaufortVal)*0.9,0.0,0.75);
-		waveHeight = Mathf.Clamp(Mathf.Lerp(0.0,5.0,beaufortVal),0.0,0.65);
-		waveHeight = waveHeight - Mathf.Clamp(Mathf.Lerp(-1.5,1.0,beaufortVal),0.0,0.5);
-		lgWaveHeight = Mathf.Clamp(Mathf.Lerp(-0.2,1.1,beaufortVal)*2.8,0.0,3.0);
-
-		//freeze scale for ocean
-		if (typeIndex == 0){
-			waveScale = 0.5;
-			lgWaveScale = 0.03125;
-		}
 	}
+}
 
 
-	//-------------------------------------------------------
-	//###  LOAD PRESET CHANGES  ###
-	//-------------------------------------------------------
-	// detect changes to preset and run update when applicable
-	if (presetUseIndex != presetIndex){
-		presetUseIndex = presetIndex;
-		PresetLoad(presetIndex);
-	}
-	// reload preset settings when editor mode is switched between simple and advanced.
+function Update(){
+
 	#if UNITY_EDITOR
-		if (editorUseIndex != editorIndex){
-			editorUseIndex = editorIndex;
-			PresetLoad(presetIndex);
-		}
+	if (!Application.isPlaying && !editorReset){
+		editorReset = true;
+		ResetFlagVariables();
+	}
 	#endif
 
+}
 
-	//-------------------------------------------------------
-	//###  SET MESH LOD LEVEL  ###
-	//-------------------------------------------------------
-	// change the surface mesh based on the selected level of detail
-	if (typeIndex == 0) useLodIndex = 0; //infinite ocean requires high detail mesh
-	if (typeIndex == 1) useLodIndex = lodIndex; //3d waves setting picks mesh set in UI
-	if (typeIndex == 2) useLodIndex = 3; // flat surface forces single quad mesh
-	if (enableCustomMesh == false){
-		if (suimonoModuleLibrary && !meshWasSet){
-			if (suimonoModuleLibrary.texNormalC && surfaceMesh != null) surfaceMesh.mesh = suimonoModuleLibrary.meshLevel[useLodIndex];	
-			if (suimonoModuleLibrary.texNormalC && surfaceCollider != null) surfaceCollider.sharedMesh = suimonoModuleLibrary.meshLevel[3];
-			meshWasSet = true;
-		} else {
-			meshWasSet = false;
-		}
-	} else {
-		if (customMesh != null){
-			if (surfaceMesh != null) surfaceMesh.mesh = customMesh;
-			if (surfaceCollider != null) surfaceCollider.sharedMesh = customMesh;
-		} else {
-			if (suimonoModuleLibrary.texNormalC && surfaceMesh != null) surfaceMesh.mesh = suimonoModuleLibrary.meshLevel[useLodIndex];
-			if (suimonoModuleLibrary.texNormalC && surfaceCollider != null) surfaceCollider.sharedMesh = suimonoModuleLibrary.meshLevel[3];
-			meshWasSet = false;
+
+
+function LateUpdate(){
+
+	if (!thisrendererComponent.isVisible)
+		return;
+
+	//set default material explicitly
+	#if UNITY_EDITOR
+	if (!Application.isPlaying){
+		if (suimonoModuleLibrary.materialSurface != null){
+			thisrendererComponent.sharedMaterial = suimonoModuleLibrary.materialSurface;
+			if (scalerendererComponent != null) scalerendererComponent.sharedMaterial = suimonoModuleLibrary.materialSurfaceScale;
 		}
 	}
-	if (useLodIndex == 3){
-		useHeightProjection = 0.0;
-		useEnableTess = false;
-	} else {
-		useHeightProjection = heightProjection;
-		useEnableTess = enableTess;
-	}
-
-	//set scale mesh
-	if (suimonoModuleLibrary.texNormalC && scaleMesh != null) scaleMesh.mesh = suimonoModuleLibrary.meshLevel[1];	
-
-
-	//-------------------------------------------------------
-	//###  Set Custom Textures  ###
-	//-------------------------------------------------------
-	if (enableCustomTextures){
-		if (customTexNormal1 != null){
-			useTexNormal1 = customTexNormal1;
-			} else {
-				useTexNormal1 = suimonoModuleLibrary.texNormalC;
-			}
-		if (customTexHeight1 != null){
-			useTexHeight1 = customTexHeight1;
-			} else {
-				useTexHeight1 = suimonoModuleLibrary.texHeightC;
-			}
-		if (customTexNormal2 != null){
-			useTexNormal2 = customTexNormal2;
-			} else {
-				useTexNormal2 = suimonoModuleLibrary.texNormalT;
-			}
-		if (customTexHeight2 != null){
-			useTexHeight2 = customTexHeight2;
-			} else {
-				useTexHeight2 = suimonoModuleLibrary.texHeightT;
-			}
-		if (customTexNormal3 != null){
-			useTexNormal3 = customTexNormal3;
-			} else {
-				useTexNormal3 = suimonoModuleLibrary.texNormalR;
-			}
-		if (customTexHeight3 != null){
-			useTexHeight3 = customTexHeight3;
-			} else {
-				useTexHeight3 = suimonoModuleLibrary.texHeightR;
-			}
-
-	} else {
-		if (suimonoModuleLibrary != null){
-			useTexNormal1 = suimonoModuleLibrary.texNormalC;
-			useTexHeight1 = suimonoModuleLibrary.texHeightC;
-			useTexNormal2 = suimonoModuleLibrary.texNormalT;
-			useTexHeight2 = suimonoModuleLibrary.texHeightT;
-			useTexNormal3 = suimonoModuleLibrary.texNormalR;
-			useTexHeight3 = suimonoModuleLibrary.texHeightR;
-		}
-	}
-	if (suimonoModuleLibrary != null){
-		if (surfaceRenderer != null) surfaceRenderer.sharedMaterial.SetTexture("_MaskTex",suimonoModuleLibrary.texMask);
-	}
-
-
-	//-------------------------------------------------------
-	//###  SET REFLECTION OBJECT PROPERTIES  ###
-	//-------------------------------------------------------
-	if (surfaceReflections != null){
-
-		useEnableReflections = enableReflections;
-		useEnableDynamicReflections = enableDynamicReflections;
-
-		if (!moduleObject.enableReflections) useEnableReflections = false;
-		if (!moduleObject.enableDynamicReflections) useEnableDynamicReflections = false;
-		
-		//if (!enableDynamicReflections || !enableReflections || !moduleObject.enableReflections || !moduleObject.enableDynamicReflections){
-		if (!useEnableReflections || !moduleObject.enableReflections){
-			useReflections = false;
-			surfaceReflections.gameObject.SetActive(false);
-		} else {
-
-			if (!useEnableDynamicReflections || !moduleObject.enableDynamicReflections){
-				surfaceReflections.gameObject.SetActive(false);
-			} else {
-				surfaceReflections.gameObject.SetActive(true);
-				useReflections = true;
-				reflectLayer = (reflectLayer & ~(1 << moduleObject.layerWaterNum));
-				reflectLayer = (reflectLayer & ~(1 << moduleObject.layerDepthNum));
-				reflectLayer = (reflectLayer & ~(1 << moduleObject.layerScreenFXNum));
-				//reflectLayer = (reflectLayer & ~(1 << moduleObject.layerUnderNum));
-
-				surfaceReflections.setLayers = reflectLayer;
-				surfaceReflections.resolution = System.Convert.ToInt32(resolutions[reflectResolution]);
-				reflectionDistance = moduleObject.setCameraComponent.farClipPlane+200.0;
-				surfaceReflections.reflectionDistance = reflectionDistance;
-
-				//blur settings
-				surfaceReflBlur.blurAmt = reflectBlur;//Mathf.Floor(Mathf.Lerp(0,3,reflectBlur));
-
-				if (useShader == shader_Under){
-					surfaceReflections.isUnderwater = true;
-				} else {
-					surfaceReflections.isUnderwater = false;
-				}
-			}
-
-		}
-
-	}
-
-
-
-
-	//-------------------------------------------------------
-	//###  SEND SETTINGS TO SHADER  ###
-	//-------------------------------------------------------
-	if (surfaceRenderer != null){
-
-		//set shader
-		if (Application.isPlaying && useShader != null){
-			if (currUseShader != useShader){
-				currUseShader = useShader;
-				surfaceRenderer.sharedMaterial.shader = currUseShader;
-			}
-		}
-
-		//set playmode
-		if (!Application.isPlaying){
-			surfaceRenderer.sharedMaterial.SetFloat("_isPlaying",0.0);
-		} else {
-			surfaceRenderer.sharedMaterial.SetFloat("_isPlaying",1.0);
-		}
-
-		//set texture
-		surfaceRenderer.sharedMaterial.SetTexture("_HeightTex",useTexHeight1);
-		surfaceRenderer.sharedMaterial.SetTexture("_NormalTex",useTexNormal1);
-		surfaceRenderer.sharedMaterial.SetTexture("_HeightTexD",useTexHeight2);
-		surfaceRenderer.sharedMaterial.SetTexture("_NormalTexD",useTexNormal2);
-		surfaceRenderer.sharedMaterial.SetTexture("_HeightTexR",useTexHeight3);
-		surfaceRenderer.sharedMaterial.SetTexture("_NormalTexR",useTexNormal3);
-
-		//set beaufort and waves
-		surfaceRenderer.sharedMaterial.SetFloat("_beaufortFlag",useBeaufortScale ? 1.0 : 0.0);
-		surfaceRenderer.sharedMaterial.SetFloat("_beaufortScale",beaufortVal);
-		surfaceRenderer.sharedMaterial.SetFloat("_turbulenceFactor",turbulenceFactor);
+	#endif
 	
-		//set texture speed and scale
-		surfaceRenderer.sharedMaterial.SetTextureScale("_HeightTex",Vector2((suimonoObject.transform.localScale.x/waveScale)*transform.localScale.x,(suimonoObject.transform.localScale.z/waveScale)*transform.localScale.z));
-		surfaceRenderer.sharedMaterial.SetVector("_scaleUVs",Vector4(suimonoObject.transform.localScale.x/waveScale,suimonoObject.transform.localScale.z/waveScale,0,0));
-		surfaceRenderer.sharedMaterial.SetFloat("_lgWaveScale",lgWaveScale);
-		surfaceRenderer.sharedMaterial.SetFloat("_lgWaveHeight",lgWaveHeight);
+	
+
+	//get objects while in editor mode
+	#if UNITY_EDITOR
+	if (!Application.isPlaying){	
+		if (moduleSplashObject == null){	
+		if (GameObject.Find("SUIMONO_Module")){
+			moduleSplashObject = GameObject.Find("SUIMONO_Module").GetComponent(SuimonoModule) as SuimonoModule;
+		}
+		}
+	}
+	#endif
+	
+	//set UI color
+	if (moduleSplashObject != null){
+		useDarkUI = moduleSplashObject.useDarkUI;
+	}
+
+	if (moduleSplashObject.unityVersionIndex != currVersionIndex){
+		shaderIsSet = false;
+		currVersionIndex = moduleSplashObject.unityVersionIndex;
+	}
+	
+
+
+	//SET SHADER DEFAULTS
+	if (!Application.isPlaying){
+		shader_SurfaceBasic = Shader.Find("Suimono2/water_basic");
+		shader_SurfaceScaleBasic = Shader.Find("Suimono2/waterscale_basic");
+		shader_SurfaceUnderBasic = Shader.Find("Suimono2/water_under_basic");
+		shader_RefractBasic = Shader.Find("Suimono2/effect_refractPlane_basic");
+				#if UNITY_5_0
+				shader_RefractBasic = Shader.Find("Suimono2/effect_refractPlane_basicU5");
+				#endif
+		shader_SurfaceBasicDX11 = Shader.Find("Suimono2/water_basic_dx11");
+		shader_UnderBasicDX11 = Shader.Find("Suimono2/water_under_basic_dx11");
+		shader_SurfaceIOS = Shader.Find("Suimono2/water_ios");
+		shader_UnderIOS = Shader.Find("Suimono2/water_under_ios");
+		shader_SurfaceAndroid = Shader.Find("Suimono2/water_android");
+		shader_UnderAndroid = Shader.Find("Suimono2/water_under_android");
+		shader_SurfaceProDX11 = Shader.Find("Suimono2/water_pro_dx11");
+		shader_SurfaceScalePro = Shader.Find("Suimono2/waterscale_pro");
+		shader_UnderProDX11 = Shader.Find("Suimono2/water_under_pro_dx11");
+		shader_RefractProDX11 = Shader.Find("Suimono2/effect_refractPlane");
+				#if UNITY_5_0
+				shader_RefractProDX11 = Shader.Find("Suimono2/effect_refractPlaneU5");
+				#endif
+		shader_SurfacePro = Shader.Find("Suimono2/water_pro");
+		shader_UnderPro = Shader.Find("Suimono2/water_under_pro");
+		shader_RefractPro = Shader.Find("Suimono2/effect_refractPlane");
+				#if UNITY_5_0
+				shader_RefractPro = Shader.Find("Suimono2/effect_refractPlaneU5");
+				#endif
+	}
+	
+	
+	//RESET SHADERS BASED ON UNITY MODE
+	if (!Application.isPlaying || moduleSplashObject.unityVersionIndex != currentVersionIndex){
+		currentVersionIndex = moduleSplashObject.unityVersionIndex;
 		
-		//set tessellation settings
-		if (typeIndex == 0){
-			surfaceRenderer.sharedMaterial.SetFloat("_tessScale",suimonoObject.transform.localScale.x);
-		} else {
-			surfaceRenderer.sharedMaterial.SetFloat("_tessScale",transform.localScale.x);
+		//UNITY BASIC VERSION SPECIFIC
+		if (moduleSplashObject.unityVersionIndex == 0){//unity basic version
+			shaderSurface = shader_SurfaceBasic;
+			shaderSurfaceScale = shader_SurfaceScaleBasic;
+			shaderUnderwater = shader_SurfaceUnderBasic;
+			shaderUnderwaterFX = shader_RefractBasic;
 		}
-		surfaceRenderer.sharedMaterial.SetFloat("_Tess",Mathf.Lerp(0.001,waveTessAmt,useEnableTess ? 1.0 : 0.0));
-		surfaceRenderer.sharedMaterial.SetFloat("_minDist", Mathf.Lerp(-180.0,0.0,waveTessMin));
-		surfaceRenderer.sharedMaterial.SetFloat("_maxDist", Mathf.Lerp(20.0,500.0,waveTessSpread));
-
-		//set system fog coordinates
-		surfaceRenderer.sharedMaterial.SetFloat("_unity_fogstart",RenderSettings.fogStartDistance);
-		surfaceRenderer.sharedMaterial.SetFloat("_unity_fogend",RenderSettings.fogEndDistance);
-
-		//set caustics
-		surfaceRenderer.sharedMaterial.SetFloat("_causticsFlag",enableCausticFX ? 1.0 : 0.0);
-		surfaceRenderer.sharedMaterial.SetFloat("_CausticsFade",Mathf.Lerp(1,500,causticsFade));
-		surfaceRenderer.sharedMaterial.SetColor("_CausticsColor",causticsColor);
-
-		//set aberration scale
-		surfaceRenderer.sharedMaterial.SetFloat("_aberrationScale",aberrationScale);
-
-		//set foam speed and scale
-		surfaceRenderer.sharedMaterial.SetFloat("_EdgeFoamFade",Mathf.Lerp(1500.0,5.0,edgeFoamAmt));
-		surfaceRenderer.sharedMaterial.SetFloat("_HeightFoamAmt",heightFoamAmt);
-		surfaceRenderer.sharedMaterial.SetFloat("_HeightFoamHeight",hFoamHeight);
-		surfaceRenderer.sharedMaterial.SetFloat("_HeightFoamSpread",hFoamSpread);
-		surfaceRenderer.sharedMaterial.SetFloat("_foamSpeed",foamSpeed);
-		surfaceRenderer.sharedMaterial.SetTextureScale("_FoamTex",foamScale*Vector2((suimonoObject.transform.localScale.x/foamScale)*transform.localScale.x,(suimonoObject.transform.localScale.z/foamScale)*transform.localScale.z));
-		surfaceRenderer.sharedMaterial.SetFloat("_foamScale",Mathf.Lerp(160.0,1.0,foamScale));
-		surfaceRenderer.sharedMaterial.SetColor("_FoamColor",foamColor);
-		surfaceRenderer.sharedMaterial.SetFloat("_ShallowFoamAmt",shallowFoamAmt);
-
-		//set height and normal scales
-		surfaceRenderer.sharedMaterial.SetFloat("_heightScaleFac",(1.0/transform.localScale.y));
-		surfaceRenderer.sharedMaterial.SetFloat("_heightProjection",useHeightProjection);
-		surfaceRenderer.sharedMaterial.SetFloat("_heightScale",waveHeight);
-		surfaceRenderer.sharedMaterial.SetFloat("_RefractStrength",refractStrength);
-		surfaceRenderer.sharedMaterial.SetFloat("_ReflectStrength",reflectProjection);
-
-		//set shoreline properties
-		surfaceRenderer.sharedMaterial.SetFloat("_shorelineHeight",shorelineHeight);
-		surfaceRenderer.sharedMaterial.SetFloat("_shorelineFrequency",shorelineFreq);
-		surfaceRenderer.sharedMaterial.SetFloat("_shorelineScale",0.1);//shorelineScale - currently being forced to 0.1
-		surfaceRenderer.sharedMaterial.SetFloat("_shorelineSpeed",shorelineSpeed);
-		surfaceRenderer.sharedMaterial.SetFloat("_shorelineNorm",shorelineNorm);
-
-		//set physical properties
-		surfaceRenderer.sharedMaterial.SetFloat("_roughness",roughness);
-		surfaceRenderer.sharedMaterial.SetFloat("_roughness2",roughness2);
-		surfaceRenderer.sharedMaterial.SetFloat("_reflecTerm",reflectTerm);
-
-		//set surface settings
-		surfaceRenderer.sharedMaterial.SetFloat("_overallBrightness", overallBright);
-		surfaceRenderer.sharedMaterial.SetFloat("_overallTransparency", overallTransparency);
-		surfaceRenderer.sharedMaterial.SetFloat("_DepthFade",Mathf.Lerp(0.1,200.0,depthAmt));
-		surfaceRenderer.sharedMaterial.SetFloat("_ShallowFade",Mathf.Lerp(0.1,800.0,shallowAmt));
-		surfaceRenderer.sharedMaterial.SetColor("_depthColor",depthColor);
-		surfaceRenderer.sharedMaterial.SetColor("_shallowColor",shallowColor);
-		surfaceRenderer.sharedMaterial.SetFloat("_EdgeFade", Mathf.Lerp(10.0,1000.0,edgeAmt));
-		surfaceRenderer.sharedMaterial.SetColor("_SpecularColor",specularColor);
-		surfaceRenderer.sharedMaterial.SetColor("_SSSColor",sssColor);
-		surfaceRenderer.sharedMaterial.SetColor("_BlendColor",blendColor);
-		surfaceRenderer.sharedMaterial.SetColor("_OverlayColor",overlayColor);
-		surfaceRenderer.sharedMaterial.SetColor("_UnderwaterColor",underwaterColor);
-
-		//set reflection properties
-		surfaceRenderer.sharedMaterial.SetFloat("_reflectFlag",useEnableReflections ? 1.0 : 0.0);
-		surfaceRenderer.sharedMaterial.SetFloat("_reflectDynamicFlag",useEnableDynamicReflections ? 1.0 : 0.0);
-		surfaceRenderer.sharedMaterial.SetFloat("_reflectFallback", reflectFallback);
-		surfaceRenderer.sharedMaterial.SetColor("_reflectFallbackColor", customRefColor);
-		surfaceRenderer.sharedMaterial.SetColor("_ReflectionColor", reflectionColor);
-
-		//set skybox texture
-        skybox = RenderSettings.skybox;
-        if(skybox != null && skybox.HasProperty("_Tex") && skybox.HasProperty("_Tint") && skybox.HasProperty("_Exposure") && skybox.HasProperty("_Rotation")){
-			surfaceRenderer.sharedMaterial.SetTexture("_SkyCubemap",skybox.GetTexture("_Tex"));
-			surfaceRenderer.sharedMaterial.SetColor("_SkyTint", skybox.GetColor("_Tint"));
-        	surfaceRenderer.sharedMaterial.SetFloat("_SkyExposure", skybox.GetFloat("_Exposure"));
-        	surfaceRenderer.sharedMaterial.SetFloat("_SkyRotation", skybox.GetFloat("_Rotation"));
+		
+		//UNITY BASIC DX11 VERSION SPECIFIC
+		if (moduleSplashObject.unityVersionIndex == 1){//unity basic version
+			shaderSurface = shader_SurfaceBasicDX11;
+			shaderSurfaceScale = shader_SurfaceScaleBasic;
+			shaderUnderwater = shader_UnderBasicDX11;
+			shaderUnderwaterFX = shader_RefractBasic;
+		}	
+				
+		//UNITY iOS VERSION SPECIFIC
+		else if (moduleSplashObject.unityVersionIndex == 4){//iOS
+			shaderSurface = shader_SurfaceIOS;
+			shaderSurfaceScale = shader_SurfaceIOS;
+			shaderUnderwater = shader_UnderIOS;
+			shaderUnderwaterFX = shader_RefractBasic;
+		}
+		
+		//UNITY ANDROID VERSION SPECIFIC
+		else if (moduleSplashObject.unityVersionIndex == 5){//android
+			shaderSurface = shader_SurfaceAndroid;
+			shaderSurfaceScale = shader_SurfaceAndroid;
+			shaderUnderwater = shader_UnderAndroid;
+			shaderUnderwaterFX = shader_RefractBasic;
+		}
+			
+		//UNITY PRO DX11 VERSION SPECIFIC
+		else if (moduleSplashObject.unityVersionIndex == 3){//dx11
+			shaderSurface = shader_SurfaceProDX11;
+			shaderSurfaceScale = shader_SurfaceScalePro;
+			shaderUnderwater = shader_UnderProDX11;
+			shaderUnderwaterFX = shader_RefractProDX11;
 		}
 
-		//set custom cubemap
-		if (customRefCubemap != null)
-			surfaceRenderer.sharedMaterial.SetTexture("_CubeTex", customRefCubemap);
-
-		//set camera properties
-		surfaceRenderer.sharedMaterial.SetFloat("_cameraDistance",cameraDistance);
-
-
-
-		//-------------------------------------------------------
-		//###  SET SHADER DEFINE KEYWORDS  ###
-		//-------------------------------------------------------
-		if (surfaceRenderer != null){
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_TESS_ON");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_TRANS_ON");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_CAUST_ON");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_DYNREFL_ON");
-			if (enableTess) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_TESS_ON");
-			if (moduleObject.enableTransparency) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_TRANS_ON");
-			if (moduleObject.enableCaustics) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_CAUST_ON");
-			if (useDynReflections) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_DYNREFL_ON");
-
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_OFF");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_SKY");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_CUBE");
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_COLOR");
-			if (reflectFallback == 0) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_OFF");
-			if (reflectFallback == 1) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_SKY");
-			if (reflectFallback == 2) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_CUBE");
-			if (reflectFallback == 3) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_COLOR");
-
-			surfaceRenderer.sharedMaterial.DisableKeyword("SUIMONO_FOAM_ON");
-			if (Application.isPlaying && enableFoam) surfaceRenderer.sharedMaterial.EnableKeyword("SUIMONO_FOAM_ON");
+		//UNITY PRO VERSION SPECIFIC
+		else if (moduleSplashObject.unityVersionIndex == 2){//pro
+			shaderSurface = shader_SurfacePro;
+			shaderSurfaceScale = shader_SurfaceScalePro;
+			shaderUnderwater = shader_UnderPro;
+			shaderUnderwaterFX = shader_RefractPro;
 		}
 
-		if (scaleRenderer != null && typeIndex == 0){
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_TESS_ON");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_TRANS_ON");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_CAUST_ON");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_DYNREFL_ON");
-			if (enableTess) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_TESS_ON");
-			if (moduleObject.enableTransparency) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_TRANS_ON");
-			if (moduleObject.enableCaustics) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_CAUST_ON");
-			if (useDynReflections) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_DYNREFL_ON");
-
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_OFF");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_SKY");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_CUBE");
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_REFL_COLOR");
-			if (reflectFallback == 0) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_OFF");
-			if (reflectFallback == 1) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_SKY");
-			if (reflectFallback == 2) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_CUBE");
-			if (reflectFallback == 3) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_REFL_COLOR");
-
-			scaleRenderer.sharedMaterial.DisableKeyword("SUIMONO_FOAM_ON");
-			if (Application.isPlaying && enableFoam) scaleRenderer.sharedMaterial.EnableKeyword("SUIMONO_FOAM_ON");
-
-		}
-
+		suimonoModuleLibrary.shader1 = shaderSurface;
+		suimonoModuleLibrary.shader2 = shaderUnderwater;
+		suimonoModuleLibrary.shader3 = shaderUnderwaterFX;
+		suimonoModuleLibrary.shader4 = shaderSurfaceScale;
+	
 	}
 
 
-	//-------------------------------------------------------
-	//###  enable / disable infinite scale surface  ###
-	//-------------------------------------------------------
-	if (typeIndex == 0 && Application.isPlaying){
-		if (moduleObject.isUnderwater){
-			if (scaleRenderer != null) scaleRenderer.enabled = false;
-		} else {
-			if (scaleRenderer != null) scaleRenderer.enabled = true;
+
+	//#######  SET SHADERS  #######
+	//setup custom material
+	if (tempMaterial == null){
+		if (thisSuimonoObject != null){
+			tempMaterial = new Material(shaderSurface);
+			thisSuimonoObject.GetComponent(Renderer).sharedMaterial = tempMaterial;
+		}
+	}
+	if (tempMaterialScale == null){
+		if (suimonoScaleObject != null){
+			tempMaterialScale = new Material(shaderSurfaceScale);
+			suimonoScaleObject.GetComponent(Renderer).sharedMaterial = tempMaterialScale;
+		}
+	}
+	thisRenderMaterial = thisrendererComponent.sharedMaterial;
+	scaleRenderMaterial = scalerendererComponent.sharedMaterial;
+
+	// set shaders
+	if (Application.isPlaying){
+		if (moduleSplashObject != null){
+			if (currentWaterLevel >= 0.0){
+				thisRenderMaterial.shader = shaderUnderwater;
+				//scalerendererComponent.enabled = false;
+			} else {
+				thisRenderMaterial.shader = shaderSurface;
+				//scalerendererComponent.enabled = true;
+			}
 		}
 	} else {
-		if (scaleRenderer != null) scaleRenderer.enabled = false;
+		thisSuimonoObject.GetComponent(Renderer).sharedMaterial.shader = shaderSurface;
+	}
+		
+
+		
+	if (!shaderIsSet){
+	if (Application.isPlaying){	
+		scaleRenderMaterial.shader = shaderSurfaceScale;
+		
+		shaderIsSet = true;
+	}
 	}
 
 
+				
 
-	//-------------------------------------------------------
-	//###  set position and rotation for infinite ocean  ###
-	//-------------------------------------------------------
-	//force 'infinite' size in scene view
-	//if (typeIndex == 0){
-	//	if (!Application.isPlaying){
-		//	suimonoObject.transform.localScale = Vector3(50,1,50);
-		//} else {
-	//		suimonoObject.transform.localScale = Vector3(1,1,1);
+
+
+	//UPDATE PRESETS
+	//get the current preset data.
+	
+	//#if UNITY_EDITOR
+	//	if (presetFileUseIndex != presetFileIndex){
+	//		//PresetSetFile();
+	//	}
+	//	//PresetGetData();
+	//	if (presetToggleSave) PresetSave("");
+	//	if (presetStartTransition) PresetDoTransition();
+	//	if (!presetStartTransition) presetTransitionCurrent = 0.0;
+	//#else
+		//if (moduleSplashObject.includePresetsInBuild){
+			//PresetGetData();
+		//	if (presetToggleSave) PresetSave("");
+		//	if (presetStartTransition) PresetDoTransition();
+		//	if (!presetStartTransition) presetTransitionCurrent = 0.0;
+		//}
+	//#endif
+	//}
+	
+
+
+	
+	
+	
+	//CONVERT DEGREES to FLOW DIRECTION
+	//convert 0-360 degree setting to useable Vector2 data.
+	//used for the normal and foam flow/uv scrolling.
+	if (moduleSplashObject != null){
+		if (flow_dir != currentFlow_Dir){
+			currentFlow_Dir = flow_dir;	
+			flow_dir = moduleSplashObject.SuimonoConvertAngleToDegrees(flow_dir_degrees);
+		}
+		if (shore_dir != currentShore_Dir){
+			currentShore_Dir = shore_dir;	
+			shore_dir = moduleSplashObject.SuimonoConvertAngleToDegrees(270.0);
+		}
+	}
+
+	
+	//####### RESET WAVE SETTINGS ON FLAT SURFACE ##########
+	if (typeIndex == 2){
+		waveFac = 1.0;
+	} else {
+		waveFac = 1.0;
+	}
+	
+
+	//#######  MANAGE LOCAL REFLECTION TEXTURE  #######
+	userenderTex = true;
+
+	
+	//set blursamples
+	if (moduleSplashObject != null){
+		blurSamples = moduleSplashObject.blurSamples;
+		if (blurSamplesCount != blurSamples){
+			thisRenderMaterial.SetFloat("_blurSamples", floatRound(blurSamples));
+			blurSamplesCount = blurSamples;
+		}
+	}
+	
+	//FLOW MAP HANDLING
+	m_animationSpeed = 1.0;
+
+	//set speed limits
+	setflowSpeed = Mathf.Lerp(0.0,0.3,flowSpeed);
+	wave_speed.x = -flow_dir.x*(setflowSpeed);
+	wave_speed.y = -flow_dir.y*(setflowSpeed);
+	
+	setshoreflowSpeed = Mathf.Lerp(0.0,2.0,shoreSpeed);
+	shore_speed.x = -shore_dir.x*(setshoreflowSpeed);
+	shore_speed.y = -shore_dir.y*(setshoreflowSpeed);
+
+	//assign speed to shader
+	waveTexVec2 = Vector2((wave_speed.x * Time.time * m_animationSpeed), (wave_speed.y * Time.time * m_animationSpeed));
+	thisRenderMaterial.SetTextureOffset("_WaveTex",waveTexVec2);
+	
+	setflowOffX = thisRenderMaterial.GetTextureOffset("_Surface2").x;
+	setflowOffY = thisRenderMaterial.GetTextureOffset("_Surface2").y;
+	
+	thisRenderMaterial.SetFloat("flowOffX",floatRound(setflowOffX));
+	thisRenderMaterial.SetFloat("flowOffY",floatRound(setflowOffY));
+	
+	shoreOffX = floatRound(thisRenderMaterial.GetTextureOffset("_FlowMap").x);
+	shoreOffY = floatRound(thisRenderMaterial.GetTextureOffset("_FlowMap").y);
+	thisRenderMaterial.SetFloat("shoreOffX",shoreOffX);
+	thisRenderMaterial.SetFloat("shoreOffY",shoreOffY);
+
+	thisRenderMaterial.SetFloat("shoreWaveOffX",floatRound(waveTexVec2.x));
+	thisRenderMaterial.SetFloat("shoreWaveOffY",floatRound(waveTexVec2.y));
+
+	//FILL MAIN TEXTURES BY DEFAULT
+	//fills default texture slots from the Module object
+	if (enableCustomTextures == false){
+		if (suimonoModuleLibrary && !texturesWereSet){
+			if (suimonoModuleLibrary.texDisplace) thisRenderMaterial.SetTexture("_WaveLargeTex",suimonoModuleLibrary.texDisplace);
+			if (suimonoModuleLibrary.texHeight1) thisRenderMaterial.SetTexture("_Surface1",suimonoModuleLibrary.texHeight1);
+			if (suimonoModuleLibrary.texHeight2) thisRenderMaterial.SetTexture("_Surface2",suimonoModuleLibrary.texHeight2);
+			if (suimonoModuleLibrary.texFoam) thisRenderMaterial.SetTexture("_FoamTex",suimonoModuleLibrary.texFoam);
+			if (suimonoModuleLibrary.texRampWave) thisRenderMaterial.SetTexture("_WaveRamp",suimonoModuleLibrary.texRampWave);
+			if (suimonoModuleLibrary.texRampDepth) thisRenderMaterial.SetTexture("_DepthRamp",suimonoModuleLibrary.texRampDepth);
+			if (suimonoModuleLibrary.texRampBlur) thisRenderMaterial.SetTexture("_BlurRamp",suimonoModuleLibrary.texRampBlur);
+			if (suimonoModuleLibrary.texRampFoam) thisRenderMaterial.SetTexture("_FoamRamp",suimonoModuleLibrary.texRampFoam);
+			if (suimonoModuleLibrary.texCube1) thisRenderMaterial.SetTexture("_CubeTex",suimonoModuleLibrary.texCube1);
+			if (suimonoModuleLibrary.texWave) thisRenderMaterial.SetTexture("_WaveTex",suimonoModuleLibrary.texWave);
+			texturesWereSet = true;
+		} else {
+			texturesWereSet = false;
+		}
+	}
+	
+
+	// SET WAVE SCALE
+	xScaleChanged = false;
+	
+	if (hasStarted){
+		//if (this.transform.localScale.x != currentXScale){
+			setWavScale = waveScale * this.transform.localScale.x;
+			setDetScale = detailScale * this.transform.localScale.x * 10.0;
+			currentXScale = this.transform.localScale.x;
+			xScaleChanged = true;
+		//}
+
+		setShoreWaveScale = thisRenderMaterial.GetTextureScale("_WaveTex").x;
+		
+		thisRenderMaterial.SetFloat("waveScale",floatRound(setWavScale));
+		if (setWavScale != currentWaveScale){
+			//setWavScale = waveScale * this.transform.localScale.x;
+			thisRenderMaterial.SetTextureScale("_Surface1",Vector2(setWavScale,setWavScale));
+			thisRenderMaterial.SetFloat("_dScaleX", floatRound(setWavScale));
+			thisRenderMaterial.SetFloat("_dScaleY", floatRound(setWavScale));
+			thisRenderMaterial.SetFloat("_TimeX", setWavScale);
+			thisRenderMaterial.SetFloat("_TimeY", setWavScale);
+			uvMult2 = floatRound(setWavScale) * 0.1 * 0.15;
+			currentWaveScale = setWavScale;
+		}
+
+		thisRenderMaterial.SetFloat("detailScale",floatRound(setDetScale));
+		if (setDetScale != currentDetailWaveScale){
+			//setDetScale = detailScale * this.transform.localScale.x * 10.0;
+			thisRenderMaterial.SetTextureScale("_WaveLargeTex",Vector2(setDetScale,setDetScale));
+			thisRenderMaterial.SetTextureScale("_Surface2",Vector2(setDetScale,setDetScale));
+			uvMult = floatRound(setDetScale) * 0.1;
+			uvMult5 = floatRound(setDetScale) * 0.1 * 12.0;
+			uvMult6 = floatRound(setDetScale) * 0.1;// * Mathf.Lerp(0.0,1.0,useFoamScale);
+			currentDetailWaveScale = setDetScale;
+		}
+		
+		if (currentNormalShore != normalShore){
+			thisRenderMaterial.SetFloat("normalShore",floatRound(normalShore));
+			currentNormalShore = normalShore;
+		}
+		
+		thisRenderMaterial.SetFloat("shoreWaveScale",floatRound(setShoreWaveScale));
+		
+		//set shore wave breaks
+		if (waveBreakAmt != currentWaveBreakAmt){
+			thisRenderMaterial.SetTextureScale("_WaveTex",Vector2(floatRound(waveBreakAmt),0.0));
+			currentWaveBreakAmt = waveBreakAmt;
+		}
+	}
+
+
+	//SET SHADER TIME and SCALE
+    thisRenderMaterial.SetFloat("_Phase", Time.time );
+    thisRenderMaterial.SetFloat("_dScaleX", floatRound(thisRenderMaterial.GetTextureScale("_Surface1").x));
+	thisRenderMaterial.SetFloat("_dScaleY", floatRound(thisRenderMaterial.GetTextureScale("_Surface1").y));
+	
+
+	//TESSELLATION SETTINGS
+	setTessScale = waveTessAmt;
+	thisRenderMaterial.SetFloat("_Tess", floatRound(setTessScale));
+	setTessStart = Mathf.Lerp(-180.0,0.0,waveTessMin);
+	thisRenderMaterial.SetFloat("_minDist", floatRound(setTessStart));
+	setTessSpread = Mathf.Lerp(20.0,500.0,waveTessSpread);
+	thisRenderMaterial.SetFloat("_maxDist", floatRound(setTessSpread));
+	thisRenderMaterial.SetFloat("_Displacement", 1.0);
+	
+
+	//EDITOR MODE TWEAKS
+	//certain calculations rely on depth buffer generation which the scene camera
+	//won't calculate while in editor mode. The below temporarily addresses these
+	//issues so the water surface doesn't look whack in editor mode.  this shouldn't
+	//effect the in-game modes at all.
+	useFoamColor = foamColor;
+	useDepthColor = depthColor;
+	useEdgeColor = edgeColor;
+
+	if (!Application.isPlaying){
+		useFoamColor.a = 0.0;
+		//useDepthColor.a = 0.35;
+		useEdgeColor.a = 0.0;
+	}
+	
+
+	//SPLASH AND COLLISION EFFECTS
+	//advance fx timer
+	//ringsTime += Time.deltaTime;
+	//if (CurrentColliders.length > 0){
+	//	for (cx = 0; cx < CurrentColliders.length; cx++){
+	//		objectRingsTime[cx] += Time.deltaTime;
 	//	}
 	//}
 
-	if (Application.isPlaying){
-		if (typeIndex == 0){
+	
+	
+	if (moduleSplashObject.unityVersionIndex == 0 || moduleSplashObject.unityVersionIndex == 1) userenderTex = false;
+	if (moduleSplashObject.unityVersionIndex == 4 || moduleSplashObject.unityVersionIndex == 5) userenderTex = false;	
 
-			//force rotation
-			transform.eulerAngles.y = 0.0;
-
-			//calculate scales
-			if (oceanScale < 1.0) oceanScale = 1.0;
-			offamt = (0.4027 * oceanScale)/waveScale;
-			spacer = (suimonoObject.transform.localScale.x * 4.0);
-			newPos = Vector3(moduleObject.setCamera.position.x,suimonoObject.transform.position.y,moduleObject.setCamera.position.z);
-			if (Mathf.Abs(suimonoObject.transform.position.x - newPos.x) > spacer){
-				if (suimonoObject.transform.position.x > newPos.x) setScaleX -= offamt;
-				if (suimonoObject.transform.position.x < newPos.x) setScaleX += offamt;
-				suimonoObject.transform.position.x = newPos.x;
-				scaleObject.transform.position.x = newPos.x;
-			}
-			if (Mathf.Abs(suimonoObject.transform.position.z - newPos.z) > spacer){
-				if (suimonoObject.transform.position.z > newPos.z) setScaleZ -= offamt;
-				if (suimonoObject.transform.position.z < newPos.z) setScaleZ += offamt;
-				suimonoObject.transform.position.z = newPos.z;
-				scaleObject.transform.position.z = newPos.z;
-			}
-
-			//update position
-			if (currentPosition != suimonoObject.transform.position){
-				currentPosition = suimonoObject.transform.position;
-				savePos = Vector2(setScaleX,setScaleZ);
-			}
-
-			//set shader offset
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_uvx",0.0-(savePos.x));
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_uvy",0.0-(savePos.y));
-
-			//set scale object offset
-			scaleObject.transform.localPosition.y = -0.1;
-
-			//set infinite ocean object scaling
-			if (scaleRenderer != null){
-				setScale = Mathf.Ceil(moduleObject.setCameraComponent.farClipPlane/20.0)*suimonoObject.transform.localScale.x;
-				scaleObject.transform.localScale = Vector3(setScale*0.5,1.0,setScale*0.5);
-
-				oceanUseScale = 4.0;
-				this.transform.localScale = Vector3(1,1,1);
-				suimonoObject.transform.localScale = Vector3(oceanUseScale*oceanScale,1.0,oceanUseScale*oceanScale);
-
-				//copy shader settings to infinite scale surface
-				if (scaleRenderer != null){
-
-                    // ORIGINAL!!
-					//scaleRenderer.sharedMaterial.CopyPropertiesFromMaterial(surfaceRenderer.sharedMaterial);
-                    scaleRenderer.material.CopyPropertiesFromMaterial(tempMaterial);        // TY
-
-                            	scaleRenderer.sharedMaterial.SetFloat("_suimono_uvx",0.0-savePos.x);
-						scaleRenderer.sharedMaterial.SetFloat("_suimono_uvy",0.0-savePos.y);
-				
-						setSc = scaleRenderer.sharedMaterial.GetTextureScale("_HeightTex");
-
-						useSc = (scaleObject.transform.localScale.x/suimonoObject.transform.localScale.x);
-						scaleRenderer.sharedMaterial.SetTextureScale("_HeightTex", setSc*useSc);
-						scaleRenderer.sharedMaterial.SetTextureScale("_FoamTex", setSc*useSc);
-				}
-
-			}
-
-
-		} else {
-			savePos = Vector3(0,0,0);
-			suimonoObject.transform.localScale = Vector3(1,1,1);
-			scaleObject.transform.localScale = Vector3(1,1,1);
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_uvx",0.0);
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_uvy",0.0);
-
-		}
+	if (!moduleSplashObject.enableDynamicReflections || !enableDynamicReflections){
+		userenderTex = false;
 	}
-
-
-
-	//-------------------------------------------------------
-	//###  Set Debug Modes  ###
-	//-------------------------------------------------------
-	if (surfaceRenderer != null){
-		if (showDepthMask){
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_DebugDepthMask",1.0);
-		} else {
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_DebugDepthMask",0.0);
+	if (!userenderTex){
+	
+		if (Application.isPlaying){
+				if (reflectionObject != null) reflectionObject.SetActive(false);
 		}
 
-		if (showWorldMask){
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_DebugWorldNormalMask",1.0);
-		} else {
-			surfaceRenderer.sharedMaterial.SetFloat("_suimono_DebugWorldNormalMask",0.0);
+	} else {
+
+		if (reflectionObject != null && userenderTex){
+			
+			reflectionObject.transform.localScale = Vector3(4,1,4);
+			reflectionObject.SetActive(true);
+
+			
+			//enable reflection based on distance
+			//if (moduleSplashObject.setCamera) reflDist = Vector3.Distance(transform.localPosition,moduleSplashObject.setCamera.localPosition);
+			//if (moduleSplashObject.setCamera) reflDist = Vector3.Distance(thisSuimonoObject.transform.position,moduleSplashObject.setCamera.position);
+			//if (reflectionObject != null){
+			//if (Application.isPlaying){
+
+				//check distance render
+				//if (reflDist <= 100.0) reflectionObject.SetActive(true);
+				//if (reflDist > 100.0 && hasStarted) reflectionObject.SetActive(false);
+
+			//}
+			//}
+							
+			//check for underwater
+			isUnderwater = false;
+			if (currentWaterLevel >= 0.0){
+				//swap reflection coordinates underwater
+				if (reflectionObject != null) reflectionObject.transform.eulerAngles = Vector3(0.0,0.0,180.0);
+			} else {
+				if (reflectionObject != null) reflectionObject.transform.eulerAngles = Vector3(0.0,0.0,0.0);
+			}
+		
+		if (Application.isPlaying){	
+			getTex = reflectrendererComponent.sharedMaterial.GetTexture("_ReflectionTex");
+			thisRenderMaterial.SetTexture("_ReflectionTex",getTex);
 		}
-
-	}
-
-
-	//-------------------------------------------------------
-	//###  Update Preset Listing  ###
-	//-------------------------------------------------------
-	#if UNITY_EDITOR
-		if (presetFileUseIndex != presetFileIndex){
-			presetFileUseIndex = presetFileIndex;
-			PresetInit();
 		}
-	#endif
-
-}
-}
-
-
-
-
-
-function SuimonoConvertAngleToVector(convertAngle : float) : Vector2{
-	//Note this is the same function as above, but renamed for better clarity.
-	//eventually the above function should be deprecated.
-	flow_dir = Vector2(0,0);
-	tempAngle = Vector3(0,0,0);
-	if (convertAngle <= 180.0){
-		tempAngle = Vector3.Slerp(Vector3.forward,-Vector3.forward,(convertAngle)/180.0);
-		flow_dir = Vector2(tempAngle.x,tempAngle.z);
-	}
-	if (convertAngle > 180.0){
-		tempAngle = Vector3.Slerp(-Vector3.forward,Vector3.forward,(convertAngle-180.0)/180.0);
-		flow_dir = Vector2(-tempAngle.x,tempAngle.z);
 	}
 	
-	return flow_dir;
-}
+
+	
+	//if (shorelineObject != null){
+	//if (Application.isPlaying){
+		//unity 3.5 compilation
+		//if (reflDist <= (60.0*transform.localScale.x)) shorelineObject.active = true;
+		//if (reflDist > (60.0*transform.localScale.x)) shorelineObject.active = false;
+	//}
+	//}
 
 
 
+	// ########## ASSIGN GENERAL ATTRIBUTES ############
+	useRefract = 1.0;
+	refractChanged = false;
+	
+	if (!moduleSplashObject.enableRefraction) useRefract = 0.0;
+	
+	if (currentUseRefraction != useRefract){
+		refractChanged = true;
+		currentUseRefraction = useRefract;
+	}
+	
+	if (currentRefractScale != refractScale || xScaleChanged){
+		refractScl = Mathf.Lerp(0.0,(2.25),refractScale);
+		thisRenderMaterial.SetFloat("_RefrScale",floatRound(refractScl));
+		useScale = (this.transform.localScale.x * refractScl);
+		thisRenderMaterial.SetFloat("_MasterScale",floatRound(useScale));
+		thisRenderMaterial.SetFloat("_WaveAmt",floatRound(useScale));
+		thisRenderMaterial.SetFloat("_NormalAmt",floatRound(useScale*10.0));
+		currentRefractScale = refractScale;
+	}
+	
+	//Calculate Shore & Wave FX
+	shoreWaveStretch = 4.5;
+	shoreWaveStretch2 = 0.0;
+	shoreAmt = ((1.0-shoreWaveStretch)+Mathf.Sin(Time.time*0.75)*shoreWaveStretch);
+	tideAmount = ((0.3)+Mathf.Sin(Time.time*0.45)*0.2);
+	thisRenderMaterial.SetFloat("_ShoreAmt",floatRound(shoreAmt));
+	thisRenderMaterial.SetFloat("_TideAmount",floatRound(tideAmount));
+	
+	//Calculate Waves
+	var waveFacChanged : boolean = false;
+	var waveHeightChanged : boolean = false;
+	var detailHeightChanged : boolean = false;
+	if (currentWaveFactor != waveFac) {
+		waveFacChanged = true;
+		currentWaveFactor = waveFac;
+	}
+	if (waveHeight != currentWaveHeight){
+		waveHeightChanged = true;
+		currentWaveHeight = waveHeight;
+	}
+	if (detailHeight != currentDetailHeight){
+		detailHeightChanged = true;
+		currentDetailHeight = detailHeight;
+	}
+	
+	if (waveHeightChanged || waveFacChanged){
+		useWaveHt = Mathf.Lerp(0.0001,10.0,(waveHeight/10.0)*waveFac);
+		thisRenderMaterial.SetFloat("_WaveHeight",floatRound(useWaveHt));
+	}
+	if (detailHeightChanged || waveFacChanged){
+		useDetHt = Mathf.Lerp(0.0001,3.0,(detailHeight/3.0)*waveFac);
+		thisRenderMaterial.SetFloat("_DetailHeight",floatRound(useDetHt));
+	}
+	if (waveShoreHeight != currentWaveShoreHeight || waveFacChanged){
+		usewaveShoreHt = Mathf.Lerp(0.0001,1.5,(waveShoreHeight*waveFac)/20.0);
+		thisRenderMaterial.SetFloat("_WaveShoreHeight",floatRound(usewaveShoreHt));
+		currentWaveShoreHeight = waveShoreHeight;
+	}
 
+	if (currentWaveShoreScale != waveShoreScale){
+		setFlowShoreScale = Mathf.Lerp(0.1,4,waveShoreScale);
+		thisRenderMaterial.SetFloat("_FlowShoreScale",floatRound(setFlowShoreScale));
+		currentWaveShoreScale = waveShoreScale;
+	}
+	
+	//thisRenderMaterial.SetFloat("_TimeX",thisRenderMaterial.GetTextureOffset("_Surface1").x);
+	//thisRenderMaterial.SetFloat("_TimeY",thisRenderMaterial.GetTextureOffset("_Surface1").y);
+	//thisRenderMaterial.SetFloat("_DTimeX",thisRenderMaterial.GetTextureOffset("_WaveLargeTex").x);
+	//thisRenderMaterial.SetFloat("_DTimeY",thisRenderMaterial.GetTextureOffset("_WaveLargeTex").y);
+	//timex += Time.deltaTime * waveSpeed;
+	//timey += Time.deltaTime * waveSpeed;
+	
+	//Calculate Overall Brightness
+	//if (currentOverallBright != overallBright){
+		thisRenderMaterial.SetFloat("_OverallBright",floatRound(overallBright));
+		currentOverallBright = overallBright;
+	//}
+	
+	//Calculate Overall Transparency
+	//if (currentOverallTransparency != overallTransparency){
+		thisRenderMaterial.SetFloat("_OverallTrans",floatRound(overallTransparency));
+		currentOverallTransparency = overallTransparency;
+	//}
+	
+	//Calculate Light Absorption
+	if (currentAbsorbAmt != lightAbsorb){
+		absorbAmt = Mathf.Lerp(0.0,50.0,lightAbsorb);
+		thisRenderMaterial.SetFloat("_DepthAmt",floatRound(absorbAmt));
+		currentAbsorbAmt = lightAbsorb;
+	}
+	//set shadow amount
+	if (currentShadowAmt != shadowAmount){
+		shadowAmt = Mathf.Lerp(0.0,1.0,shadowAmount);
+		thisRenderMaterial.SetFloat("_ShadowAmt",floatRound(shadowAmt));
+		currentShadowAmt = shadowAmount;
+	}
+	
+	//Calculate Refraction
+	setSCL = transform.localScale.x;
+	if (currentLightRefract != lightRefract || xScaleChanged || refractChanged){
+		refractAmt = Mathf.Lerp(0.0,(500.0/setSCL),Mathf.Lerp(0.0,0.1,lightRefract));
+		refractAmt *= (this.transform.localScale.x/10.0);
+		thisRenderMaterial.SetFloat("_RefrStrength",floatRound(refractAmt)*useRefract);
+		currentLightRefract = lightRefract;
+	}
+	//if (currentRefractShft != refractShift || refractChanged){
+		refractShft = Mathf.Lerp(0.0,0.2,refractShift);
+		thisRenderMaterial.SetFloat("_RefrShift",floatRound(refractShft)*useRefract);
+		currentRefractShft = refractShift;
+	//}
 
-
-
-
-
-// ########## PUBLIC FUNCTIONS #######################################################################################################################
-
-function SuimonoSetPreset( fName : String, pName : String){
-	PresetLoadBuild(fName,pName);
-}
-
-
-
-function SuimonoSavePreset( fName : String, pName : String){
-	setFolder = -1;
-	setPreset = -1;
-
-	setFolder = PresetGetNum("folder",fName);
-	setPreset = PresetGetNum("preset",pName);
-
-	if (setFolder >= 0 && setPreset >= 0){
-		PresetSave(setFolder,setPreset);
+	//Calculate Reflections
+	if (!userenderTex || thisRenderMaterial.GetTexture("_ReflectionTex") == null){
+		if (currentUseReflection != 0.0){
+			thisRenderMaterial.SetFloat("useReflection",0.0);
+			currentUseReflection = 0.0;
+		}
 	} else {
-		Debug.Log("The Preset "+pName+" in folder "+fName+" cannot be found!");
-	}
-}
-
-
-
-
-
-//########### NEW PRESETS #########################################################################################################################
-function PresetInit(){
-
-	#if !UNITY_WEBPLAYER
-
-	//get preset directories
-	presetDirsArr = new Array();
-	dirInfo = DirectoryInfo(dir+"/").GetFiles("SUIMONO_PRESETS_*");
-	if (DirectoryInfo(dir+"/") != null){
-		for (d = 0; d < dirInfo.Length; d++){
-			presetDirsArr.Add(dirInfo[d].ToString());
-		}
-	}
-	presetDirs = new String[presetDirsArr.length];
-	for (dn = 0; dn < presetDirsArr.length; dn++){
-		presetDirs[dn] = presetDirsArr[dn].ToString();
-		presetDirs[dn] = presetDirs[dn].Remove(0,dir.length);
-		presetDirs[dn] = presetDirs[dn].Replace("SUIMONO_PRESETS_","");
-		presetDirs[dn] = presetDirs[dn].Replace(".meta","");
-	}
-
-
-	//get preset files listing
-	presetFilesArr = new Array();
-	pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[presetFileIndex];
-
-	fileInfo = DirectoryInfo(pdir).GetFiles("SUIMONO_PRESET_*");
-	if (DirectoryInfo(pdir) != null){
-		for (f = 0; f < fileInfo.Length; f++){
-			presetFilesArr.Add(fileInfo[f].ToString());
-		}
-	}
-	px = 0;
-	for (nx = 0; nx < presetFilesArr.length; nx++){
-		if (!presetFilesArr[nx].ToString().Contains(".meta")) px++;
-	}
-	presetFiles = new String[px];
-	ax = 0;
-	for (n = 0; n < presetFilesArr.length; n++){
-		if (!presetFilesArr[n].ToString().Contains(".meta")){
-			presetFiles[ax] = presetFilesArr[n].ToString();
-			presetFiles[ax] = presetFiles[ax].Remove(0,pdir.length);
-			presetFiles[ax] = presetFiles[ax].Replace("SUIMONO_PRESET_","");
-			presetFiles[ax] = presetFiles[ax].Replace(".txt","");
-			ax++;
+		if (currentUseReflection != 1.0){
+			thisRenderMaterial.SetFloat("useReflection",1.0);
+			currentUseReflection = 1.0;
 		}
 	}
 
-	#endif
-}
+	if (currentReflectDistAmount != reflectDist){
+		reflectDistAmt = Mathf.Lerp(-200,200, reflectDist);
+		thisRenderMaterial.SetFloat("_ReflDist",floatRound(reflectDistAmt));
+		currentReflectDistAmount = reflectDist;
+	}
+	if (currentReflectSpreadAmount != reflectSpread){
+		reflectSpreadAmt = Mathf.Lerp(0.015,0.001,reflectSpread);
+		thisRenderMaterial.SetFloat("_ReflBlend",floatRound(reflectSpreadAmt));
+		currentReflectSpreadAmount = reflectSpread;
+	}
+	if (currentColorDynReflect != colorDynReflect){
+		thisRenderMaterial.SetColor("_DynReflColor",LinearTransfer(colorDynReflect));
+		currentColorDynReflect = colorDynReflect;
+	}
+	if (currentReflectAmount != reflectionOffset){
+		reflectAmt = Mathf.Lerp(0.0,100.0,reflectionOffset);
+		thisRenderMaterial.SetFloat("_ReflectStrength",floatRound(reflectAmt));
+		currentReflectAmount = reflectionOffset;
+	}
+	
+	//Calculate Underwater Reflections
+	if (currentReflectDistUnderAmt != reflectDistUnderAmt){
+		reflectUnderDist = Mathf.Lerp(-30,0,reflectDistUnderAmt);
+		reflectUnderDist = Mathf.Lerp(-10.0,0.0,reflectDistUnderAmt);
+		thisRenderMaterial.SetFloat("_UnderReflDist",floatRound(reflectUnderDist));
+		currentReflectDistUnderAmt = reflectDistUnderAmt;
+	}
+	
+	//Calculate Blur
+	if (currentBlurSpread != blurSpread || refractChanged){
+		blurSprd = Mathf.Lerp(0.0,1.0,blurSpread);
+		thisRenderMaterial.SetFloat("_BlurSpread",floatRound(blurSprd)*useRefract);
+		currentBlurSpread = blurSpread;
+	}
+	
+	//surface smoothness
+	if (currentSurfaceSmooth != surfaceSmooth){
+		surfaceSmoothAmt = Mathf.Lerp(0.0,0.45,surfaceSmooth);
+		thisRenderMaterial.SetFloat("_BumpStrength",floatRound(surfaceSmoothAmt));
+		currentSurfaceSmooth = surfaceSmooth;
+	}
+	
+	
 
+	//colors
+	if (currentColorSurfHigh != colorSurfHigh){
+		thisRenderMaterial.SetColor("_HighColor",LinearTransfer(colorSurfHigh));
+		currentColorSurfHigh = colorSurfHigh;
+	}
+	if (currentColorSurfLow != colorSurfLow){
+		thisRenderMaterial.SetColor("_LowColor",LinearTransfer(colorSurfLow));
+		currentColorSurfLow = colorSurfLow;
+	}
+	if (currentUseDepthColor != useDepthColor){
+		thisRenderMaterial.SetColor("_DepthColor",LinearTransfer(useDepthColor));
+		currentUseDepthColor = useDepthColor;
+	}
+	if (currentDepthColorR != depthColorR){
+		thisRenderMaterial.SetColor("_DepthColorR",LinearTransfer(depthColorR));
+		currentDepthColorR = depthColorR;
+	}
+	if (currentDepthColorG != depthColorG){
+		thisRenderMaterial.SetColor("_DepthColorG",LinearTransfer(depthColorG));
+		currentDepthColorG = depthColorG;
+	}
+	if (currentDepthColorB != depthColorB){
+		thisRenderMaterial.SetColor("_DepthColorB",LinearTransfer(depthColorB));
+		currentDepthColorB = depthColorB;
+	}
+	if (currentUnderwaterColor != underwaterColor){
+		thisRenderMaterial.SetColor("_UnderColor",LinearTransfer(underwaterColor));
+		currentUnderwaterColor = underwaterColor;
+	}
+	if (currentUnderwaterFogDist != underwaterFogDist){
+		useUnderFogDist = Mathf.Lerp(-0.1,0.2,underwaterFogDist);
+		thisRenderMaterial.SetFloat("_UnderFogDist",floatRound(useUnderFogDist));
+		currentUnderwaterFogDist = underwaterFogDist;
+	}
+	
+	
 
+	//specular
+	if (currentSpecColorH != specColorH){
+		thisRenderMaterial.SetColor("_SpecColorH",LinearTransfer(specColorH));
+		currentSpecColorH = specColorH;
+	}
+	if (currentSpecColorL != specColorL){
+		thisRenderMaterial.SetColor("_SpecColorL",LinearTransfer(specColorL));
+		currentSpecColorL = specColorL;
+	}
+	if (currentSpecScatterWidth != specScatterWidth){
+		_SpecHotAmt = Mathf.Lerp(0.1,10.0,specScatterWidth);
+		thisRenderMaterial.SetFloat("_SpecScatterWidth",floatRound(_SpecHotAmt));
+		currentSpecScatterWidth = specScatterWidth;
+	}
+	if (currentSpecScatterAmount != specScatterAmt){
+		_SpecAmt = Mathf.Lerp(0.5,10.0,specScatterAmt);
+		thisRenderMaterial.SetFloat("_SpecScatterAmt",floatRound(_SpecAmt));
+		currentSpecScatterAmount = specScatterAmt;
+	}
+	
+	
 
-
-
-
-
-function PresetGetNum( mode : String, pName : String) : int {
-
-	#if !UNITY_WEBPLAYER
-
-	setMode = -1;
-	setFolder = -1;
-	setPreset = -1;
-
-	if (mode == "folder"){
-		//get preset directories
-		tempPresetDirsArr = new Array();
-		dirInfo = DirectoryInfo(dir+"/").GetFiles("SUIMONO_PRESETS_*");
-		if (DirectoryInfo(dir+"/") != null){
-			for (d = 0; d < dirInfo.Length; d++){
-				tempPresetDirsArr.Add(dirInfo[d].ToString());
-			}
-		}
-		tempPresetDirs = new String[tempPresetDirsArr.length];
-		for (dn = 0; dn < tempPresetDirsArr.length; dn++){
-			tempPresetDirs[dn] = tempPresetDirsArr[dn].ToString();
-			tempPresetDirs[dn] = tempPresetDirs[dn].Remove(0,dir.length);
-			tempPresetDirs[dn] = tempPresetDirs[dn].Replace("SUIMONO_PRESETS_","");
-			tempPresetDirs[dn] = tempPresetDirs[dn].Replace(".meta","");
-			if (tempPresetDirs[dn] == pName) setFolder = dn;
-		}
-		setMode = setFolder;
+	//tide
+	if (currentTideColor != tideColor){
+		thisRenderMaterial.SetColor("_TideColor",LinearTransfer(tideColor));
+		currentTideColor = tideColor;
+	}
+	if (currentTideAmount != tideAmount){
+		thisRenderMaterial.SetFloat("_TideAmount",floatRound(tideAmount));
+		currentTideAmount = tideAmount;
+	}
+	if (currentTideSpread != tideSpread){
+		thisRenderMaterial.SetFloat("_TideSpread",floatRound(tideSpread));
+		currentTideSpread = tideSpread;
 	}
 
-	if (mode == "preset"){
-		//get preset files listing
-		tempPresetFilesArr = new Array();
-		pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[presetFileIndex];
-		fileInfo = DirectoryInfo(pdir).GetFiles("SUIMONO_PRESET_*");
-		if (DirectoryInfo(pdir) != null){
-			for (f = 0; f < fileInfo.Length; f++){
-				tempPresetFilesArr.Add(fileInfo[f].ToString());
-			}
-		}
-		px = 0;
-		for (nx = 0; nx < tempPresetFilesArr.length; nx++){
-			if (!tempPresetFilesArr[nx].ToString().Contains(".meta")) px++;
-		}
-		tempPresetFiles = new String[px];
-		ax = 0;
-		for (n = 0; n < tempPresetFilesArr.length; n++){
-			if (!tempPresetFilesArr[n].ToString().Contains(".meta")){
-				tempPresetFiles[ax] = tempPresetFilesArr[n].ToString();
-				tempPresetFiles[ax] = tempPresetFiles[ax].Remove(0,pdir.length);
-				tempPresetFiles[ax] = tempPresetFiles[ax].Replace("SUIMONO_PRESET_","");
-				tempPresetFiles[ax] = tempPresetFiles[ax].Replace(".txt","");
-				if (tempPresetFiles[ax] == pName) setPreset = ax;
-				ax++;
-			}
-		}
-		setMode = setPreset;
+
+	// SET camera position handling
+	if (Application.isPlaying){
+		suiHeight = this.transform.position.y;
+		camHeight = moduleSplashObject.setCamera.transform.position.y;
+		if (camHeight < 0.0) camHeight = 0.0;
+		thisRenderMaterial.SetFloat("suimonoHeight",suiHeight);
+		moduleSplashObject.underwaterRefractRendererComponent.material.SetFloat("suimonoHeight",suiHeight);
+		Shader.SetGlobalFloat("suimonoCameraHeight", camHeight);
+		Shader.SetGlobalFloat("suimonoDiffHeight", camHeight-suiHeight);
+	}
+	
+
+	// SET FOAM SCALING
+	if (currentFoamScale != foamScale || xScaleChanged){
+		//setFoamScale = Mathf.Lerp(0.0001,10.0,foamScale);
+		setFoamScale = Mathf.Lerp(0.025,1.0,foamScale);
+		useFoamScale = this.transform.localScale.x*setFoamScale;
+		thisRenderMaterial.SetTextureScale("_FoamTex",Vector2(useFoamScale,useFoamScale));
+		thisRenderMaterial.SetTextureScale("_FoamOverlay",Vector2(useFoamScale,useFoamScale));
+		thisRenderMaterial.SetFloat("_ShallowFoamScale",useFoamScale);
+		uvMult3 = useFoamScale * 0.1;
+		currentFoamScale = foamScale;
 	}
 
-	return setMode;
 
-	#endif
-}
-
-
-
-
-
-
-function PresetRename( ppos : int, newName : String ){
-#if UNITY_EDITOR
-#if !UNITY_WEBPLAYER
-	pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[presetFileIndex];
-	oldName = pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt";
-	moveName = pdir+"/SUIMONO_PRESET_"+newName+".txt";
-	File.Move(oldName,moveName);
-	AssetDatabase.Refresh();
-	PresetInit();
-#endif
-#endif
-}
-
-
-function PresetAdd(){
-#if UNITY_EDITOR
-#if !UNITY_WEBPLAYER
-	setNum = presetFiles.length;
-	pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[presetFileIndex];
-	while (File.Exists(pdir+"/SUIMONO_PRESET_New Preset "+setNum+".txt")){
-		setNum += 1;
+	if (currentShallowFoamAmount != shallowFoamAmt){
+		thisRenderMaterial.SetFloat("_ShallowFoamAmt",shallowFoamAmt);
+		currentShallowFoamAmount = shallowFoamAmt;
 	}
-	if (presetFiles.length >= 1){
-		File.Create(pdir+"/SUIMONO_PRESET_New Preset "+setNum+".txt").Close();
+	if (currentFoamMoveSpeed != foamMoveSpeed){
+		thisRenderMaterial.SetFloat("_ShallowFoamSpeed",foamMoveSpeed);
+		currentFoamMoveSpeed = shallowFoamAmt;
+	}
+	
+	
+	foamSpread = (foamAmt) + (Mathf.Sin(Time.time*1.0)*(0.05 * (1.0+foamAmt)));
+	setFoamSpread = Mathf.Lerp(0.02,1.0,foamSpread);
+	thisRenderMaterial.SetFloat("_FoamSpread",floatRound(setFoamSpread));
+
+	if (currenthFoamHeight != hFoamHeight){
+		useFoamHt = Mathf.Lerp(0.0,1.0,hFoamHeight);
+		thisRenderMaterial.SetFloat("_FoamHeight", floatRound(useFoamHt));
+		currenthFoamHeight = hFoamHeight;
+	}
+	if (currenthFoamAmount != hFoamAmt){
+		useHFoam = Mathf.Lerp(0.0,5.0,hFoamAmt);
+		thisRenderMaterial.SetFloat("_HeightFoamAmount", floatRound(useHFoam));
+		currenthFoamAmount = hFoamAmt;
+	}
+	if (currenthFoamSpread != hFoamSpread){
+		useHFoamSpd = Mathf.Lerp(0.0,15.0,hFoamSpread);
+		thisRenderMaterial.SetFloat("_HeightFoamSpread", floatRound(useHFoamSpd));
+		currenthFoamSpread = hFoamSpread;
+	}
+	
+	if (!Application.isPlaying){
+		useFoamColor.a = 0.0;
+		thisRenderMaterial.SetColor("_FoamColor",LinearTransfer(useFoamColor));
 	} else {
-		File.Create(pdir+"/SUIMONO_PRESET_New Preset 1.txt").Close();
-		setNum = 1;
-	}
-	AssetDatabase.Refresh();
-	PresetInit();
-	SuimonoSavePreset(presetDirs[presetFileIndex],"New Preset "+setNum);
-#endif
-#endif
-}
-
-
-function PresetDelete( fpos : int, ppos : int ){
-#if UNITY_EDITOR
-#if !UNITY_WEBPLAYER
-	pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[fpos];
-	if (File.Exists(pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt")){
-		File.Delete(pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt");
-		if (presetIndex == ppos) presetIndex = -1;
-	}
-	AssetDatabase.Refresh();
-	PresetInit();
-#endif
-#endif
-}
-
-
-function PresetSave( fpos : int, ppos : int ){
-#if UNITY_EDITOR
-#if !UNITY_WEBPLAYER
-	pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[fpos];
-	if (File.Exists(pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt")){
-
-		//Caclulate data
-		presetDataString = "";
-		presetDataString += (PresetEncode("color_depth")) + "\n";
-		presetDataString += (PresetEncode("color_shallow")) + "\n";
-		presetDataString += (PresetEncode("color_blend")) + "\n";	
-		presetDataString += (PresetEncode("color_overlay")) + "\n";
-		presetDataString += (PresetEncode("color_caustics")) + "\n";
-		presetDataString += (PresetEncode("color_reflection")) + "\n";
-		presetDataString += (PresetEncode("color_specular")) + "\n";
-		presetDataString += (PresetEncode("color_sss")) + "\n";
-		presetDataString += (PresetEncode("color_foam")) + "\n";
-		presetDataString += (PresetEncode("color_underwater")) + "\n";
-		presetDataString += (PresetEncode("data_beaufort")) + "\n";
-		presetDataString += (PresetEncode("data_flowdir")) + "\n";
-		presetDataString += (PresetEncode("data_flowspeed")) + "\n";
-		presetDataString += (PresetEncode("data_wavescale")) + "\n";
-		presetDataString += (PresetEncode("data_customwaves")) + "\n";
-		presetDataString += (PresetEncode("data_waveheight")) + "\n";
-		presetDataString += (PresetEncode("data_heightprojection")) + "\n";
-		presetDataString += (PresetEncode("data_turbulence")) + "\n";
-		presetDataString += (PresetEncode("data_lgwaveheight")) + "\n";
-		presetDataString += (PresetEncode("data_lgwavescale")) + "\n";
-		presetDataString += (PresetEncode("data_shorelineheight")) + "\n";
-		presetDataString += (PresetEncode("data_shorelinefreq")) + "\n";
-		presetDataString += (PresetEncode("data_shorelinescale")) + "\n";
-		presetDataString += (PresetEncode("data_shorelinespeed")) + "\n";
-		presetDataString += (PresetEncode("data_shorelinenorm")) + "\n";
-		presetDataString += (PresetEncode("data_overallbright")) + "\n";
-		presetDataString += (PresetEncode("data_overalltransparency")) + "\n";
-		presetDataString += (PresetEncode("data_edgeamt")) + "\n";
-		presetDataString += (PresetEncode("data_depthamt")) + "\n";
-		presetDataString += (PresetEncode("data_shallowamt")) + "\n";
-		presetDataString += (PresetEncode("data_refractstrength")) + "\n";
-		presetDataString += (PresetEncode("data_aberrationscale")) + "\n";
-		presetDataString += (PresetEncode("data_causticsfade")) + "\n";
-		presetDataString += (PresetEncode("data_reflectprojection")) + "\n";
-		presetDataString += (PresetEncode("data_reflectblur")) + "\n";
-		presetDataString += (PresetEncode("data_reflectterm")) + "\n";
-		presetDataString += (PresetEncode("data_roughness")) + "\n";
-		presetDataString += (PresetEncode("data_roughness2")) + "\n";
-		presetDataString += (PresetEncode("data_enablefoam")) + "\n";
-		presetDataString += (PresetEncode("data_foamscale")) + "\n";
-		presetDataString += (PresetEncode("data_foamspeed")) + "\n";
-		presetDataString += (PresetEncode("data_edgefoamamt")) + "\n";
-		presetDataString += (PresetEncode("data_shallowfoamamt")) + "\n";
-		presetDataString += (PresetEncode("data_heightfoamamt")) + "\n";
-		presetDataString += (PresetEncode("data_hfoamheight")) + "\n";
-		presetDataString += (PresetEncode("data_hfoamspread")) + "\n";
-		presetDataString += (PresetEncode("data_enableunderdebris")) + "\n";
-		presetDataString += (PresetEncode("data_underlightfactor")) + "\n";
-		presetDataString += (PresetEncode("data_underrefractionamount")) + "\n";
-		presetDataString += (PresetEncode("data_underrefractionscale")) + "\n";
-		presetDataString += (PresetEncode("data_underrefractionspeed")) + "\n";
-		presetDataString += (PresetEncode("data_underbluramount")) + "\n";
-		presetDataString += (PresetEncode("data_underwaterfogdist")) + "\n";
-		presetDataString += (PresetEncode("data_underwaterfogspread")) + "\n";
-		presetDataString += (PresetEncode("data_underDarkRange")) + "\n";
-
-
-
-		//save data
-		sw = new StreamWriter(pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt");
-		sw.AutoFlush = true;
-		sw.Write(presetDataString);
-	    sw.Close();
-
-		Debug.Log("Preset '"+presetFiles[ppos]+"' has been saved!");
-	}
-#endif
-#endif
-}
-
-
-
-
-function PresetLoad( ppos : int ){
-	if (presetIndex >= 0){
-		pdir = dir + "/SUIMONO_PRESETS_"+presetDirs[presetFileIndex];
-		sr = new StreamReader(pdir+"/SUIMONO_PRESET_"+presetFiles[ppos]+".txt");
-	    presetDataString = sr.ReadToEnd();
-	    sr.Close();
-
-	    presetDataArray = presetDataString.Split("\n"[0]);
-
-		//Decode Data
-		for (dx = 0; dx < presetDataArray.Length; dx++){
-			if (presetDataArray[dx] != "" && presetDataArray[dx] != "\n"){
-				pFrom = presetDataArray[dx].IndexOf("<") + "<".Length;
-				pTo = presetDataArray[dx].LastIndexOf(">");
-				key = presetDataArray[dx].Substring(pFrom, pTo - pFrom);
-
-				pFrom = presetDataArray[dx].IndexOf("(") + "(".Length;
-				pTo = presetDataArray[dx].LastIndexOf(")");
-				dat = presetDataArray[dx].Substring(pFrom, pTo - pFrom);
-
-				PresetDecode(key,dat);
-			}
+		if (currentUseFoamColor != useFoamColor){
+			thisRenderMaterial.SetColor("_FoamColor",LinearTransfer(useFoamColor));
+			currentUseFoamColor = useFoamColor;
 		}
 	}
+
+
+	if (currentEdgeBlend != edgeBlend){
+		useEdgeBlend = edgeBlend;
+		setEdgeBlend = Mathf.Lerp(0.02,Mathf.Lerp(1.0,20.0,edgeBlend/0.2)*transform.localScale.x,edgeBlend);
+		//if (useEdgeBlend == 0.2) setEdgeBlend = 10.0;
+		thisRenderMaterial.SetFloat("_EdgeBlend",floatRound(setEdgeBlend));
+		currentEdgeBlend = edgeBlend;
+	}
+
+	if (!Application.isPlaying){
+		useEdgeColor.a = 0.0;
+		thisRenderMaterial.SetColor("_EdgeColor",LinearTransfer(useEdgeColor));
+	} else {
+		if (currentUseEdgeColor != useEdgeColor){
+			thisRenderMaterial.SetColor("_EdgeColor",LinearTransfer(useEdgeColor));
+			currentUseEdgeColor = useEdgeColor;
+		}
+	}
+	
+	//set uv reversal
+	useUVR = 0.0;
+	if (moduleSplashObject.useUVReversal) useUVR = 1.0;
+	if (currentUvReversal != useUVR){
+		Shader.SetGlobalFloat("_UVReversal",useUVR);
+		currentUvReversal = useUVR;
+	}
+	
+	//WAVE TEXTURE ANIMATION
+	animationSpeed = 1.0;
+	
+	//set speed limits
+	flow_dir.x = Mathf.Clamp(flow_dir.x,-1.0,1.0);
+	flow_dir.y = Mathf.Clamp(flow_dir.y,-1.0,1.0);
+	
+	shore_dir.x = Mathf.Clamp(shore_dir.x,-1.0,1.0);
+	shore_dir.y = Mathf.Clamp(shore_dir.y,-1.0,1.0);
+	
+	wave_dir.x = flow_dir.x;
+	wave_dir.y = flow_dir.y;
+
+	foam_dir.x = flow_dir.x;
+	foam_dir.y = flow_dir.y;
+	
+
+	uvMult4 = 0.1;	
+
+	
+
+	
+	//####### MANAGE INFINITE SIZING #######
+	setScaleX = 0.0;
+	setScaleY = 0.0;
+	setScale2X = 0.0;
+	setScale2Y = 0.0;
+	setScale3X = 0.0;
+	setScale3Y = 0.0;
+	setScale4X = 0.0;
+	setScale4Y = 0.0;
+	setUsePos = this.transform.position;
+	
+
+	
+	if (Application.isPlaying){
+		if (typeIndex == 0){
+			
+			this.transform.eulerAngles.y = 183.2475;
+			
+			upStep = 1.0;
+			spacer = ((this.transform.localScale.x * 4.0)/upStep);
+			spacerUV = (1.0/upStep);
+
+			//set scale and intial position
+			if (!oceanHasStarted){
+				oceanHasStarted = true;
+				setScale = 1.0;
+				
+				setScale = moduleSplashObject.setCameraComponent.farClipPlane/20.0;
+				oceanUseScale = 5.0;
+				currentOceanMult = overallScale;
+					this.transform.localScale = Vector3(oceanUseScale*overallScale,1.0,oceanUseScale*overallScale);
+					suimonoScaleObject.transform.localScale = Vector3(setScale*0.5,1.0,setScale*0.5);
+					if (moduleSplashObject.unityVersionIndex == 4 || moduleSplashObject.unityVersionIndex == 5){
+						if (thisrendererComponent.enabled) thisrendererComponent.enabled = false;
+					}
+				this.transform.position = Vector3(moduleSplashObject.setCamera.position.x,this.transform.position.y,moduleSplashObject.setCamera.position.z);
+			}
+
+			if (currentOceanMult != overallScale){
+				currentOceanMult = overallScale;
+				this.transform.localScale = Vector3(oceanUseScale*overallScale,1.0,oceanUseScale*overallScale);
+			}
+			
+			//set scaled object size to horizon
+			setScale = moduleSplashObject.setCameraComponent.farClipPlane/20.0;
+			suimonoScaleObject.transform.localScale = Vector3(setScale,1.0,setScale);
+
+			//set reflection object
+			reflectionObject.transform.localScale = Vector3(setScale,1.0,setScale);
+
+			
+			//set properties from master material in dx9
+			
+				if (currentWaterLevel >= 0.0){
+					if (scalerendererComponent.enabled)scalerendererComponent.enabled = false;
+				} else {
+					if (!scalerendererComponent.enabled) scalerendererComponent.enabled = true;
+				}
+				
+				//if (!scalerendererComponent.enabled) scalerendererComponent.enabled = true;
+				scalerendererComponent.sharedMaterial.CopyPropertiesFromMaterial(thisRenderMaterial);
+				useSc = (oceanUseScale)*(setScale/(oceanUseScale));
+				setSc = scaleRenderMaterial.GetTextureScale("_WaveLargeTex");
+				scaleRenderMaterial.SetTextureScale("_WaveLargeTex", setSc*useSc);
+				setSc = scaleRenderMaterial.GetTextureScale("_Surface1");
+				scaleRenderMaterial.SetTextureScale("_Surface1", setSc*useSc);
+				setSc = scaleRenderMaterial.GetTextureScale("_Surface2");
+				scaleRenderMaterial.SetTextureScale("_Surface2", setSc*useSc);
+				setDpth = thisRenderMaterial.GetFloat("_DepthAmt");
+				scaleRenderMaterial.SetFloat("_DepthAmt", setDpth*useSc);
+			//}
+
+
+				
+				
+			//set position
+			newPos = Vector3(moduleSplashObject.setCamera.position.x,this.transform.position.y,moduleSplashObject.setCamera.position.z);
+			if (Mathf.Abs(this.transform.position.x - newPos.x) > spacer){
+				fudgex = (this.transform.position.x - newPos.x)/spacer;
+				setSpace.x = (spacerUV*fudgex)*uvMult;
+				setSpace2.x = (spacerUV*fudgex)*uvMult2;
+				setSpace3.x = (spacerUV*fudgex)*uvMult3;
+				setSpace4.x = (spacerUV*fudgex)*uvMult4;
+				setSpace5.x = (spacerUV*fudgex)*uvMult5;
+				setSpace6.x = (spacerUV*fudgex)*uvMult6;
+				
+				setUsePos.x = newPos.x;
+				setScaleX = setSpace.x;
+				setScale2X = setSpace2.x;
+				setScale3X = setSpace5.x;		
+				setScale4X = setSpace6.x;	
+							
+				//shorelineComponent.generateMap = true;
+			}
+			if (Mathf.Abs(this.transform.position.z - newPos.z) > spacer){
+				fudgey = (this.transform.position.z - newPos.z)/spacer;
+				setSpace.y = (spacerUV*fudgey)*uvMult;
+				setSpace2.y = (spacerUV*fudgey)*uvMult2;
+				setSpace3.y = (spacerUV*fudgey)*uvMult3;
+				setSpace4.y = (spacerUV*fudgey)*uvMult4;
+				setSpace5.y = (spacerUV*fudgey)*uvMult5;
+				setSpace6.y = (spacerUV*fudgey)*uvMult6;
+								
+				setUsePos.z = newPos.z;
+				setScaleY = setSpace.y;
+				setScale2Y = setSpace2.y;
+				setScale3Y = setSpace5.y;
+				setScale4Y = setSpace6.x;
+							
+				//shorelineComponent.generateMap = true;
+				
+			}
+			
+			//pos shift bug?
+			//offamt = detailScale*0.3;
+			//offamt2 = waveScale*0.005;
+			offamt = detailScale*0.28*overallScale;
+			offamt2 = waveScale*0.0045*overallScale;
+			offamt3 = detailScale*3.40*overallScale; //3.36
+
+			if (Mathf.Abs(this.transform.position.x - newPos.x) > spacer){
+				if (this.transform.position.x > newPos.x) setScaleY += offamt;
+				if (this.transform.position.x < newPos.x) setScaleY -= offamt;
+
+				if (this.transform.position.x > newPos.x) setScale2Y += offamt2;
+				if (this.transform.position.x < newPos.x) setScale2Y -= offamt2;
+				
+				if (this.transform.position.x > newPos.x) setScale3Y += offamt3;
+				if (this.transform.position.x < newPos.x) setScale3Y -= offamt3;
+
+				if (this.transform.position.x > newPos.x) setScale4Y += offamt;
+				if (this.transform.position.x < newPos.x) setScale4Y -= offamt;
+			}
+			if (Mathf.Abs(this.transform.position.z - newPos.z) > spacer){
+				if (this.transform.position.z > newPos.z) setScaleX -= offamt;
+				if (this.transform.position.z < newPos.z) setScaleX += offamt;
+
+				if (this.transform.position.z > newPos.z) setScale2X -= offamt2;
+				if (this.transform.position.z < newPos.z) setScale2X += offamt2;
+				
+				if (this.transform.position.z > newPos.z) setScale3X -= offamt3;
+				if (this.transform.position.z < newPos.z) setScale3X += offamt3;
+
+				if (this.transform.position.z > newPos.z) setScale4X -= offamt;
+				if (this.transform.position.z < newPos.z) setScale4X += offamt;
+			}
+
+
+		} else {
+			oceanHasStarted = false;
+			if (scalerendererComponent.enabled) scalerendererComponent.enabled = false;
+			if (!thisrendererComponent.enabled) thisrendererComponent.enabled = true;
+		}
+	}
+
+
+
+
+
+	//update position
+	this.transform.position = setUsePos;
+	
+	//assign speed to shader
+	thisRenderMaterial.SetTextureOffset("_FoamTex",Vector2((foam_dir.x*Time.time*animationSpeed * foamSpeed * foamMoveSpeed * setFoamScale)+setSpace3.x,(foam_dir.y*Time.time*animationSpeed * foamSpeed * foamMoveSpeed * setFoamScale)+setSpace3.y));
+	thisRenderMaterial.SetTextureOffset("_FoamOverlay",Vector2((-foam_dir.x*Time.time*animationSpeed * foamSpeed *0.5)+setSpace3.x,(-foam_dir.y*Time.time*animationSpeed * foamSpeed *0.5)+setSpace3.y));
+	
+	if (typeIndex == 0){
+		thisRenderMaterial.SetTextureOffset("_FlowMap",Vector2(setSpace4.x,setSpace4.y));
+	}
+	thisrendererComponent.sharedMaterial.SetTextureOffset("_Surface2",Vector2((shore_dir.x*Time.time*-animationSpeed*setshoreflowSpeed*0.5*(setflowSpeed*5.0))+setSpace.x,(shore_dir.y*Time.time*animationSpeed*-setshoreflowSpeed*(setflowSpeed*5.0))+setSpace.y));
+	
+	getRatio = (suimonoScaleObject.transform.localScale.x/thisSuimonoObject.transform.localScale.x);
+	getScale = thisRenderMaterial.GetTextureScale("_FoamTex");
+	scaleRenderMaterial.SetTextureOffset("_FoamTex",Vector2((foam_dir.x*Time.time*animationSpeed * foamSpeed * foamMoveSpeed)+setSpace3.x,(foam_dir.y*Time.time*animationSpeed * foamSpeed * foamMoveSpeed)+setSpace3.y));
+	scaleRenderMaterial.SetTextureScale("_FoamTex",Vector2(getScale.x*getRatio,getScale.y*getRatio));
+		
+
+	var waveFlow : Vector2;
+	var lgWaveRatio : float = Mathf.Clamp((waveScale*0.18),0.01,1.0);
+	var smWaveRatio : float = Mathf.Clamp((detailScale*1.2),0.01,1.0);
+	var mcWaveRatio : float = Mathf.Clamp((detailScale*14.4),0.01,1.0);
+	waveFlow.x = (wave_dir.x*Time.time*animationSpeed) * (foamSpeed*1.0);
+	waveFlow.y = (wave_dir.y*Time.time*animationSpeed) * (foamSpeed*1.0);
+	
+
+	//micro detail waves
+	savePos3.x += setScale3X;
+	savePos3.y += setScale3Y;
+	_suimono_uv5x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)-savePos3.x + (waveFlow.x*mcWaveRatio);
+	_suimono_uv5y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)-savePos3.y + (waveFlow.y*mcWaveRatio);
+	_suimono_uv6x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)+savePos3.x - (waveFlow.x*mcWaveRatio);
+	_suimono_uv6y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)+savePos3.y - (waveFlow.y*mcWaveRatio);
+	thisRenderMaterial.SetFloat("_suimono_uv5x",_suimono_uv5x);
+	thisRenderMaterial.SetFloat("_suimono_uv5y",_suimono_uv5y);
+	thisRenderMaterial.SetFloat("_suimono_uv6x",_suimono_uv6x);
+	thisRenderMaterial.SetFloat("_suimono_uv6y",_suimono_uv6y);
+	scaleRenderMaterial.SetFloat("_suimono_uv5x",_suimono_uv5x);
+	scaleRenderMaterial.SetFloat("_suimono_uv5y",_suimono_uv5y);
+	scaleRenderMaterial.SetFloat("_suimono_uv6x",_suimono_uv6x);
+	scaleRenderMaterial.SetFloat("_suimono_uv6y",_suimono_uv6y);
+
+		
+				
+	//detail waves
+	savePos.x += setScaleX;
+	savePos.y += setScaleY;
+	_suimono_uvx = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)-savePos.x + (waveFlow.x*smWaveRatio);
+	_suimono_uvy = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)-savePos.y + (waveFlow.y*smWaveRatio);
+	_suimono_uv2x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)+savePos.x - (waveFlow.x*smWaveRatio);
+	_suimono_uv2y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)+savePos.y - (waveFlow.y*smWaveRatio);
+	thisRenderMaterial.SetFloat("_suimono_uvx",_suimono_uvx);
+	thisRenderMaterial.SetFloat("_suimono_uvy",_suimono_uvy);
+	thisRenderMaterial.SetFloat("_suimono_uv2x",_suimono_uv2x);
+	thisRenderMaterial.SetFloat("_suimono_uv2y",_suimono_uv2y);
+	scaleRenderMaterial.SetFloat("_suimono_uvx",_suimono_uvx);
+	scaleRenderMaterial.SetFloat("_suimono_uvy",_suimono_uvy);
+	scaleRenderMaterial.SetFloat("_suimono_uv2x",_suimono_uv2x);
+	scaleRenderMaterial.SetFloat("_suimono_uv2y",_suimono_uv2y);
+
+	
+	//deep waves
+	savePos2.x += setScale2X;
+	savePos2.y += setScale2Y;
+	_suimono_uv3x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)-savePos2.x + (waveFlow.x*lgWaveRatio);
+	_suimono_uv3y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)-savePos2.y + (waveFlow.y*lgWaveRatio);
+	_suimono_uv4x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed)+savePos2.x - (waveFlow.x*lgWaveRatio);
+	_suimono_uv4y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed)+savePos2.y - (waveFlow.y*lgWaveRatio);
+	thisRenderMaterial.SetFloat("_suimono_uv3x",_suimono_uv3x);
+	thisRenderMaterial.SetFloat("_suimono_uv3y",_suimono_uv3y);
+	thisRenderMaterial.SetFloat("_suimono_uv4x",_suimono_uv4x);
+	thisRenderMaterial.SetFloat("_suimono_uv4y",_suimono_uv4y);
+	scaleRenderMaterial.SetFloat("_suimono_uv3x",_suimono_uv3x);
+	scaleRenderMaterial.SetFloat("_suimono_uv3y",_suimono_uv3y);
+	scaleRenderMaterial.SetFloat("_suimono_uv4x",_suimono_uv4x);
+	scaleRenderMaterial.SetFloat("_suimono_uv4y",_suimono_uv4y);
+
+
+	//foam waves
+	savePos4.x += setScaleX;
+	savePos4.y += setScaleY;
+	_suimono_uv7x = (flow_dir.x*Time.time*animationSpeed*setflowSpeed*foamMoveSpeed)-savePos4.x + (waveFlow.x*foamMoveSpeed*smWaveRatio);
+	_suimono_uv7y = (flow_dir.y*Time.time*animationSpeed*setflowSpeed*foamMoveSpeed)-savePos4.y + (waveFlow.y*foamMoveSpeed*smWaveRatio);
+	//_suimono_uv8x = (flow_dir.x*Time.time*animationSpeed*foamMoveSpeed)+savePos4.x - (waveFlow.x*smWaveRatio);
+	//_suimono_uv8y = (flow_dir.y*Time.time*animationSpeed*foamMoveSpeed)+savePos4.y - (waveFlow.y*smWaveRatio);
+	thisRenderMaterial.SetFloat("_suimono_uv7x",_suimono_uv7x);
+	thisRenderMaterial.SetFloat("_suimono_uv7y",_suimono_uv7y);
+	//thisRenderMaterial.SetFloat("_suimono_uv8x",_suimono_uv8x);
+	//thisRenderMaterial.SetFloat("_suimono_uv8y",_suimono_uv8y);
+	//scaleRenderMaterial.SetFloat("_suimono_uv7x",_suimono_uv7x);
+	//scaleRenderMaterial.SetFloat("_suimono_uv7y",_suimono_uv7y);
+	//scaleRenderMaterial.SetFloat("_suimono_uv8x",_suimono_uv8x);
+	//scaleRenderMaterial.SetFloat("_suimono_uv8y",_suimono_uv8y);
+	
+	
+
+	//set height projection
+	//if (currentProjectHeight != projectHeight){
+		thisRenderMaterial.SetFloat("_suimono_HeightProjection",floatRound(projectHeight));
+		scaleRenderMaterial.SetFloat("_suimono_HeightProjection",floatRound(projectHeight));
+		currentProjectHeight = projectHeight;
+	//}
+	
+	//set deep wave height
+	if (waveFacChanged || waveHeightChanged){
+		useDpWvHt = Mathf.Lerp(0.0001,15.0,(waveHeight/10.0)*waveFac);
+		thisRenderMaterial.SetFloat("_suimono_DeepWaveHeight",floatRound(useDpWvHt));
+		scaleRenderMaterial.SetFloat("_suimono_DeepWaveHeight",floatRound(useDpWvHt));
+	}
+	
+	//set detail wave height
+	if (detailHeightChanged || waveFacChanged){
+		useDtHt = Mathf.Lerp(0.0001,3.0,(detailHeight/3.0)*waveFac);
+		thisRenderMaterial.SetFloat("_suimono_DetailHeight",floatRound(useDtHt));	
+		scaleRenderMaterial.SetFloat("_suimono_DetailHeight",floatRound(useDtHt));	
+	}
+	
+	//set detail
+	if (xScaleChanged || currentDetailScale != detailScale){
+		setDtScale = (this.transform.localScale.x/(20.0-detailScale));
+		setDtScale = detailScale * this.transform.localScale.x * 10.0;
+		thisRenderMaterial.SetFloat("_suimono_detScale",floatRound(setDtScale));	
+		scaleRenderMaterial.SetFloat("_suimono_detScale",floatRound(setDtScale));
+		currentDetailScale = detailScale;
+	}
+	
+	//set dynamic reflection tag on shader
+	setDynRef = 0.0;
+	if (moduleSplashObject.enableDynamicReflections && enableDynamicReflections) setDynRef = 1.0;
+	thisRenderMaterial.SetFloat("_useDynamicReflections",setDynRef);	
+	scaleRenderMaterial.SetFloat("_useDynamicReflections",setDynRef);
+
+
+	#if UNITY_EDITOR
+		if (presetFileUseIndex != presetFileIndex){
+			PresetSetFile();
+		}
+		//if (presetUseIndex != presetIndex){
+		//	SuimonoSetPreset(presetFileIndex,presetIndex);
+		//}
+	#endif
+
 }
 
 
 
 
-function PresetLoadBuild( fName : String, pName : String ){
-	#if !UNITY_WEBPLAYER
-	datFile = Resources.Load("SUIMONO_PRESETS_"+fName+"/SUIMONO_PRESET_"+pName) as TextAsset;
-	presetDataString = datFile.text;
-	presetDataArray = presetDataString.Split("\n"[0]);
+	
+// ###################################################################
+// ##### START CUSTOM FUNCTIONS ######################################
+// ###################################################################
+function MarkAsStarted(){
+	hasStarted = true;
+}
 
-		//Decode Data
-		for (dx = 0; dx < presetDataArray.Length; dx++){
-			if (presetDataArray[dx] != "" && presetDataArray[dx] != "\n"){
-				pFrom = presetDataArray[dx].IndexOf("<") + "<".Length;
-				pTo = presetDataArray[dx].LastIndexOf(">");
-				key = presetDataArray[dx].Substring(pFrom, pTo - pFrom);
 
-				pFrom = presetDataArray[dx].IndexOf("(") + "(".Length;
-				pTo = presetDataArray[dx].LastIndexOf(")");
-				dat = presetDataArray[dx].Substring(pFrom, pTo - pFrom);
 
-				PresetDecode(key,dat);
-			}
+function LinearTransfer( useColor : Color) : Color{
+	outColor = useColor;
+    if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+		//outColor.r = Mathf.GammaToLinearSpace(useColor.r)*2.2;
+		//outColor.g = Mathf.GammaToLinearSpace(useColor.g)*2.2;
+		//outColor.b = Mathf.GammaToLinearSpace(useColor.b)*2.2;
+		//outColor.a = Mathf.GammaToLinearSpace(useColor.a);
+		//outColor.r = Mathf.Pow(useColor.r,2.2);
+		//outColor.g = Mathf.Pow(useColor.g,2.2);
+		//outColor.b = Mathf.Pow(useColor.b,2.2);
+		//outColor.a = Mathf.Pow(useColor.a,2.2);
+	}
+	return outColor;
+}
+
+function LinearVal( useValue : float) : float{
+	outValue = useValue;
+    //if (QualitySettings.activeColorSpace == ColorSpace.Linear){
+	//	outValue = Mathf.GammaToLinearSpace(useValue);
+	//}
+	return outValue;
+}
+
+
+function StoreSurfaceHeight(){
+	currentWaterLevel = moduleSplashObject.currentObjectDepth;
+	currentSurfaceLevel = moduleSplashObject.currentSurfaceLevel;
+}
+
+
+
+
+
+
+function OnApplicationQuit(){
+
+	#if UNITY_EDITOR
+	thisrendererComponent.sharedMaterial.shader = shaderSurface;
+	#endif
+	
+	if (reflectionObject != null){
+		reflectionObject.SetActive(true);
+	}
+}
+
+
+
+
+
+function PresetUpdate(){
+
+	ResetFlagVariables();
+
+	#if UNITY_EDITOR
+		if (presetUseIndex != presetIndex){
+		//if (presetFileUseIndex != presetFileIndex){
+			PresetSetFile();
+		//}
+		}
+		PresetGetData();
+		if (presetToggleSave) PresetSave("");
+		if (presetStartTransition) PresetDoTransition();
+		if (!presetStartTransition) presetTransitionCurrent = 0.0;
+	#else
+		if (moduleSplashObject.includePresetsInBuild){
+		if (presetUseIndex != presetIndex){
+			//PresetSetFileBuild();
+			//PresetGetDataBuild();
+			//if (presetToggleSave) PresetSave("");
+			if (presetStartTransition) PresetDoTransition();
+			if (!presetStartTransition) presetTransitionCurrent = 0.0;
+		}
 		}
 	#endif
+	
+	
 }
 
 
 
 
-function PresetDecode( key : String, dat : String ){
-	dataS = dat.Split(","[0]);
 
-	if (key == "color_depth") depthColor = DecodeColor(dataS);
-	if (key == "color_shallow") shallowColor = DecodeColor(dataS);
-	if (key == "color_blend") blendColor = DecodeColor(dataS);
-	if (key == "color_overlay") overlayColor = DecodeColor(dataS);
-	if (key == "color_caustics") causticsColor = DecodeColor(dataS);
-	if (key == "color_reflection") reflectionColor = DecodeColor(dataS);
-	if (key == "color_specular") specularColor = DecodeColor(dataS);
-	if (key == "color_sss") sssColor = DecodeColor(dataS);
-	if (key == "color_foam") foamColor = DecodeColor(dataS);
-	if (key == "color_underwater") underwaterColor = DecodeColor(dataS);
-	if (key == "data_beaufort") beaufortScale = DecodeFloat(dataS);
-	if (key == "data_flowdir") flowDirection = DecodeFloat(dataS);
-	if (key == "data_flowspeed") flowSpeed = DecodeFloat(dataS);
-	if (key == "data_wavescale") waveScale = DecodeFloat(dataS);
-	if (key == "data_customwaves") customWaves = DecodeBool(dataS);
-	if (key == "data_waveheight") waveHeight = DecodeFloat(dataS);
-	if (key == "data_heightprojection") heightProjection = DecodeFloat(dataS);
-	if (key == "data_turbulence") turbulenceFactor = DecodeFloat(dataS);
-	if (key == "data_lgwaveheight") lgWaveHeight = DecodeFloat(dataS);
-	if (key == "data_lgwavescale") lgWaveScale = DecodeFloat(dataS);
-	if (key == "data_shorelineheight") shorelineHeight = DecodeFloat(dataS);
-	if (key == "data_shorelinefreq") shorelineFreq = DecodeFloat(dataS);
-	if (key == "data_shorelinescale") shorelineScale = DecodeFloat(dataS);
-	if (key == "data_shorelinespeed") shorelineSpeed = DecodeFloat(dataS);
-	if (key == "data_shorelinenorm") shorelineNorm = DecodeFloat(dataS);
-	if (key == "data_overallbright") overallBright = DecodeFloat(dataS);
-	if (key == "data_overalltransparency") overallTransparency = DecodeFloat(dataS);
-	if (key == "data_edgeamt") edgeAmt = DecodeFloat(dataS);
-	if (key == "data_depthamt") depthAmt = DecodeFloat(dataS);
-	if (key == "data_shallowamt") shallowAmt = DecodeFloat(dataS);
-	if (key == "data_refractstrength") refractStrength = DecodeFloat(dataS);
-	if (key == "data_aberrationscale") aberrationScale = DecodeFloat(dataS);
-	if (key == "data_causticsfade") causticsFade = DecodeFloat(dataS);
-	if (key == "data_reflectprojection") reflectProjection = DecodeFloat(dataS);
-	if (key == "data_reflectblur") reflectBlur = DecodeFloat(dataS);
-	if (key == "data_reflectterm") reflectTerm = DecodeFloat(dataS);
-	if (key == "data_roughness") roughness = DecodeFloat(dataS);
-	if (key == "data_roughness2") roughness2 = DecodeFloat(dataS);
-	if (key == "data_enablefoam") enableFoam = DecodeBool(dataS);
-	if (key == "data_foamscale") foamScale = DecodeFloat(dataS);
-	if (key == "data_foamspeed") foamSpeed = DecodeFloat(dataS);
-	if (key == "data_edgefoamamt") edgeFoamAmt = DecodeFloat(dataS);
-	if (key == "data_shallowfoamamt") shallowFoamAmt = DecodeFloat(dataS);
-	if (key == "data_heightfoamamt") heightFoamAmt = DecodeFloat(dataS);
-	if (key == "data_hfoamheight") hFoamHeight = DecodeFloat(dataS);
-	if (key == "data_hfoamspread") hFoamSpread = DecodeFloat(dataS);
-	if (key == "data_enableunderdebris") enableUnderDebris = DecodeBool(dataS);
-	if (key == "data_underlightfactor") underLightFactor = DecodeFloat(dataS);
-	if (key == "data_underrefractionamount") underRefractionAmount = DecodeFloat(dataS);
-	if (key == "data_underrefractionscale") underRefractionScale = DecodeFloat(dataS);
-	if (key == "data_underrefractionspeed") underRefractionSpeed = DecodeFloat(dataS);
-	if (key == "data_underbluramount") underBlurAmount = DecodeFloat(dataS);
-	if (key == "data_underwaterfogdist") underwaterFogDist = DecodeFloat(dataS);
-	if (key == "data_underwaterfogspread") underwaterFogSpread = DecodeFloat(dataS);
-	if (key == "data_underDarkRange") underDarkRange = DecodeFloat(dataS);
+
+
+// ########## PUBLIC FUNCTIONS ##########
+function SuimonoSetPreset( fileIndex : int, useIndex : int){
+	if (fileIndex < presetDataArray.Length){
+		presetFileIndex = fileIndex;
+	}
+	if (useIndex < presetDataArray.Length){
+		presetIndex = useIndex;
+	}
+	#if UNITY_EDITOR
+		PresetSetFile();
+	#else
+		PresetSetFileBuild();
+	#endif
+	PresetUpdate();
+	PresetLoad();
+}
+
+function SetPresetTransition( frmIndex : int, toIndex : int, setDuration : float){
+	if (frmIndex < presetDataArray.Length && toIndex < presetDataArray.Length){
+		presetTransIndexFrm = frmIndex;
+		presetTransIndexTo = toIndex;
+		presetTransitionTime = setDuration;
+		presetStartTransition = true;
+	}
+}
+
+function SetLerpTransition( frmIndex : int, toIndex : int, setLerp : float){
+	if (frmIndex < presetDataArray.Length && toIndex < presetDataArray.Length){
+		presetTransIndexFrm = frmIndex;
+		presetTransIndexTo = toIndex;
+		presetTransitionTime = setLerp;
+		PresetDoTransition();
+	}
+}
+
+
+
+
+
+
+
+
+// ########## PRESET FUNCTIONS ##########
+
+function PresetSetFile(){
+#if !UNITY_WEBPLAYER
+	var showDebug : boolean = false;
+	if (presetFileUseIndex != presetFileIndex){
+		showDebug = true;
+		presetFileUseIndex = presetFileIndex;
+		presetsLoaded = false;
+	}
+	
+	if(!presetsLoaded){
+		presetsLoaded = true;
+		var presetFilesArr = new Array();
+		var dir : String = Application.dataPath + "/" + baseDir;
+		var info = new DirectoryInfo(dir+"/");
+		if (info != null){
+			var fileInfo : FileInfo[] = info.GetFiles("SUIMONO_PRESET_*.txt");
+			for (var f : int = 0; f < fileInfo.Length; f++){
+				presetFilesArr.Add(fileInfo[f].ToString());
+			}
+			
+			if (presetFiles.length != presetFilesArr.length) presetFiles = new String[presetFilesArr.length];
+			for (var n : int = 0; n < presetFilesArr.length; n++){
+				if (presetFiles[n] != null){
+					presetFiles[n] = presetFilesArr[n].ToString();
+					presetFiles[n] = presetFiles[n].Remove(0,dir.length);
+					presetFiles[n] = presetFiles[n].Replace("SUIMONO_PRESET_","");
+					presetFiles[n] = presetFiles[n].Replace(".txt","");
+				}
+			}
+		}
+		presetFile = "SUIMONO_PRESET_"+presetFiles[presetFileUseIndex]+".txt";
+		if (showDebug) Debug.Log("Using Preset File: "+presetFile);
+		PresetGetData();
+	}
+	
+#endif
+}
+
+
+
+function PresetSetFileBuild(){
+#if !UNITY_WEBPLAYER
+	var showDebug : boolean = false;
+	if (presetFileUseIndex != presetFileIndex){
+		showDebug = true;
+		presetFileUseIndex = presetFileIndex;
+	}
+
+	presetFile = suimonoModuleLibrary.presetRepository[presetFileUseIndex].name;
+	if (showDebug) Debug.Log("Using Preset File: "+presetFile);
+	PresetGetDataBuild();
+	
+#endif
+}
+
+
+
+
+
+	
+
+function PresetLoad(){
+
+	presetUseIndex = presetIndex;
+
+	if (presetIndex < 0){
+		presetUseIndex += 1;
+	} else {
+	//presetIndex += 1;
+	var workData : String;
+	for (var px = 0; px < (presetDataArray.length); px++){
+		workData = presetDataArray[px];
+		if (px == presetUseIndex) break;
+	}
+	presetUseIndex += 1;
+	//presetIndex = presetUseIndex;
+
+	//set data
+	var pName : String = workData.Substring(0,20);
+
+	//set colors
+	var sK : int = 21;
+	depthColor = Color(float.Parse(workData.Substring((sK*1)+1,4)),float.Parse(workData.Substring((sK*1)+6,4)),float.Parse(workData.Substring((sK*1)+11,4)),float.Parse(workData.Substring((sK*1)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_DepthColor",depthColor);
+	colorSurfHigh = Color(float.Parse(workData.Substring((sK*2)+1,4)),float.Parse(workData.Substring((sK*2)+6,4)),float.Parse(workData.Substring((sK*2)+11,4)),float.Parse(workData.Substring((sK*2)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_HighColor",colorSurfHigh);
+	colorSurfLow = Color(float.Parse(workData.Substring((sK*3)+1,4)),float.Parse(workData.Substring((sK*3)+6,4)),float.Parse(workData.Substring((sK*3)+11,4)),float.Parse(workData.Substring((sK*3)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_LowColor",colorSurfLow);
+	depthColorR = Color(float.Parse(workData.Substring((sK*4)+1,4)),float.Parse(workData.Substring((sK*4)+6,4)),float.Parse(workData.Substring((sK*4)+11,4)),float.Parse(workData.Substring((sK*4)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_DepthColorR",depthColorR);
+	depthColorG = Color(float.Parse(workData.Substring((sK*5)+1,4)),float.Parse(workData.Substring((sK*5)+6,4)),float.Parse(workData.Substring((sK*5)+11,4)),float.Parse(workData.Substring((sK*5)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_DepthColorG",depthColorG);
+	depthColorB = Color(float.Parse(workData.Substring((sK*6)+1,4)),float.Parse(workData.Substring((sK*6)+6,4)),float.Parse(workData.Substring((sK*6)+11,4)),float.Parse(workData.Substring((sK*6)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_DepthColorB",depthColorB);		
+	specColorH = Color(float.Parse(workData.Substring((sK*7)+1,4)),float.Parse(workData.Substring((sK*7)+6,4)),float.Parse(workData.Substring((sK*7)+11,4)),float.Parse(workData.Substring((sK*7)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_SpecColorH",specColorH);
+	specColorL = Color(float.Parse(workData.Substring((sK*8)+1,4)),float.Parse(workData.Substring((sK*8)+6,4)),float.Parse(workData.Substring((sK*8)+11,4)),float.Parse(workData.Substring((sK*8)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_SpecColorL",specColorL);
+	colorDynReflect = Color(float.Parse(workData.Substring((sK*9)+1,4)),float.Parse(workData.Substring((sK*9)+6,4)),float.Parse(workData.Substring((sK*9)+11,4)),float.Parse(workData.Substring((sK*9)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_DynReflColor",colorDynReflect);
+	foamColor = Color(float.Parse(workData.Substring((sK*10)+1,4)),float.Parse(workData.Substring((sK*10)+6,4)),float.Parse(workData.Substring((sK*10)+11,4)),float.Parse(workData.Substring((sK*10)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_FoamColor",foamColor);
+	edgeColor = Color(float.Parse(workData.Substring((sK*11)+1,4)),float.Parse(workData.Substring((sK*11)+6,4)),float.Parse(workData.Substring((sK*11)+11,4)),float.Parse(workData.Substring((sK*11)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_EdgeColor",edgeColor);			
+	underwaterColor = Color(float.Parse(workData.Substring((sK*12)+1,4)),float.Parse(workData.Substring((sK*12)+6,4)),float.Parse(workData.Substring((sK*12)+11,4)),float.Parse(workData.Substring((sK*12)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_UnderColor",underwaterColor);	
+	tideColor = Color(float.Parse(workData.Substring((sK*13)+1,4)),float.Parse(workData.Substring((sK*13)+6,4)),float.Parse(workData.Substring((sK*13)+11,4)),float.Parse(workData.Substring((sK*13)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_TideColor",tideColor);	
+	castshadowColor = Color(float.Parse(workData.Substring((sK*14)+1,4)),float.Parse(workData.Substring((sK*14)+6,4)),float.Parse(workData.Substring((sK*14)+11,4)),float.Parse(workData.Substring((sK*14)+16,4)));
+	thisrendererComponent.sharedMaterial.SetColor("_castshadowColor",castshadowColor);	
+	
+	//set attributes
+	lightAbsorb = float.Parse(workData.Substring((sK*15)+(8*1)+1,6));
+	lightRefract = float.Parse(workData.Substring((sK*15)+(8*2)+1,6));
+	refractShift = float.Parse(workData.Substring((sK*15)+(8*3)+1,6));
+
+	blurSpread = float.Parse(workData.Substring((sK*15)+(8*5)+1,6));
+	surfaceSmooth = float.Parse(workData.Substring((sK*15)+(8*6)+1,6));
+	reflectDist = float.Parse(workData.Substring((sK*15)+(8*7)+1,6));
+	reflectSpread = float.Parse(workData.Substring((sK*15)+(8*8)+1,6));
+	reflectionOffset = float.Parse(workData.Substring((sK*15)+(8*9)+1,6));
+	edgeBlend = float.Parse(workData.Substring((sK*15)+(8*10)+1,6));
+	normalShore = float.Parse(workData.Substring((sK*15)+(8*11)+1,6));
+	specScatterAmt = float.Parse(workData.Substring((sK*15)+(8*12)+1,6));
+	specScatterWidth = float.Parse(workData.Substring((sK*15)+(8*13)+1,6));
+	hFoamHeight = float.Parse(workData.Substring((sK*15)+(8*14)+1,6));
+	hFoamAmt = float.Parse(workData.Substring((sK*15)+(8*15)+1,6));
+	hFoamSpread = float.Parse(workData.Substring((sK*15)+(8*16)+1,6));
+	foamAmt = float.Parse(workData.Substring((sK*15)+(8*17)+1,6));
+	foamScale = float.Parse(workData.Substring((sK*15)+(8*18)+1,6));
+	edgeSpread = float.Parse(workData.Substring((sK*15)+(8*19)+1,6));
+	detailHeight = float.Parse(workData.Substring((sK*15)+(8*20)+1,6));
+	detailScale = float.Parse(workData.Substring((sK*15)+(8*21)+1,6));
+	UpdateSpeed = float.Parse(workData.Substring((sK*15)+(8*22)+1,6));
+	rippleSensitivity = float.Parse(workData.Substring((sK*15)+(8*23)+1,6));
+	splashSensitivity = float.Parse(workData.Substring((sK*15)+(8*24)+1,6));
+	reflectDistUnderAmt = float.Parse(workData.Substring((sK*15)+(8*25)+1,6));
+	underRefractionAmount = float.Parse(workData.Substring((sK*15)+(8*26)+1,6));
+	underBlurAmount = float.Parse(workData.Substring((sK*15)+(8*27)+1,6));
+	etherealShift = float.Parse(workData.Substring((sK*15)+(8*28)+1,6));
+
+	underwaterFogDist = float.Parse(workData.Substring((sK*15)+(8*29)+1,6));	
+	underwaterFogSpread = float.Parse(workData.Substring((sK*15)+(8*30)+1,6));
+
+	waveHeight = float.Parse(workData.Substring((sK*15)+(8*31)+1,6));
+	waveShoreHeight = float.Parse(workData.Substring((sK*15)+(8*32)+1,6));
+	waveScale = float.Parse(workData.Substring((sK*15)+(8*33)+1,6));		
+											
+	waveShoreScale = float.Parse(workData.Substring((sK*15)+(8*34)+1,6));	
+	shoreSpeed = float.Parse(workData.Substring((sK*15)+(8*35)+1,6));	
+
+    enableUnderDebrisWrite = float.Parse(workData.Substring((sK*15)+(8*36)+1,6));	
+    enableUnderDebris = false;
+    if (enableUnderDebrisWrite == 1.0) enableUnderDebris = true;
+    
+	tideAmount = float.Parse(workData.Substring((sK*15)+(8*37)+1,6));	
+    tideSpread = float.Parse(workData.Substring((sK*15)+(8*38)+1,6));	
+
+	underRefractionScale = float.Parse(workData.Substring((sK*15)+(8*39)+1,6));
+	underRefractionSpeed = float.Parse(workData.Substring((sK*15)+(8*40)+1,6));
+
+	waveBreakAmt = float.Parse(workData.Substring((sK*15)+(8*42)+1,6));
+	shallowFoamAmt = float.Parse(workData.Substring((sK*15)+(8*43)+1,6));
+
+	overallBright = float.Parse(workData.Substring((sK*15)+(8*44)+1,6));
+	overallTransparency = float.Parse(workData.Substring((sK*15)+(8*45)+1,6));
+
+	flow_dir_degrees = float.Parse(workData.Substring((sK*15)+(8*46)+1,6))*360.0;
+	flowSpeed = float.Parse(workData.Substring((sK*15)+(8*47)+1,6));
+
+	foamSpeed = float.Parse(workData.Substring((sK*15)+(8*48)+1,6));
+	
+	shadowAmount = float.Parse(workData.Substring((sK*15)+(8*49)+1,6));
+	
+	//castshadowIsOn = float.Parse(workData.Substring((sK*15)+(8*50)+1,6));
+	castshadowStrength = float.Parse(workData.Substring((sK*15)+(8*51)+1,6));
+	castshadowFade = float.Parse(workData.Substring((sK*15)+(8*52)+1,6));
+
+	foamMoveSpeed = float.Parse(workData.Substring((sK*15)+(8*53)+1,6));
+	
+	
+	}
+}
+
+
+
+
+
+function PresetGetColor( presetCheck : int, presetKey : String) : Color {
+
+	var workData : String;
+	for (var px = 0; px < (presetDataArray.length); px++){
+		workData = presetDataArray[px];
+		if (px == presetCheck) break;
+	}
+	
+	var retCol : Color = Color(0,0,0,1);
+	
+	//set data
+	var pName : String = workData.Substring(0,20);
+	
+	//set colors
+	var sK : int = 21;
+	
+	if (presetKey == "_DepthColor") retCol = Color(float.Parse(workData.Substring(sK+1,4)),float.Parse(workData.Substring(sK+6,4)),float.Parse(workData.Substring(sK+11,4)),float.Parse(workData.Substring(sK+16,4)));
+	if (presetKey == "_HighColor") retCol = Color(float.Parse(workData.Substring((sK*2)+1,4)),float.Parse(workData.Substring((sK*2)+6,4)),float.Parse(workData.Substring((sK*2)+11,4)),float.Parse(workData.Substring((sK*2)+16,4)));
+	if (presetKey == "_LowColor") retCol = Color(float.Parse(workData.Substring((sK*3)+1,4)),float.Parse(workData.Substring((sK*3)+6,4)),float.Parse(workData.Substring((sK*3)+11,4)),float.Parse(workData.Substring((sK*3)+16,4)));
+	if (presetKey == "_DepthColorR") retCol = Color(float.Parse(workData.Substring((sK*4)+1,4)),float.Parse(workData.Substring((sK*4)+6,4)),float.Parse(workData.Substring((sK*4)+11,4)),float.Parse(workData.Substring((sK*4)+16,4)));
+	if (presetKey == "_DepthColorG") retCol = Color(float.Parse(workData.Substring((sK*5)+1,4)),float.Parse(workData.Substring((sK*5)+6,4)),float.Parse(workData.Substring((sK*5)+11,4)),float.Parse(workData.Substring((sK*5)+16,4)));
+	if (presetKey == "_DepthColorB") retCol = Color(float.Parse(workData.Substring((sK*6)+1,4)),float.Parse(workData.Substring((sK*6)+6,4)),float.Parse(workData.Substring((sK*6)+11,4)),float.Parse(workData.Substring((sK*6)+16,4)));
+	if (presetKey == "_SpecColorH") retCol = Color(float.Parse(workData.Substring((sK*7)+1,4)),float.Parse(workData.Substring((sK*7)+6,4)),float.Parse(workData.Substring((sK*7)+11,4)),float.Parse(workData.Substring((sK*7)+16,4)));
+	if (presetKey == "_SpecColorL") retCol = Color(float.Parse(workData.Substring((sK*8)+1,4)),float.Parse(workData.Substring((sK*8)+6,4)),float.Parse(workData.Substring((sK*8)+11,4)),float.Parse(workData.Substring((sK*8)+16,4)));
+	if (presetKey == "_DynReflColor") retCol = Color(float.Parse(workData.Substring((sK*9)+1,4)),float.Parse(workData.Substring((sK*9)+6,4)),float.Parse(workData.Substring((sK*9)+11,4)),float.Parse(workData.Substring((sK*9)+16,4)));
+	if (presetKey == "_FoamColor") retCol = Color(float.Parse(workData.Substring((sK*10)+1,4)),float.Parse(workData.Substring((sK*10)+6,4)),float.Parse(workData.Substring((sK*10)+11,4)),float.Parse(workData.Substring((sK*10)+16,4)));
+	if (presetKey == "_EdgeColor") retCol = Color(float.Parse(workData.Substring((sK*11)+1,4)),float.Parse(workData.Substring((sK*11)+6,4)),float.Parse(workData.Substring((sK*11)+11,4)),float.Parse(workData.Substring((sK*11)+16,4)));
+	if (presetKey == "_UnderwaterColor") retCol = Color(float.Parse(workData.Substring((sK*12)+1,4)),float.Parse(workData.Substring((sK*12)+6,4)),float.Parse(workData.Substring((sK*12)+11,4)),float.Parse(workData.Substring((sK*12)+16,4)));
+	if (presetKey == "_TideColor") retCol = Color(float.Parse(workData.Substring((sK*13)+1,4)),float.Parse(workData.Substring((sK*13)+6,4)),float.Parse(workData.Substring((sK*13)+11,4)),float.Parse(workData.Substring((sK*13)+16,4)));
+	if (presetKey == "_CastShadowColor") retCol = Color(float.Parse(workData.Substring((sK*53)+1,4)),float.Parse(workData.Substring((sK*53)+6,4)),float.Parse(workData.Substring((sK*53)+11,4)),float.Parse(workData.Substring((sK*53)+16,4)));
+
+	
+	return retCol;
 
 }
-function DecodeColor(data : String[]) : Color{
-	return Color(float.Parse(data[0]),float.Parse(data[1]),float.Parse(data[2]),float.Parse(data[3]));
-}
-function DecodeFloat(data : String[]) : float{
-	return float.Parse(data[0]);
-}
-function DecodeInt(data : String[]) : int{
-	return int.Parse(data[0]);
-}
-function DecodeBool(data : String[]) : boolean{
-	retVal = false;
-	if (data[0] == "True") retVal = true;
+
+
+
+
+function PresetGetFloat( presetCheck : int, presetKey : String) : float {
+
+	var workData : String;
+	for (var px = 0; px < (presetDataArray.length); px++){
+		workData = presetDataArray[px];
+		if (px == presetCheck) break;
+	}
+	
+	var retVal : float = 0.0;
+	
+	//set data
+	var pName : String = workData.Substring(0,20);
+
+	//set attributes
+	var sK : int = 21;
+	if (presetKey == "_MasterScale") retVal = float.Parse(workData.Substring((sK*15)+1,6));
+	if (presetKey == "_LightAbsorb") retVal = float.Parse(workData.Substring((sK*15)+(8*1)+1,6));
+	if (presetKey == "_LightRefract") retVal = float.Parse(workData.Substring((sK*15)+(8*2)+1,6));
+	if (presetKey == "_RefractShift") retVal = float.Parse(workData.Substring((sK*15)+(8*3)+1,6));
+	if (presetKey == "_BlurSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*5)+1,6));
+	if (presetKey == "_SurfaceSmooth") retVal = float.Parse(workData.Substring((sK*15)+(8*6)+1,6));
+	if (presetKey == "_ReflectDist") retVal = float.Parse(workData.Substring((sK*15)+(8*7)+1,6));
+	if (presetKey == "_ReflectSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*8)+1,6));
+	if (presetKey == "_ReflectionOffset") retVal = float.Parse(workData.Substring((sK*15)+(8*9)+1,6));
+	if (presetKey == "_EdgeBlend") retVal = float.Parse(workData.Substring((sK*15)+(8*10)+1,6));
+	if (presetKey == "_NormalShore") retVal = float.Parse(workData.Substring((sK*15)+(8*11)+1,6));
+	if (presetKey == "_SpecScatterAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*12)+1,6));
+	if (presetKey == "_SpecScatterWidth") retVal = float.Parse(workData.Substring((sK*15)+(8*13)+1,6));
+	if (presetKey == "_HFoamHeight") retVal = float.Parse(workData.Substring((sK*15)+(8*14)+1,6));
+	if (presetKey == "_HFoamAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*15)+1,6));
+	if (presetKey == "_HFoamSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*16)+1,6));
+	if (presetKey == "_FoamAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*17)+1,6));
+	if (presetKey == "_FoamScale") retVal = float.Parse(workData.Substring((sK*15)+(8*18)+1,6));
+	if (presetKey == "_EdgeSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*19)+1,6));
+	if (presetKey == "_DetailHeight") retVal = float.Parse(workData.Substring((sK*15)+(8*20)+1,6));
+	if (presetKey == "_DetailScale") retVal = float.Parse(workData.Substring((sK*15)+(8*21)+1,6));
+	if (presetKey == "_UpdateSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*22)+1,6));
+	if (presetKey == "_RippleSensitivity") retVal = float.Parse(workData.Substring((sK*15)+(8*23)+1,6));
+	if (presetKey == "_SplashSensitivity") retVal = float.Parse(workData.Substring((sK*15)+(8*24)+1,6));
+	if (presetKey == "_ReflectDistUnderAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*25)+1,6));
+	if (presetKey == "_UnderRefractionAmount") retVal = float.Parse(workData.Substring((sK*15)+(8*26)+1,6));
+	if (presetKey == "_UnderBlurAmount") retVal = float.Parse(workData.Substring((sK*15)+(8*27)+1,6));
+	if (presetKey == "_EtherealShift") retVal = float.Parse(workData.Substring((sK*15)+(8*28)+1,6));
+	
+	if (presetKey == "_UnderwaterFogDist") retVal = float.Parse(workData.Substring((sK*15)+(8*29)+1,6));
+	if (presetKey == "_UnderwaterFogSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*30)+1,6));
+
+	if (presetKey == "_WaveHeight") retVal = float.Parse(workData.Substring((sK*15)+(8*31)+1,6));
+	if (presetKey == "_WaveShoreHeight") retVal = float.Parse(workData.Substring((sK*15)+(8*32)+1,6));
+	if (presetKey == "_WaveScale") retVal = float.Parse(workData.Substring((sK*15)+(8*33)+1,6));
+
+	if (presetKey == "_WaveShoreScale") retVal = float.Parse(workData.Substring((sK*15)+(8*34)+1,6));
+	if (presetKey == "_ShoreSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*35)+1,6));
+
+    if (presetKey == "_EnableUnderDebris") retVal = float.Parse(workData.Substring((sK*15)+(8*36)+1,6));
+    
+	if (presetKey == "_TideAmount") retVal = float.Parse(workData.Substring((sK*15)+(8*37)+1,6));
+	if (presetKey == "_TideSpread") retVal = float.Parse(workData.Substring((sK*15)+(8*38)+1,6));
+
+	if (presetKey == "_UnderRefractionScale") retVal = float.Parse(workData.Substring((sK*15)+(8*39)+1,6));
+	if (presetKey == "_UnderRefractionSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*40)+1,6));
+
+	if (presetKey == "_TypeIndex") retVal = float.Parse(workData.Substring((sK*15)+(8*41)+1,6));
+
+	if (presetKey == "_WaveBreakAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*42)+1,6));
+	if (presetKey == "_ShallowFoamAmt") retVal = float.Parse(workData.Substring((sK*15)+(8*43)+1,6));
+
+	if (presetKey == "_OverallBright") retVal = float.Parse(workData.Substring((sK*15)+(8*44)+1,6));
+	if (presetKey == "_OverallTransparency") retVal = float.Parse(workData.Substring((sK*15)+(8*45)+1,6));
+
+	if (presetKey == "_Flow_dir_degrees") retVal = float.Parse(workData.Substring((sK*15)+(8*46)+1,6));
+	if (presetKey == "_FlowSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*47)+1,6));
+
+	if (presetKey == "_FoamSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*48)+1,6));
+
+	if (presetKey == "_ShadowAmount") retVal = float.Parse(workData.Substring((sK*15)+(8*49)+1,6));
+
+	//if (presetKey == "_CastShadowIsOn") retVal = float.Parse(workData.Substring((sK*15)+(8*50)+1,6));
+	if (presetKey == "_CastShadowStrength") retVal = float.Parse(workData.Substring((sK*15)+(8*51)+1,6));
+	if (presetKey == "_CastShadowFade") retVal = float.Parse(workData.Substring((sK*15)+(8*52)+1,6));
+
+	if (presetKey == "_FoamMoveSpeed") retVal = float.Parse(workData.Substring((sK*15)+(8*53)+1,6));
+
+
+	
 	return retVal;
+
+}
+
+
+	
+	
+
+function PresetSave( useName : String ){
+#if !UNITY_WEBPLAYER
+
+
+	var pName : String;
+	pName = useName;
+	presetToggleSave = false;
+	var workCol : Color;
+	var pL : int = pName.Length;
+	
+	PresetSetFile();
+	PresetGetData();
+	
+	//check name
+	if (pName == "") pName = "my custom preset"+(presetDataArray.length+2);
+	if (pL < 20) pName = pName.PadRight(20);
+	if (pL > 20) pName = pName.Substring(0,20);
+
+	//SET COLORS
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_DepthColor");
+	var useDepthCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_HighColor");
+	var useHighCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_LowColor");
+	var useLowCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_DepthColorR");
+	var useDepthColR : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_DepthColorG");
+	var useDepthColG : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_DepthColorB");
+	var useDepthColB : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";	
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_SpecColorH");
+	var useSpecColorH : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_SpecColorL");
+	var useSpecColorL : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = thisrendererComponent.sharedMaterial.GetColor("_DynReflColor");
+	var useDynRefCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	//workCol = thisrendererComponent.sharedMaterial.GetColor("_FoamColor");
+	workCol = foamColor;
+	var useFoamCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = edgeColor;//thisrendererComponent.sharedMaterial.GetColor("_EdgeColor");
+	var useEdgeCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = underwaterColor;
+	var useUnderCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = tideColor;
+	var useTideCol : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+	workCol = castshadowColor;
+	var usecastshadowColor : String = "("+workCol.r.ToString("0.00")+","+workCol.g.ToString("0.00")+","+workCol.b.ToString("0.00")+","+workCol.a.ToString("0.00")+")";
+
+	
+		
+			
+					
+	
+	//SET ATTRIBUTES
+	var useMScale : String = "("+overallScale.ToString("00.000")+")";
+	var useAbsorb : String = "("+lightAbsorb.ToString("00.000")+")";
+	var useRefractAmt : String = "("+lightRefract.ToString("00.000")+")";
+	var userefractShift : String = "("+refractShift.ToString("00.000")+")";
+	var useblurSpread : String = "("+blurSpread.ToString("00.000")+")";
+	var usesurfaceSmooth : String = "("+surfaceSmooth.ToString("00.000")+")";
+	var usereflectDist : String = "("+reflectDist.ToString("00.000")+")";
+	var usereflectSpread : String = "("+reflectSpread.ToString("00.000")+")";
+	var usereflectionOffset : String = "("+reflectionOffset.ToString("00.000")+")";
+	var useedgeBlend : String = "("+edgeBlend.ToString("00.000")+")";
+	var usenormalShore : String = "("+normalShore.ToString("00.000")+")";
+	var usespecScatterAmt : String = "("+specScatterAmt.ToString("00.000")+")";
+	var usespecScatterWidth : String = "("+specScatterWidth.ToString("00.000")+")";
+	var usehFoamHeight : String = "("+hFoamHeight.ToString("00.000")+")";
+	var usehFoamAmt : String = "("+hFoamAmt.ToString("00.000")+")";
+	var usehFoamSpread : String = "("+hFoamSpread.ToString("00.000")+")";
+	var usefoamAmt : String = "("+foamAmt.ToString("00.000")+")";
+	var usefoamScale : String = "("+foamScale.ToString("00.000")+")";
+	var useedge : String = "("+edgeSpread.ToString("00.000")+")";
+	var usedetailHeight : String = "("+detailHeight.ToString("00.000")+")";
+	var usedetailScale : String = "("+detailScale.ToString("00.000")+")";
+	var useUpdateSpeed : String = "("+UpdateSpeed.ToString("00.000")+")";
+	var userippleSensitivity : String = "("+rippleSensitivity.ToString("00.000")+")";
+	var usesplashSensitivity : String = "("+splashSensitivity.ToString("00.000")+")";
+	var usereflectDistUnderAmt : String = "("+reflectDistUnderAmt.ToString("00.000")+")";
+	var useunderRefractionAmount : String = "("+underRefractionAmount.ToString("00.000")+")";
+	var useunderBlurAmount : String = "("+underBlurAmount.ToString("00.000")+")";
+	var useetherealShift : String = "("+etherealShift.ToString("00.000")+")";
+	var useunderwaterFogDist : String = "("+underwaterFogDist.ToString("00.000")+")";
+	var useunderwaterFogSpread : String = "("+underwaterFogSpread.ToString("00.000")+")";																																						
+
+	var usewaveHeight : String = "("+waveHeight.ToString("00.000")+")";	
+	var usewaveShoreHeight : String = "("+waveShoreHeight.ToString("00.000")+")";	
+	var usewaveScale : String = "("+waveScale.ToString("00.000")+")";	
+
+	var usewaveShoreScale : String = "("+waveShoreScale.ToString("00.000")+")";
+	var useshoreSpeed : String = "("+shoreSpeed.ToString("00.000")+")";
+
+	enableUnderDebrisWrite = 0.0;
+    if (enableUnderDebris) enableUnderDebrisWrite = 1.0;
+    var useenableUnderDebris : String = "("+enableUnderDebrisWrite.ToString("00.000")+")";
+    
+	var useTideAmount : String = "("+tideAmount.ToString("00.000")+")";
+	var useTideSpread : String = "("+tideSpread.ToString("00.000")+")";
+
+	var useUnderRefractionScale : String = "("+underRefractionScale.ToString("00.000")+")";
+	var useUnderRefractionSpeed : String = "("+underRefractionSpeed.ToString("00.000")+")";
+
+	var usetypeIndex : String = "("+typeIndex.ToString("00.000")+")";
+	var useWaveBreakAmt : String = "("+waveBreakAmt.ToString("00.000")+")";
+	var useshallowFoamAmt : String = "("+shallowFoamAmt.ToString("00.000")+")";
+
+	var useoverallBright : String = "("+overallBright.ToString("00.000")+")";
+	var useoverallTransparency : String = "("+overallTransparency.ToString("00.000")+")";
+
+	var setflowdir : float = flow_dir_degrees/360.0;
+	var useflow_dir_degrees : String = "("+setflowdir.ToString("00.000")+")";
+	var useflowSpeed : String = "("+flowSpeed.ToString("00.000")+")";
+
+	var usefoamSpeed : String = "("+foamSpeed.ToString("00.000")+")";
+
+	var useshadowAmount : String = "("+shadowAmount.ToString("00.000")+")";
+
+	//var usecastshadowIsOn : String = "("+castshadowIsOn.ToString("00.000")+")";
+	var usecastshadowStrength : String = "("+castshadowStrength.ToString("00.000")+")";
+	var usecastshadowFade : String = "("+castshadowFade.ToString("00.000")+")";
+
+	var usefoamMoveSpeed : String = "("+foamMoveSpeed.ToString("00.000")+")";
+
+
+	//SAVE DATA																																																																																																																									
+	var saveData : String = pName+" "+useDepthCol+useHighCol+useLowCol+useDepthColR+useDepthColG+useDepthColB+useSpecColorH+useSpecColorL+useDynRefCol+useFoamCol+useEdgeCol+useUnderCol+useTideCol+usecastshadowColor;
+	saveData += useMScale+useAbsorb+useRefractAmt+userefractShift+"(00.000)"+useblurSpread+usesurfaceSmooth+usereflectDist+usereflectSpread+usereflectionOffset;
+	saveData += useedgeBlend+usenormalShore+usespecScatterAmt+usespecScatterWidth+usehFoamHeight+usehFoamAmt+usehFoamSpread+usefoamAmt+usefoamScale+useedge;
+	saveData += usedetailHeight+usedetailScale+useUpdateSpeed+userippleSensitivity+usesplashSensitivity+usereflectDistUnderAmt+useunderRefractionAmount+useunderBlurAmount;
+	saveData += useetherealShift+useunderwaterFogDist+useunderwaterFogSpread+usewaveHeight+usewaveShoreHeight+usewaveScale;
+	saveData += usewaveShoreScale+useshoreSpeed+useenableUnderDebris+useTideAmount+useTideSpread+useUnderRefractionScale+useUnderRefractionSpeed;
+	
+	//add padding for future variables
+	saveData += usetypeIndex + useWaveBreakAmt + useshallowFoamAmt + useoverallBright + useoverallTransparency + useflow_dir_degrees + useflowSpeed + usefoamSpeed;
+	saveData += useshadowAmount + "(00.000)" + usecastshadowStrength + usecastshadowFade + usefoamMoveSpeed;
+	saveData += "(00.000)(00.000)(00.000)(00.000)(00.000)(00.000)(00.000)";
+	
+	//check for already existing preset match and insert data
+	var ckNme : boolean = false;
+	var workData : String;
+	var rName : String;
+	var rL : int;
+	for (var cx = 0; cx < (presetDataArray.length); cx++){
+		workData = presetDataArray[cx];
+		rName = workData.Substring(0,20);
+		rL = rName.Length;
+		if (rL < 20) rName = rName.PadRight(20);
+		if (rL > 20) rName = rName.Substring(0,20);
+		if (rName == pName){
+			ckNme = true;
+			presetDataArray[cx] = saveData;
+			break;
+		}
+	}
+	
+	//save to file
+	var fileName = baseDir+presetFile;
+	var sw = new StreamWriter(Application.dataPath + "/" + fileName);
+	sw.AutoFlush = true;
+	for (var px = 0; px < (presetDataArray.length); px++){
+		sw.Write(presetDataArray[px]);
+		if (px != presetDataArray.length-1) sw.Write("\n");
+	}
+	if (ckNme == false){
+		sw.Write("\n"+saveData);
+	}
+    sw.Close();
+	Debug.Log("Preset '"+presetSaveName+"' has been saved!");
+#endif
+PresetUpdate();
 }
 
 
 
 
-function PresetEncode( key : String ) : String{
-	retData = "";
-
-	if (key == "color_depth") retData = depthColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_shallow") retData = shallowColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_blend") retData = blendColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_overlay") retData = overlayColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_caustics") retData = causticsColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_reflection") retData = reflectionColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_specular") retData = specularColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_sss") retData = sssColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_foam") retData = foamColor.ToString().Substring(4).Replace(" ","");
-	if (key == "color_underwater") retData = underwaterColor.ToString().Substring(4).Replace(" ","");
-	if (key == "data_beaufort") retData = "("+beaufortScale.ToString().Replace(" ","")+")";
-	if (key == "data_flowdir") retData = "("+flowDirection.ToString().Replace(" ","")+")";
-	if (key == "data_flowspeed") retData = "("+flowSpeed.ToString().Replace(" ","")+")";
-	if (key == "data_wavescale") retData = "("+waveScale.ToString().Replace(" ","")+")";
-	if (key == "data_customwaves") retData = "("+customWaves.ToString().Replace(" ","")+")";
-	if (key == "data_waveheight") retData = "("+waveHeight.ToString().Replace(" ","")+")";
-	if (key == "data_heightprojection") retData = "("+heightProjection.ToString().Replace(" ","")+")";
-	if (key == "data_turbulence") retData = "("+turbulenceFactor.ToString().Replace(" ","")+")";
-	if (key == "data_lgwaveheight") retData = "("+lgWaveHeight.ToString().Replace(" ","")+")";
-	if (key == "data_lgwavescale") retData = "("+lgWaveScale.ToString().Replace(" ","")+")";
-	if (key == "data_shorelineheight") retData = "("+shorelineHeight.ToString().Replace(" ","")+")";
-	if (key == "data_shorelinefreq") retData = "("+shorelineFreq.ToString().Replace(" ","")+")";
-	if (key == "data_shorelinescale") retData = "("+shorelineScale.ToString().Replace(" ","")+")";
-	if (key == "data_shorelinespeed") retData = "("+shorelineSpeed.ToString().Replace(" ","")+")";
-	if (key == "data_shorelinenorm") retData = "("+shorelineNorm.ToString().Replace(" ","")+")";
-	if (key == "data_overallbright") retData = "("+overallBright.ToString().Replace(" ","")+")";
-	if (key == "data_overalltransparency") retData = "("+overallTransparency.ToString().Replace(" ","")+")";
-	if (key == "data_edgeamt") retData = "("+edgeAmt.ToString().Replace(" ","")+")";
-	if (key == "data_depthamt") retData = "("+depthAmt.ToString().Replace(" ","")+")";
-	if (key == "data_shallowamt") retData = "("+shallowAmt.ToString().Replace(" ","")+")";
-	if (key == "data_refractstrength") retData = "("+refractStrength.ToString().Replace(" ","")+")";
-	if (key == "data_aberrationscale") retData = "("+aberrationScale.ToString().Replace(" ","")+")";
-	if (key == "data_causticsfade") retData = "("+causticsFade.ToString().Replace(" ","")+")";
-	if (key == "data_reflectprojection") retData = "("+reflectProjection.ToString().Replace(" ","")+")";
-	if (key == "data_reflectblur") retData = "("+reflectBlur.ToString().Replace(" ","")+")";
-	if (key == "data_reflectterm") retData = "("+reflectTerm.ToString().Replace(" ","")+")";
-	if (key == "data_roughness") retData = "("+roughness.ToString().Replace(" ","")+")";
-	if (key == "data_roughness2") retData = "("+roughness2.ToString().Replace(" ","")+")";
-	if (key == "data_enablefoam") retData = "("+enableFoam.ToString().Replace(" ","")+")";
-	if (key == "data_foamscale") retData = "("+foamScale.ToString().Replace(" ","")+")";
-	if (key == "data_foamspeed") retData = "("+foamSpeed.ToString().Replace(" ","")+")";
-	if (key == "data_edgefoamamt") retData = "("+edgeFoamAmt.ToString().Replace(" ","")+")";
-	if (key == "data_shallowfoamamt") retData = "("+shallowFoamAmt.ToString().Replace(" ","")+")";
-	if (key == "data_heightfoamamt") retData = "("+heightFoamAmt.ToString().Replace(" ","")+")";
-	if (key == "data_hfoamheight") retData = "("+hFoamHeight.ToString().Replace(" ","")+")";
-	if (key == "data_hfoamspread") retData = "("+hFoamSpread.ToString().Replace(" ","")+")";
-	if (key == "data_enableunderdebris") retData = "("+enableUnderDebris.ToString().Replace(" ","")+")";
-	if (key == "data_underlightfactor") retData = "("+underLightFactor.ToString().Replace(" ","")+")";
-	if (key == "data_underrefractionamount") retData = "("+underRefractionAmount.ToString().Replace(" ","")+")";
-	if (key == "data_underrefractionscale") retData = "("+underRefractionScale.ToString().Replace(" ","")+")";
-	if (key == "data_underrefractionspeed") retData = "("+underRefractionSpeed.ToString().Replace(" ","")+")";
-	if (key == "data_underbluramount") retData = "("+underBlurAmount.ToString().Replace(" ","")+")";
-	if (key == "data_underwaterfogdist") retData = "("+underwaterFogDist.ToString().Replace(" ","")+")";
-	if (key == "data_underwaterfogspread") retData = "("+underwaterFogSpread.ToString().Replace(" ","")+")";
-	if (key == "data_underDarkRange") retData = "("+underDarkRange.ToString().Replace(" ","")+")";
 
 
-	retData = "<"+key+">" + retData;
-	return retData;
+
+
+
+function PresetRename( oldName : String, newName : String ){
+#if !UNITY_WEBPLAYER
+	var oName : String;
+	oName = oldName;
+	var nName : String;
+	nName = newName;
+
+	PresetGetData();
+	
+	//check name
+	if (oName.Length < 20) oName = oName.PadRight(20);
+	if (oName.Length > 20) oName = oName.Substring(0,20);
+	if (nName.Length < 20) nName = nName.PadRight(20);
+	if (nName.Length > 20) nName = nName.Substring(0,20);
+	
+	//check for already existing preset match and insert data
+	var workData : String;
+	var rName : String;
+	for (var cx = 0; cx < (presetDataArray.length); cx++){
+		workData = presetDataArray[cx];
+		rName = workData.Substring(0,20);
+		if (rName == oName){
+			var repString : String = presetDataArray[cx];
+			repString = nName + workData.Substring(20,(workData.length-20));
+			presetDataArray[cx] = repString;
+		}
+	}
+	
+	//save to file
+	var fileName = baseDir+presetFile;
+	var sw = new StreamWriter(Application.dataPath + "/" + fileName);
+	sw.AutoFlush = true;
+	for (var px = 0; px < (presetDataArray.length); px++){
+		sw.Write(presetDataArray[px]);
+		if (px != presetDataArray.length-1) sw.Write("\n");
+	}
+    sw.Close();
+	Debug.Log("Preset '"+oldName+"' has been renamed to "+newName+"!");
+#endif
+PresetUpdate();
 }
 
 
@@ -1394,11 +2483,149 @@ function PresetEncode( key : String ) : String{
 
 
 
-// ########## OLD PRESET FUNCTIONS ####################################################################################################################
+
+
+function PresetDelete( preName : String ){
+#if !UNITY_WEBPLAYER
+	var oName : String;
+	oName = preName;
+
+	PresetGetData();
+	
+	//check name
+	if (oName.Length < 20) oName = oName.PadRight(20);
+	if (oName.Length > 20) oName = oName.Substring(0,20);
+	var workData : String;
+	var workData2 : String;
+	var rName : String;
+	var xName : String;
+	
+	//save to file
+	var fileName = baseDir+presetFile;
+	var sw = new StreamWriter(Application.dataPath + "/" + fileName);
+	sw.AutoFlush = true;
+	
+	//remove line
+	for (var px = 0; px < (presetDataArray.length); px++){
+		workData = presetDataArray[px];
+		rName = workData.Substring(0,20);
+		if (rName != oName){
+			sw.Write(presetDataArray[px]);
+
+			if (px < presetDataArray.length-2) sw.Write("\n");
+			if (px == presetDataArray.length-2){
+				
+				workData2 = presetDataArray[px+1];
+				xName = workData2.Substring(0,20);
+				
+				if (xName != oName){
+					sw.Write("\n");
+				}
+			}
+		}
+	}
+    sw.Close();
+    
+    //reset list
+    PresetGetData();
+
+	Debug.Log("Preset '"+preName+"' has been deleted!");
+#endif
+PresetUpdate();
+}
+
+
+
+
+
+
+
+
 
 
 function PresetDoTransition(){
+
+	//waterStartState = currentState;
+	presetTransitionCurrent += (Time.deltaTime/presetTransitionTime);
 	
+	//transition
+	depthColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_DepthColor"),PresetGetColor(presetTransIndexTo,"_DepthColor"),presetTransitionCurrent);
+	colorSurfHigh = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_HighColor"),PresetGetColor(presetTransIndexTo,"_HighColor"),presetTransitionCurrent);
+	colorSurfLow = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_LowColor"),PresetGetColor(presetTransIndexTo,"_LowColor"),presetTransitionCurrent);
+	depthColorR = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_DepthColorR"),PresetGetColor(presetTransIndexTo,"_DepthColorR"),presetTransitionCurrent);
+	depthColorG = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_DepthColorG"),PresetGetColor(presetTransIndexTo,"_DepthColorG"),presetTransitionCurrent);
+	depthColorB = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_DepthColorB"),PresetGetColor(presetTransIndexTo,"_DepthColorB"),presetTransitionCurrent);
+	specColorH = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_SpecColorH"),PresetGetColor(presetTransIndexTo,"_SpecColorH"),presetTransitionCurrent);
+	specColorL = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_SpecColorL"),PresetGetColor(presetTransIndexTo,"_SpecColorL"),presetTransitionCurrent);
+	colorDynReflect = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_DynReflColor"),PresetGetColor(presetTransIndexTo,"_DynReflColor"),presetTransitionCurrent);
+	foamColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_FoamColor"),PresetGetColor(presetTransIndexTo,"_FoamColor"),presetTransitionCurrent);
+	edgeColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_EdgeColor"),PresetGetColor(presetTransIndexTo,"_EdgeColor"),presetTransitionCurrent);
+	underwaterColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_UnderwaterColor"),PresetGetColor(presetTransIndexTo,"_UnderwaterColor"),presetTransitionCurrent);
+	tideColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_TideColor"),PresetGetColor(presetTransIndexTo,"_TideColor"),presetTransitionCurrent);
+	//castshadowColor = Color.Lerp(PresetGetColor(presetTransIndexFrm,"_CastShadowColor"),PresetGetColor(presetTransIndexTo,"_CastShadowColor"),presetTransitionCurrent);
+
+	
+	lightAbsorb = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_LightAbsorb"),PresetGetFloat(presetTransIndexTo,"_LightAbsorb"),presetTransitionCurrent);
+	lightRefract = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_LightRefract"),PresetGetFloat(presetTransIndexTo,"_LightRefract"),presetTransitionCurrent);
+	refractShift = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_RefractShift"),PresetGetFloat(presetTransIndexTo,"_RefractShift"),presetTransitionCurrent);
+	blurSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_BlurSpread"),PresetGetFloat(presetTransIndexTo,"_BlurSpread"),presetTransitionCurrent);
+	surfaceSmooth = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_SurfaceSmooth"),PresetGetFloat(presetTransIndexTo,"_SurfaceSmooth"),presetTransitionCurrent);
+	reflectDist = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ReflectDist"),PresetGetFloat(presetTransIndexTo,"_ReflectDist"),presetTransitionCurrent);
+	reflectSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ReflectSpread"),PresetGetFloat(presetTransIndexTo,"_ReflectSpread"),presetTransitionCurrent);
+	reflectionOffset = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ReflectionOffset"),PresetGetFloat(presetTransIndexTo,"_ReflectionOffset"),presetTransitionCurrent);
+	edgeBlend = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_EdgeBlend"),PresetGetFloat(presetTransIndexTo,"_EdgeBlend"),presetTransitionCurrent);
+	normalShore = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_NormalShore"),PresetGetFloat(presetTransIndexTo,"_NormalShore"),presetTransitionCurrent);
+	specScatterAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_SpecScatterAmt"),PresetGetFloat(presetTransIndexTo,"_SpecScatterAmt"),presetTransitionCurrent);
+	specScatterWidth = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_SpecScatterWidth"),PresetGetFloat(presetTransIndexTo,"_SpecScatterWidth"),presetTransitionCurrent);
+	hFoamHeight = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_HFoamHeight"),PresetGetFloat(presetTransIndexTo,"_HFoamHeight"),presetTransitionCurrent);
+	hFoamAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_HFoamAmt"),PresetGetFloat(presetTransIndexTo,"_HFoamAmt"),presetTransitionCurrent);
+	hFoamSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_HFoamSpread"),PresetGetFloat(presetTransIndexTo,"_HFoamSpread"),presetTransitionCurrent);
+	foamAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_FoamAmt"),PresetGetFloat(presetTransIndexTo,"_FoamAmt"),presetTransitionCurrent);
+	foamScale = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_FoamScale"),PresetGetFloat(presetTransIndexTo,"_FoamScale"),presetTransitionCurrent);
+	edgeSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_EdgeSpread"),PresetGetFloat(presetTransIndexTo,"_EdgeSpread"),presetTransitionCurrent);
+	detailHeight = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_DetailHeight"),PresetGetFloat(presetTransIndexTo,"_DetailHeight"),presetTransitionCurrent);
+	UpdateSpeed = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UpdateSpeed"),PresetGetFloat(presetTransIndexTo,"_UpdateSpeed"),presetTransitionCurrent);
+	rippleSensitivity = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_RippleSensitivity"),PresetGetFloat(presetTransIndexTo,"_RippleSensitivity"),presetTransitionCurrent);
+	splashSensitivity = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_SplashSensitivity"),PresetGetFloat(presetTransIndexTo,"_SplashSensitivity"),presetTransitionCurrent);
+	reflectDistUnderAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ReflectDistUnderAmt"),PresetGetFloat(presetTransIndexTo,"_ReflectDistUnderAmt"),presetTransitionCurrent);
+	underRefractionAmount = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UnderRefractionAmount"),PresetGetFloat(presetTransIndexTo,"_UnderRefractionAmount"),presetTransitionCurrent);
+	underBlurAmount = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UnderBlurAmount"),PresetGetFloat(presetTransIndexTo,"_UnderBlurAmount"),presetTransitionCurrent);
+	etherealShift = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_EtherealShift"),PresetGetFloat(presetTransIndexTo,"_EtherealShift"),presetTransitionCurrent);
+	underwaterFogDist = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UnderwaterFogDist"),PresetGetFloat(presetTransIndexTo,"_UnderwaterFogDist"),presetTransitionCurrent);
+	underwaterFogSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UnderwaterFogSpread"),PresetGetFloat(presetTransIndexTo,"_UnderwaterFogSpread"),presetTransitionCurrent);
+
+	waveHeight = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_WaveHeight"),PresetGetFloat(presetTransIndexTo,"_WaveHeight"),presetTransitionCurrent);
+	waveShoreHeight = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_WaveShoreHeight"),PresetGetFloat(presetTransIndexTo,"_WaveShoreHeight"),presetTransitionCurrent);
+	waveShoreScale = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_WaveShoreScale"),PresetGetFloat(presetTransIndexTo,"_WaveShoreScale"),presetTransitionCurrent);
+	shoreSpeed = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ShoreSpeed"),PresetGetFloat(presetTransIndexTo,"_ShoreSpeed"),presetTransitionCurrent);
+
+	tideAmount = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_TideAmount"),PresetGetFloat(presetTransIndexTo,"_TideAmount"),presetTransitionCurrent);
+	tideSpread = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_TideSpread"),PresetGetFloat(presetTransIndexTo,"_TideSpread"),presetTransitionCurrent);
+	underRefractionSpeed = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_UnderRefractionSpeed"),PresetGetFloat(presetTransIndexTo,"_UnderRefractionSpeed"),presetTransitionCurrent);
+	
+	waveBreakAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_WaveBreakAmt"),PresetGetFloat(presetTransIndexTo,"_WaveBreakAmt"),presetTransitionCurrent);
+	shallowFoamAmt = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ShallowFoamAmt"),PresetGetFloat(presetTransIndexTo,"ShallowFoamAmt"),presetTransitionCurrent);
+		
+
+	overallBright = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_OverallBright"),PresetGetFloat(presetTransIndexTo,"_OverallBright"),presetTransitionCurrent);
+	overallTransparency = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_OverallTransparency"),PresetGetFloat(presetTransIndexTo,"_OverallTransparency"),presetTransitionCurrent);
+	
+	//flow_dir_degrees = (Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_Flow_dir_degrees"),PresetGetFloat(presetTransIndexTo,"_Flow_dir_degrees"),presetTransitionCurrent)*360.0);
+	//flowSpeed = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_FlowSpeed"),PresetGetFloat(presetTransIndexTo,"_FlowSpeed"),presetTransitionCurrent);
+	
+	
+	//foamSpeed = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_FoamSpeed"),PresetGetFloat(presetTransIndexTo,"_FoamSpeed"),presetTransitionCurrent);
+	shadowAmount = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_ShadowAmount"),PresetGetFloat(presetTransIndexTo,"_ShadowAmount"),presetTransitionCurrent);
+		
+	//castshadowIsOn = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_CastShadowIsOn"),PresetGetFloat(presetTransIndexTo,"_CastShadowIsOn"),presetTransitionCurrent);
+	//castshadowStrength = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_CastShadowStrength"),PresetGetFloat(presetTransIndexTo,"_CastShadowStrength"),presetTransitionCurrent);
+	//castshadowFade = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"_CastShadowFade"),PresetGetFloat(presetTransIndexTo,"_CastShadowFade"),presetTransitionCurrent);
+		
+		
+	overallTransparency = Mathf.SmoothStep(PresetGetFloat(presetTransIndexFrm,"__FoamMoveSpeed"),PresetGetFloat(presetTransIndexTo,"_FoamMoveSpeed"),presetTransitionCurrent);
+	
+
+			
 	//set final
 	if (presetTransitionCurrent >= 1.0){
 		//reset
@@ -1412,3 +2639,116 @@ function PresetDoTransition(){
 
 
 
+function PresetGetDataBuild(){
+	var filePos : int;
+	for (var f : int = 0; f < suimonoModuleLibrary.presetRepository.length; f++){
+		if (suimonoModuleLibrary.presetRepository[f].name == presetFile) filePos = f;
+	}
+	presetDataString= suimonoModuleLibrary.presetRepository[filePos].text;
+    presetDataArray = presetDataString.Split("\n"[0]);
+	var workOptions = presetDataString.Split("\n"[0]);
+	presetOptions = workOptions;
+	
+	for (var ax = 0; ax < (presetOptions.length); ax++){
+		presetOptions[ax] = workOptions[ax].Substring(0,20);
+		presetOptions[ax] = presetOptions[ax].Trim();
+	}
+}
+
+function PresetGetData(){
+#if !UNITY_WEBPLAYER
+
+	var fileName = baseDir+presetFile;
+	var sr = new StreamReader(Application.dataPath + "/" + fileName);
+    presetDataString = sr.ReadToEnd();
+    sr.Close();
+
+    presetDataArray = presetDataString.Split("\n"[0]);
+	var workOptions = presetDataString.Split("\n"[0]);
+	presetOptions = workOptions;
+	
+	for (var ax = 0; ax < (presetOptions.length); ax++){
+		presetOptions[ax] = workOptions[ax].Substring(0,20);
+		presetOptions[ax] = presetOptions[ax].Trim();
+	}
+#endif
+}
+
+
+
+function floatRound(inFloat : float){
+
+	retFloat = Mathf.Round(inFloat*1000.0)/1000.0;
+	retFloat = LinearVal(retFloat);
+	return retFloat;
+
+}
+
+
+
+function ResetFlagVariables(){
+
+	//update temporary variable flags
+	blurSamplesCount = -1;
+	currentVersionIndex = -1;
+	currentFlow_Dir = Vector2(-1.0,-1.0);
+	currentShore_Dir = Vector2(-1.0,-1.0);
+	texturesWereSet = false;
+	xScaleChanged = true;
+	currentXScale = -1.0;
+	currentWaveScale = -1.0;
+	currentDetailWaveScale = -1.0;
+	currentNormalShore = -1.0;
+	waveTexVec2 = Vector2(0,0);
+	currentWaveBreakAmt = -1.0;
+	refractChanged = false;	
+	currentUseRefraction = -1.0;
+	currentRefractScale = -1.0;
+	currentLightRefract = -1.0;
+	currentRefractShft = -1.0;
+	currentUseReflection = -1.0;
+	currentReflectDistAmount = -1.0;
+	currentReflectSpreadAmount = -1.0;
+	currentColorDynReflect = Color(0,0,0,0);
+	currentReflectAmount = -1.0;
+	currentReflectDistUnderAmt = -1.0;
+	currentBlurSpread = -1.0;
+	currentSurfaceSmooth = -1.0;
+	currentWaveFactor = -1.0;
+	currentWaveHeight = -1.0;
+	currentDetailHeight = -1.0;
+	currentWaveShoreHeight = -1.0;
+	currentWaveShoreScale = -1.0;
+	currentOverallBright = -1.0;
+	currentOverallTransparency = -1.0;
+	currentAbsorbAmt = -1.0;
+	currentShadowAmt = -1.0;
+	currentColorSurfHigh = Color(0,0,0,0);
+	currentColorSurfLow = Color(0,0,0,0);
+	currentUseDepthColor = Color(0,0,0,0);
+	currentDepthColorR = Color(0,0,0,0);
+	currentDepthColorG = Color(0,0,0,0);
+	currentDepthColorB = Color(0,0,0,0);
+	currentUnderwaterColor = Color(0,0,0,0);
+	currentUnderwaterFogDist = -1.0;
+	currentSpecColorH = Color(0,0,0,0);
+	currentSpecColorL = Color(0,0,0,0);
+	currentSpecScatterWidth = -1.0;
+	currentSpecScatterAmount = -1.0;
+	currentTideColor = Color(0,0,0,0);
+	currentTideAmount = -1.0;
+	currentTideSpread = -1.0;
+	currentFoamScale = -1.0;
+	currentShallowFoamAmount = -1.0;
+	currentFoamMoveSpeed = -1.0;
+	currenthFoamHeight = -1.0;
+	currenthFoamAmount = -1.0;
+	currenthFoamSpread = -1.0;
+	currentUseFoamColor = Color(0,0,0,0);
+	currentEdgeBlend = -1.0;
+	currentUseEdgeColor = Color(0,0,0,0);
+	currentUvReversal = -1.0;
+	currentProjectHeight = -1.0;
+	currentDetailScale = -1.0;
+
+}

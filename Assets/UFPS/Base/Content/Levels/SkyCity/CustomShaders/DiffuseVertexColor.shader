@@ -1,4 +1,4 @@
-Shader "ProBuilder/Diffuse Vertex Color" {
+Shader "Custom/Diffuse Vertex Color" {
   Properties {
     _MainTex ("Texture", 2D) = "white" {}
   }

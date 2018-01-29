@@ -78,6 +78,8 @@ public class IntroMusicSingleton : MonoBehaviour {
 
     public void StartAudio() {
         if (!_AudioSource.isPlaying && _AudioSource.clip) {
+            // _AudioSource.PlayScheduled(4.50);
+            //_AudioSource.Play((ulong)4.50);
             _AudioSource.Play();
         }
     }

@@ -65,7 +65,9 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
 
     #region INHERITED METHODS
     private void Awake() {
+        Cursor.visible = false;
         VidMinAlpha = 0.0f;
+        ConfigureCursor();
     }
 
     // Use this for initialization
@@ -90,6 +92,12 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
     #endregion
 
     #region FUNCTIONS
+    private void ConfigureCursor() {
+        Cursor.visible = false;
+
+        // TODO add custom mouse here
+    }
+
     private void ConfigureMainBackground() {
         var numMainBackgroundChecks = 0;
 
@@ -237,6 +245,7 @@ public class PoweredByUnitySceneManager : MonoBehaviour {
     }
 
     private void InitSceneQuickExplorer() {
+
         if (GUI.Button(
             position: new Rect {
                 x = ((Screen.width / 2) - 50),

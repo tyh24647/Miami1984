@@ -5,9 +5,11 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace UnityStandardAssets.CrossPlatformInput {
+namespace UnityStandardAssets.CrossPlatformInput
+{
     [ExecuteInEditMode]
-    public class MobileControlRig : MonoBehaviour {
+    public class MobileControlRig : MonoBehaviour
+    {
         // this script enables or disables the child objects of a control rig
         // depending on whether the USE_MOBILE_INPUT define is declared.
 
@@ -22,17 +24,16 @@ namespace UnityStandardAssets.CrossPlatformInput {
 	}
 #endif
 
-        private void Start() {
+        private void Start()
+        {
 #if UNITY_EDITOR
             if (Application.isPlaying) //if in the editor, need to check if we are playing, as start is also called just after exiting play
 #endif
             {
-                /* Deprecated
                 UnityEngine.EventSystems.EventSystem system = GameObject.FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
-                */
-                UnityEngine.EventSystems.EventSystem system = FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
 
-                if (system == null) {//the scene have no event system, spawn one
+                if (system == null)
+                {//the scene have no event system, spawn one
                     GameObject o = new GameObject("EventSystem");
 
                     o.AddComponent<UnityEngine.EventSystems.EventSystem>();
@@ -43,39 +44,41 @@ namespace UnityStandardAssets.CrossPlatformInput {
 
 #if UNITY_EDITOR
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             EditorApplication.update += Update;
-#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged += Update;
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             EditorApplication.update -= Update;
-#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged -= Update;
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
 
-        private void Update() {
+        private void Update()
+        {
             CheckEnableControlRig();
         }
 #endif
 
 
-        private void CheckEnableControlRig() {
+        private void CheckEnableControlRig()
+        {
 #if MOBILE_INPUT
 		EnableControlRig(true);
-#else
+		#else
             EnableControlRig(false);
 #endif
         }
 
 
-        private void EnableControlRig(bool enabled) {
-            foreach (Transform t in transform) {
+        private void EnableControlRig(bool enabled)
+        {
+            foreach (Transform t in transform)
+            {
                 t.gameObject.SetActive(enabled);
             }
         }

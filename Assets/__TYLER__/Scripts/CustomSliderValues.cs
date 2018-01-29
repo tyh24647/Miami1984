@@ -30,6 +30,10 @@ public class CustomSliderValues : MonoBehaviour {
 
 
         //}
+
+        /*
+         * TODO : Get sliders working!!!
+         */
     }
 
     // Use this for initialization

@@ -26,6 +26,7 @@ public class MainMenuRenderer : MonoBehaviour {
     void Start() {
         AutoDetectAttributes();
         ConfigureContinueButton();
+        ConfigureCursor();
     }
 
     // Update is called once per frame
@@ -35,10 +36,18 @@ public class MainMenuRenderer : MonoBehaviour {
     #endregion
 
     #region FUNCTIONS
+    private void ConfigureCursor() {
+        Cursor.visible = true;
+
+        // TODO add custom cursor here
+    }
+
     private void AutoDetectAttributes() {
         this.MainMenuCanvas = AutoDetectCanvas();
         this.MainMenuPanel = AutoDetectMainMenuPanel();
         this.Buttons = AutoDetectButtons();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private GameObject AutoDetectMainMenuPanel() {
